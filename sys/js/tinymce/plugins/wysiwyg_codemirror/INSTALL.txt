@@ -1,0 +1,11 @@
+$Id: INSTALL.txt,v 1.1 2010/03/17 16:48:12 drifter Exp $ 
+
+To enable this module:
+
+1. Download the latest CodeMirror library from http://marijn.haverbeke.nl/codemirror/ and extract it to the tinymce/codemirror/js/codemirror directory. So you should end up with tinymce/codemirror/js/codemirror/bigtest.html etc.
+
+2. Upload it to your sites/all/modules folder and enable it on the admin/build/modules page.
+
+3. Configure one of your WYSIWYG profiles to use the CodeMirror button.
+
+4. You should get a blue 'HTML' button on your TinyMCE editor, clicking on it should open a syntax higlighted source editor.

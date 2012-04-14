@@ -1,0 +1,43 @@
+<?php
+// $Id: wysiwyg_codemirror.module,v 1.1 2010/03/17 16:48:12 drifter Exp $
+/**
+ * @file
+ * wysiwyg_codemirror is an plugin for adding syntax highlighting to the tinyMCE editor
+ * Zoltan Varady/FARM 2010
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function wysiwyg_codemirror_help($path, $arg) {
+  if ($path == 'admin/modules#description') {
+    return t('Enables the CodeMirror plugin in the wysiwyg tinyMCE editor.');
+  }
+}
+
+/**
+* Implementation of hook_wysiwyg_plugin().
+*/
+function wysiwyg_codemirror_wysiwyg_plugin($editor) {
+  // The folowing variable is needed to make sure drupal_add_js isn't called twice
+  // taken from the example in imce.module
+  static $integrated;
+  switch ($editor) {
+    case 'tinymce':
+      if (!isset($integrated)) {
+        $integrated = TRUE;
+        $settings = array(
+          'wysiwyg_codemirror' =>  array('languages' => $languages)
+        );
+      drupal_add_js($settings, 'setting');
+    }
+    $path = drupal_get_path('module', 'wysiwyg_codemirror') . '/tinymce/codemirror/editor_plugin.js';
+    return array(
+        'codemirror' => array(
+          'path' => $path,
+          'buttons' => array('codemirror' => t('CodeMirror')),
+          'load' => TRUE,
+        ),
+    );
+  }
+}

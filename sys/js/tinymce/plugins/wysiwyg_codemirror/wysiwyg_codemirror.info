@@ -1,0 +1,14 @@
+; $Id: wysiwyg_codemirror.info,v 1.1 2010/03/17 16:48:12 drifter Exp $ 
+name = "Wysiwyg CodeMirror Plugin"
+description = "Wysiwyg editor plugin that integrates source view syntax highlighting"
+dependencies[] = wysiwyg
+package = "User interface"
+core = 6.x
+
+
+; Information added by drupal.org packaging script on 2010-03-17
+version = "6.x-1.0-beta1"
+core = "6.x"
+project = "wysiwyg_codemirror"
+datestamp = "1268844910"
+

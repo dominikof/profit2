@@ -1,0 +1,3 @@
+$Id: CHANGELOG.txt,v 1.1 2010/03/17 16:48:12 drifter Exp $
+
+by drifter: initial release

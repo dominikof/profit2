@@ -1,0 +1,440 @@
+.body
+ {
+  margin: 0px;
+  padding: 0px;
+  background:#F0F8FF;
+  font-family: Verdana;
+  font-size:11px;
+ }
+
+h1{
+ font-size: 21px;
+ text-decoration: none;
+ font-weight: normal;
+} 
+ 
+h2{
+ font-size: 19px;
+ text-decoration: none;
+ font-weight: normal;
+}
+ 
+h3{
+ font-size: 17px;
+ text-decoration: none;
+ font-weight: normal;
+}
+ 
+h4{
+ font-size: 15px;
+ text-decoration: none;
+ font-weight: normal;
+}
+
+input{
+ font-size:11px;
+}
+
+li.lev0{
+/* list-style-image: url(/admin/images/icons/folder.png);*/
+} 
+li.lev_act{
+/* list-style-image: url(/admin/images/icons/folder2.png);*/
+} 
+li.lev_page{
+ list-style-image: url(/admin/images/icons/page.png);
+} 
+
+.CtrlP
+ {
+  font: 14px 'Verdana';
+  font-weight: bold;
+  color: lavender;
+  margin: 0px;
+  padding: 2px;
+  background:#6495ED;
+ }
+
+.MenuTable
+ {
+  background:#F0F8FF;
+ }
+
+.LMenuTable
+ {
+  background:#F5F5F5;
+ }
+.AdminPanel
+ {
+  background:#F8F8FF;
+ }
+
+.LMenuLevel
+ {
+  position:inline;
+  margin:0px;
+  padding-left:0px;
+  padding-right:0px;
+  color: black;
+  text-align: left;
+  font: 10px Verdana;
+  font-weight:bold;
+  cursor: hand;
+  border: solid 0px #000000;
+ }
+
+.LMenuSubLevel
+ {
+  position:inline;
+  padding-left:14px;
+  padding-right:0px;
+  padding-bottom:3px;
+  padding-top:2px;
+  border: 1px;
+  color: black;
+  text-align: left;
+  font: 10px Verdana;
+  font-weight:bold;
+  cursor: hand;
+ }
+
+A.LMenuLevel
+ {
+  margin:0px;
+  padding:0px;
+  border: 0px;
+  color: black;
+  font: 10px Verdana;
+  font-weight:bold;
+ }
+
+A.LMenuLevel:link
+ {
+  text-decoration: none;
+ }
+
+A.LMenuLevel:visited
+ {
+  text-decoration: none;
+ }
+
+A.LMenuLevel:hover
+ {
+  text-decoration: none;
+ }
+
+A.LMenuLink
+ {
+  margin:0px;
+  padding:0px;
+  color: black;
+  font: 10px Verdana;
+  font-weight:normal;
+ }
+
+A.LMenuLevelLink
+ {
+  margin-top:10px;
+  padding-left:0px;
+  border: 0px;
+  color: black;
+  font: 10px Verdana;
+  font-weight:bold;
+ }
+
+A.LMenuLevelLink:hover
+ {
+  text-decoration: none;
+ }
+
+
+
+.LinkPages
+ {
+  color: #808080;
+  font: 10px Verdana;
+ }
+
+A.LinkPages
+ {
+  color: #4682B4;
+ }
+
+.LinkPagesSel
+ {
+  color: #FF4500;
+  font: 10px Verdana;
+  font-weight:bold;
+ }
+
+
+A.toolbar
+ {
+  color: #CD853F;
+  font: 10px Verdana;
+  font-weight:bold;
+ }
+A.toolbar:hover
+ {
+  color: #CD853F;
+  text-decoration: underline;
+ }
+
+.checkbox_td {
+   font-size: 11px;  
+}
+ 
+legend{
+ vetical-align:middle;
+ font-size:15px;
+}
+  
+.Title_Pg
+ {
+  font: 22px 'Verdana';
+  font-weight: bold;
+  color: #4169e1;
+  margin: 0px;
+  padding: 4px;
+ }
+ 
+.info{
+ color:#406299;
+ font-size: 11px;
+}
+
+
+.levels_tree{
+ vertical-align:top;
+ border: solid 1px #ACACAC;
+ background:#F7F7F7;
+ width:200px;
+}
+
+ul.sub_menu{
+ margin-left:5px;
+ padding-left:10px;
+ border: solid 0px #000000;
+}
+
+li.sub_menu{
+ margin-top:0px;
+ margin-left:0px;
+ vertical-align:middle;
+}
+
+.line1{
+ border-top: solid 1px #E0E0E0;
+ margin-top:5px;
+ margin-right:0px;
+ padding:0px;
+}
+
+a.mactive {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+a.mactive:hover {
+  color: #6A4EC0;
+  text-decoration: underline;
+}
+
+a.mpass {
+ font-weight: normal;
+}
+
+a.mpass:hover {
+  text-decoration: underline;
+}
+
+a.aTHead{
+ font-size: 11px;
+ color: ghostwhite;
+ border-bottom: 1px ghostwhite dotted;
+}
+a.aTHead:hover {
+  font-size: 11px;
+  color: ghostwhite;
+  border-bottom: none;
+  text-decoration: none;
+}
+
+.not_href{
+  font-size: 10px;
+  font-weight: normal;
+}
+
+img.href:hover{
+ cursor:pointer;
+ 
+}
+
+.red{
+ color:red;
+}
+
+.simple_text{
+ font-weight: normal;
+}
+
+div.ui-tabs-panel {
+ margin: 0 5px 0 0px;
+ padding: .5em .9em;
+/* height: 15em;*/
+ overflow: auto;
+ border: 2px solid #E0E0E0;
+}
+
+div.editlngpanel{
+ background-color:#ffffff;
+ float:none;
+ border-left: 1px solid #969696;
+ border-right: 1px solid #969696;
+ border-bottom: 1px solid #969696;
+ border-top: 0px solid #969696;
+}
+
+div.tab-panel-active{
+ text-align:center;
+ float:left;
+ background-image:url('/admin/images/tab_active.png'); 
+ width:85px; 
+ height:25px;
+ border: 0px solid #000000;
+ font-size: 11px;
+}
+div.tab-panel-hover{
+ text-align:center;
+ float:left;
+ background-image:url('/admin/images/tab_hover.png'); 
+ width:85px; 
+ height:25px; 
+ border-bottom: 0px solid #969696;
+ font-size: 11px; 
+}
+div.tab-panel-passive{
+ text-align:center;
+ float:left;
+ background-image:url('/admin/images/tab_passive.png'); 
+ width:85px; 
+ height:25px; 
+ border-bottom: 0px solid #969696;
+ font-size: 11px;
+}
+
+td.var_name{
+ font-weight: bolder;
+}
+/*============== TinyMCE editor & quick tags ============*/
+#edButtons {
+    margin: 5px 0;
+    border: none !important;
+    }
+#edButtonPreview, #edButtonHTML {
+    font-weight: bold;
+    text-shadow: 0 2px 2px #fff;
+    }
+#quicktags {
+    margin: 5px 0;
+    background: #fff !important;
+    color: #222;
+    font: 12px  Verdana,  Arial, sans-serif;
+    text-align: left;
+    text-shadow: 0 2px 2px #fff;
+    border: none !important;
+    }
+#quicktags #ed_toolbar #ed_link {
+    color: #2a65f1;
+    }
+#quicktags #ed_toolbar #ed_code {
+    font-family: "Courier New", Courier, monospace;
+}
+
+/* A handy div class for hiding controls.
+Some browsers will disable them when you
+set display:none; */
+.zerosize {
+    height: 0;
+    width: 0;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    overflow: hidden;
+    position: absolute;
+}
+/*============= TinyMCE editor & quick tags END ===============*/
+
+#upload_wrapper {
+    padding: 4px;
+    border: 1px dotted #888888;
+    background-color: #F7FAFD;
+    color: #2F4F4F;
+    font-family: Verdana;
+    font-size: 11px;
+}
+
+#upload_title {
+    text-align: center;
+    margin: 10px 0 10px 0;
+}
+
+#upload {
+    margin: 10px 0 5px 0;
+    padding: 2px;
+    border: 1px solid #4682B4;
+    width: 220px;
+    text-align:center;
+    background-color: #E8E8E8;
+    color: #4169E1;
+}
+.uploaded_file {
+    margin: 10px 0 10px 10px;
+    color: #2F4F4F;
+    font-family: Verdana;
+    font-size: 11px;
+}
+
+img {
+    border: none;
+}
+
+.hidden {
+    display: none;
+}
+
+#upload_progress {
+    margin: 0 0 10px 10px;
+}
+
+#upload_progress div {
+    background: transparent url("../../../images/loader.gif") center center no-repeat;
+    font-size: 0;
+    height: 8px;
+    width: 220px;
+    position: relative;
+}
+
+#upload_error {
+    margin: 0 0 10px 10px;
+    color: red;
+}
+
+/* Uploading Images, Files, Video */
+.mainUpload{ background: #ffffff; }
+.mainUpload th{ background: #E0E0E0;  margin: 1px;  font: 12px; font  }
+.mainUpload td{ background: #f0f0f0;  margin: 1px;  font: 12px;  }
+.add{margin:3px 3px 0;}
+.add th{font-weight: bold; text-align: center;}
+.myDragClass,.myDragClass td{background: #d7e6ec;}
+.header{background-color:#E0E0E0; padding: 4px;font-size: 12px; font-weight: bold;margin: 5px 0;}
+.imageLoad{text-align: center; vertical-align: middle;}
+.path{vertical-align: middle; width: 250px; overflow: hidden;}
+.heads{width: 100px;}
+.lang{width: 150px;}
+.del,.see{width: 80px; text-align: center; vertical-align: middle;}
+.addBut{padding: 10px 0;}
+.pathSmall{font-size:10px;}
+/* End Uploading Images, Files, Video */
+
+.newItemSup{background-color: #FF0000; color: #FFFFFF; font-size:7px; font-weight:bold; margin: 0px; padding:1px;}

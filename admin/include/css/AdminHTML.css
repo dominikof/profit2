@@ -1,0 +1,79 @@
+.PanelMain
+ {
+  font: 14px 'Verdana';
+  background:  lightgrey;
+  padding: 4px;
+ }
+.PanelMainH
+ {
+  font: 22px 'Verdana';
+  font-weight: normal;
+  color: lavender;
+  margin: 0px;
+  padding: 4px;
+ }
+.PanelMainHbg
+ {
+   background:  steelblue;
+ }
+.PanelMainL
+ {
+   background: steelblue;
+   margin: 2px;
+ }
+
+.PanelSub
+ {
+  font: 14px 'Verdana';
+  background: gainsboro;
+  padding: 4px;
+ }
+
+
+.PanelSubHbg
+ {
+   background: lightslategray;
+ }
+
+.PanelSubL
+ {
+   background:  lightslategray;
+   margin: 2px;
+ }
+
+.PanelSimple
+ {
+  background:  whitesmoke;
+  padding: 4px;
+ } 
+
+.EditTable
+ {
+   font: 11px 'Verdana';
+ }
+
+ .line0
+ {
+  font: 10px 'Verdana';
+  text-align:center;
+  margin: 0px;
+  padding: 2px;
+  background:#9D95FF;
+ } 
+ .line1
+ {
+  font: 10px 'Verdana';
+  text-align:center;
+  margin: 0px;
+  padding: 2px;
+  background:#DAD7FF;
+ }
+
+.line2
+ {
+  font: 10px 'Verdana';
+  text-align:center;
+  margin: 0px;
+  padding: 2px;
+  background:#D1CEFF;
+ }

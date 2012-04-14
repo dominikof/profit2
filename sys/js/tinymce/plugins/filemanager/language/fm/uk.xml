@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<language-pack>
+  <!--
+		This language file gets loaded if TinyMCE is in developer mode. This XML is used to generate all <code>.js/<code_dlg>.js files.
+		Consult the Wiki for more details: http://wiki.moxiecode.com/index.php/TinyMCE:Creating_Language
+	-->
+    
+    <header>
+        <author>Moxiecode Systems AB</author>
+        <version major="1" minor="0" releasedate="2010-11-22" />
+        <description>This is the Ukrainian language pack for the MCFileManager.</description>
+    </header>
+    <language code="uk" title="Ukrainian" dir="ltr">
+	<group target="error">
+		<item name="tofile_exists">Файл вже існує.</item>
+		<item name="no_from_file">Файл не існує.</item>
+		<item name="demo">Ця дія не допустимо в demo режимі.</item>
+		<item name="invalid_filename">Ім&amp;#039;я не коректно.</item>
+		<item name="no_write_access">Папка не доступна для запису.</item>
+		<item name="copy_failed">Копіювання неможливо.</item>
+		<item name="move_failed">Переміщення неможливо.</item>
+		<item name="template_missing">Вибраний шаблон не знайдено.</item>
+		<item name="createdoc_failed">Створити файл неможливо.</item>
+		<item name="no_access">Немає доступу до цього файлу/папки.</item>
+		<item name="file_exists">Файл з введеним назвою вже існує.</item>
+		<item name="upload_failed">Завантаження не вдалася, перевірте права доступу до папки.</item>
+		<item name="error_to_large">Розмір файлу обраного для завантаження більше максимально допустимого розміру.</item>
+		<item name="file_not_exists">Файл/папка не знайдена.</item>
+		<item name="delete_failed">Видалити неможливо.</item>
+		<item name="folder_exists">Папка з даною назвою вже існує.</item>
+		<item name="no_filesystem">Файлова система не визначена.</item>
+		<item name="createdir_failed">Створити папку неможливо.</item>
+		<item name="createzip_failed">Створити ZIP архів неможливо.</item>
+		<item name="rename_failed">Перейменувати неможливо.</item>
+	</group>
+	<group target="message">
+		<item name="zip_success">ZIP архів створений.</item>
+		<item name="copy_success">Копія створена.</item>
+		<item name="move_success">Переміщення виконано.</item>
+		<item name="createdoc_success">Файл створений.</item>
+		<item name="delete_success">Видалення виконано.</item>
+		<item name="directory_ok">Папка створена.</item>
+		<item name="keepalive">Підтримувати</item>
+		<item name="upload_ok">Завантаження завершено.</item>
+		<item name="confirm_cut">Ви впевнені що хочете вирізати виділені файли?</item>
+		<item name="confirm_copy">Ви впевнені що хочете скопіювати виділені файли?</item>
+		<item name="confirm_paste">Ви впевнені що хочете вставити виділені файли?</item>
+		<item name="confirm_delete">Ви впевнені що хочете видалити виділені файли?</item>
+		<item name="insert">Операція отримуємо даних виконується, зачекайте, будь ласка ...</item>
+		<item name="paste_in_progress">Операція вставки виконується, зачекайте, будь ласка ...</item>
+	</group>
+	<group target="common">
+		<item name="createdir">Створити папку</item>
+		<item name="createfile">Створити файл</item>
+		<item name="help">Допомога</item>
+		<item name="refresh">Оновити</item>
+		<item name="upload">Завантажити</item>
+		<item name="directory">Поточна папка</item>
+		<item name="imagemanager">Менеджер зображень</item>
+		<item name="title">Менеджер файлів</item>
+		<item name="alert_ok">Ок</item>
+		<item name="confirm_yes">Так</item>
+		<item name="confirm_no">Ні</item>
+	</group>
+	<group target="button">
+		<item name="create">Створити</item>
+		<item name="cancel">Скасування</item>
+	</group>
+	<group target="panel">
+		<item name="categories">Меню</item>
+		<item name="preview">Перегляд</item>
+		<item name="favorites">Закладки</item>
+		<item name="history">Журнал</item>
+	</group>
+	<group target="actions">
+		<item name="insert">Вставити</item>
+		<item name="download">Завантажити</item>
+		<item name="rename">Перейменувати</item>
+		<item name="cut">Вирізати</item>
+		<item name="copy">Копіювати</item>
+		<item name="paste">Вставити</item>
+		<item name="deleteit">Видалити</item>
+		<item name="zip">Архівувати в ZIP</item>
+		<item name="view">Перегляд</item>
+		<item name="select_all">Вибрати все</item>
+		<item name="unselect_all">Скинути виділення</item>
+		<item name="addfavorites">Додати закладку</item>
+		<item name="removefavorites">Видалити закладку</item>
+	</group>
+	<group target="filelist">
+		<item name="filename">И&amp;#039;мя файлу</item>
+		<item name="size">Розмір</item>
+		<item name="type">Тип</item>
+		<item name="modified">Дата зміни</item>
+		<item name="with_selected">З обраними:</item>
+		<item name="info_dirs">Папки:</item>
+		<item name="info_files">Файли:</item>
+		<item name="info_size">Повний розмір файла:</item>
+		<item name="info_access">Доступ:</item>
+		<item name="loading">Завантаження...</item>
+	</group>
+	<group target="createdir">
+		<item name="title">Створити папку</item>
+		<item name="description">Введіть ім&amp;#039;я папки.</item>
+		<item name="template">Шаблон:</item>
+		<item name="select_template">-- Вибрати шаблон --</item>
+		<item name="directory_name">Ім&amp;#039;я папки:</item>
+		<item name="create_in">Створити в:</item>
+		<item name="progress">Створення папки, зачекайте, будь ласка...</item>
+	</group>
+	<group target="createdoc">
+		<item name="title">Створення файлу</item>
+		<item name="description">Створення файлу на основі вибраного шаблону.</item>
+		<item name="template">Шаблон:</item>
+		<item name="select_template">-- Виберіть шаблон --</item>
+		<item name="name">Зберегти як:</item>
+		<item name="path">Шлях:</item>
+		<item name="preview">Перегляд</item>
+	</group>
+	<group target="upload">
+		<item name="title">Завантаження</item>
+		<item name="description">Форма для завантаження файлу</item>
+		<item name="valid_extensions">Допустимі розширення:</item>
+		<item name="max_upload_size">Максимальний розмір завантажуваного файлу:</item>
+		<item name="file_to_upload">Файл для завантаження:</item>
+		<item name="as_file_name">Зберегти як:</item>
+		<item name="path">Шлях: </item>
+		<item name="button_upload">Завантаження</item>
+		<item name="browse">Додати файл(и)</item>
+		<item name="progress">Завантаження...</item>
+		<item name="upload_warn">Файл ще не завантажений, ви впевнені що хочете перервати завантаження?</item>
+	</group>
+	<group target="createzip">
+		<item name="title">Архівувати в ZIP</item>
+		<item name="description">Введіть бажане ім&amp;#039;я для майбутнього архіву.</item>
+		<item name="name">Ім&amp;#039;я:</item>
+		<item name="path">Шлях</item>
+	</group>
+	<group target="tinymce">
+		<item name="insertfile_desc">Вставити файл</item>
+	</group>
+    </language>
+</language-pack>

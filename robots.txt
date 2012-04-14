@@ -1,0 +1,14 @@
+# robots.txt for http://www.seocms.seotm.biz
+User-agent: *
+Disallow:  /cgi-bin/
+Disallow:  /admin/ 
+Disallow:  /import/ 
+Disallow:  /include/
+Disallow:  /modules/ 
+Disallow:  /sys/ 
+Disallow:  /order/ 
+Disallow:  /order.php
+Disallow:  /comparison/
+Disallow:  /registration/
+Host: www.seocms.seotm.biz
+Sitemap: http://www.seocms.seotm.biz/sitemap.xml

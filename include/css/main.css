@@ -1,0 +1,179 @@
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+fieldset, img {
+    border: 0;
+}
+address, caption, cite, code, dfn, em, strong, th, var {
+    font-style: normal;
+    font-weight: normal;
+}
+ol, ul {
+    list-style: none;
+}
+caption, th {
+    text-align: left;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+q:before, q:after {
+    content: '';
+}
+abbr, acronym {
+    border: 0;
+}
+html {
+    height: 100%;
+}
+header, nav, section, article, aside, footer {
+    display: block;
+}
+body {
+    width: 100%;
+    height: 100%;
+    background: url("/images/design/texture.jpg") repeat;
+}
+a {
+    color: blue;
+    outline: none;
+    text-decoration: underline;
+}
+a:hover {
+    text-decoration: none;
+}
+p {
+    margin: 0 0 18px
+}
+img {
+    border: none;
+}
+input {
+    vertical-align: middle;
+}
+#wrapper {
+    width: 1000px;
+    margin: 0 auto;
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+}
+
+.light-back{
+    width: 100%;
+    height: 100%;
+    background: url("/images/design/lightBack.png") repeat-y center;
+    overflow: hidden;
+}
+/* Header
+-----------------------------------------------------------------------------*/
+#header {
+    height: 180px;
+    background: #FFE680;
+}
+
+
+/* Middle
+-----------------------------------------------------------------------------*/
+#middle {
+    width: 100%;
+    padding: 0 0 170px;
+    height: 1%;
+    position: relative;
+}
+#middle:after {
+    content: '.';
+    display: block;
+    clear: both;
+    visibility: hidden;
+    height: 0;
+}
+#container {
+    width: 100%;
+    float: left;
+    overflow: hidden;
+}
+#content {
+    padding: 0 0 0 332px;
+}
+
+
+/* Sidebar Left
+-----------------------------------------------------------------------------*/
+#sideLeft {
+    float: left;
+    width: 312px;
+    margin-left: -100%;
+    position: relative;
+    background: #B5E3FF;
+}
+
+
+/* Footer
+-----------------------------------------------------------------------------*/
+#footer {
+    margin-top: -170px;
+    height: 170px;
+    background: url("/images/design/footer_back.png") repeat-x bottom; 
+    position: relative;
+}
+.footer-center{
+    width: 1000px;
+    margin: 0 auto;
+}
+.line-top{
+    height: 16px;
+    background: url("/images/design/top_line.png") repeat-x;
+}
+
+
+.menu{
+    margin-left: 15px;
+    padding: 0px;
+}
+.menu ul {
+    font: 14px Verdana, Geneva, sans-serif;
+    text-align: justify;
+
+    /* Обнуляем для родителя*/
+    line-height: 0;
+    font-size: 1px; /* 1px для Opera */
+
+    /* Лекарство для IE6-7*/		
+    text-justify: newspaper;
+    zoom:1;
+
+    /* Включаем в работу последнюю строку*/		
+    text-align-last: justify;	
+}
+.menu ul:after {
+    width: 100%; 
+    height: 0px;
+    visibility: hidden;
+    overflow: hidden;
+    content: '';
+    display: inline-block;
+
+}
+.menu ul li  {
+    display: inline-block;
+    text-align: left;
+    border: 1px solid #000;
+
+    /* Востанавливаем у потомков, кроме последнего*/
+    line-height: normal;
+    font-size: 14px;
+
+    /* Без него в Opera будет отступ под элементами */
+    vertical-align: top; 
+
+    /* эмуляция inline-block для IE6-7*/
+    //display : inline;
+    //zoom : 1;
+}

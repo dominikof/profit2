@@ -1,0 +1,89 @@
+#carouselBlock  {
+    width: 650px;
+    padding: 13px 0px 15px 0px;
+    height: 82px;
+    background: #f8f8f8;
+    overflow: hidden;   
+
+}
+#carouselBlock img {padding: 2px; border: 1px solid #e7e6e1!important;}
+#carouselBlock ul li  {
+    list-style: none !important;
+    padding: 0 !important;
+}
+
+#carouselBlock #carousel{
+    padding: 0;
+    margin: 0;
+}
+
+.jcarousel-skin-portfolio .jcarousel-container-horizontal {
+    padding: 0;
+}
+
+.jcarousel-skin-portfolio .jcarousel-clip-horizontal {
+    width:  596px;
+    height: 82px;
+    margin: 0 10px;
+    padding: 0px;
+}
+
+.jcarousel-skin-portfolio .jcarousel-item {
+    width: 115px;
+    height: 82px;
+    position: relative;
+}
+
+.jcarousel-skin-portfolio .jcarousel-item-horizontal {
+    margin-right: 5px;
+}
+
+.jcarousel-skin-portfolio .jcarousel-item-placeholder {
+    background: #fff;
+    color: #000;
+}
+
+/**
+ *  Horizontal Buttons
+ */
+.jcarousel-skin-portfolio .jcarousel-next-horizontal, .jcarousel-skin-portfolio .jcarousel-prev-horizontal  {
+    position: absolute;
+    top: 27px;
+    width: 23px;
+    height: 23px;
+    cursor: pointer;
+}
+.jcarousel-skin-portfolio .jcarousel-next-horizontal {
+     right: 2px;
+    _right: 23px;
+    background: transparent url("/images/design/carousel/btnNext.png") no-repeat 0 0;
+}
+.jcarousel-skin-portfolio .jcarousel-prev-horizontal {
+     left: 2px;
+    _left: -23px;
+    background: transparent url("/images/design/carousel/btnPrev.png") no-repeat 0 0;
+}
+
+.jcarousel-skin-portfolio .jcarousel-next-horizontal:hover {
+    background-position: -23px 0;
+}
+
+.jcarousel-skin-portfolio .jcarousel-next-disabled-horizontal,
+.jcarousel-skin-portfolio .jcarousel-next-disabled-horizontal:hover,
+.jcarousel-skin-portfolio .jcarousel-next-disabled-horizontal:active {
+    cursor: default;
+    background-position: -23px 0;
+}
+
+
+.jcarousel-skin-portfolio .jcarousel-prev-horizontal:hover {
+    background-position: -23px 0;
+}
+
+.jcarousel-skin-portfolio .jcarousel-prev-disabled-horizontal,
+.jcarousel-skin-portfolio .jcarousel-prev-disabled-horizontal:hover,
+.jcarousel-skin-portfolio .jcarousel-prev-disabled-horizontal:active {
+    cursor: default;
+    background-position: -46px 0;
+}
+
