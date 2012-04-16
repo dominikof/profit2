@@ -1,179 +1,242 @@
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 fieldset, img {
-    border: 0;
+	border: 0;
 }
 address, caption, cite, code, dfn, em, strong, th, var {
-    font-style: normal;
-    font-weight: normal;
+	font-style: normal;
+	font-weight: normal;
 }
 ol, ul {
-    list-style: none;
+	list-style: none;
 }
 caption, th {
-    text-align: left;
+	text-align: left;
 }
 h1, h2, h3, h4, h5, h6 {
-    font-size: 100%;
-    font-weight: normal;
+	font-size: 100%;
+	font-weight: normal;
 }
 q:before, q:after {
-    content: '';
+	content: '';
 }
 abbr, acronym {
-    border: 0;
+	border: 0;
 }
 html {
-    height: 100%;
+	height: 100%;
 }
 header, nav, section, article, aside, footer {
-    display: block;
+	display: block;
 }
 body {
-    width: 100%;
-    height: 100%;
-    background: url("/images/design/texture.jpg") repeat;
+	width: 100%;
+	height: 100%;
+	background: url("/images/design/texture.jpg") repeat;
 }
 a {
-    color: blue;
-    outline: none;
-    text-decoration: underline;
+	color: blue;
+	outline: none;
+	text-decoration: underline;
 }
 a:hover {
-    text-decoration: none;
+	text-decoration: none;
 }
 p {
-    margin: 0 0 18px
+	margin: 0 0 18px
 }
 img {
-    border: none;
+	border: none;
 }
 input {
-    vertical-align: middle;
+	vertical-align: middle;
 }
 #wrapper {
-    width: 1000px;
-    margin: 0 auto;
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
+	width: 1000px;
+	margin: 0 auto;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
 }
 
 .light-back{
-    width: 100%;
-    height: 100%;
-    background: url("/images/design/lightBack.png") repeat-y center;
-    overflow: hidden;
+	width: 100%;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	background: url("/images/design/lightBack.png") repeat-y center;
+	/*    overflow: hidden;*/
 }
 /* Header
 -----------------------------------------------------------------------------*/
 #header {
-    height: 180px;
-    background: #FFE680;
+	height: 180px;
 }
 
 
 /* Middle
 -----------------------------------------------------------------------------*/
 #middle {
-    width: 100%;
-    padding: 0 0 170px;
-    height: 1%;
-    position: relative;
+	width: 100%;
+	padding: 0 0 170px;
+	height: 1%;
+	position: relative;
 }
 #middle:after {
-    content: '.';
-    display: block;
-    clear: both;
-    visibility: hidden;
-    height: 0;
+	content: '.';
+	display: block;
+	clear: both;
+	visibility: hidden;
+	height: 0;
 }
 #container {
-    width: 100%;
-    float: left;
-    overflow: hidden;
+	width: 100%;
+	float: left;
+	overflow: hidden;
 }
 #content {
-    padding: 0 0 0 332px;
+	padding: 0 0 0 327px;
 }
 
 
 /* Sidebar Left
 -----------------------------------------------------------------------------*/
 #sideLeft {
-    float: left;
-    width: 312px;
-    margin-left: -100%;
-    position: relative;
-    background: #B5E3FF;
+	float: left;
+	width: 297px;
+	margin-left: -100%;
+	position: relative;
+	padding-left: 15px;
 }
 
 
 /* Footer
 -----------------------------------------------------------------------------*/
 #footer {
-    margin-top: -170px;
-    height: 170px;
-    background: url("/images/design/footer_back.png") repeat-x bottom; 
-    position: relative;
+	margin-top: -170px;
+	height: 170px;
+	background: url("/images/design/footer_back.png") repeat-x bottom; 
+	position: relative;
 }
 .footer-center{
-    width: 1000px;
-    margin: 0 auto;
+	width: 1000px;
+	margin: 0 auto;
 }
 .line-top{
-    height: 16px;
-    background: url("/images/design/top_line.png") repeat-x;
+	height: 16px;
+	background: url("/images/design/top_line.png") repeat-x;
 }
 
 
 .menu{
-    margin-left: 15px;
-    padding: 0px;
+	margin-left: 15px;
+	padding: 0px;
 }
 .menu ul {
-    font: 14px Verdana, Geneva, sans-serif;
-    text-align: justify;
+	font: 14px Verdana, Geneva, sans-serif;
+	text-align: justify;
 
-    /* Обнуляем для родителя*/
-    line-height: 0;
-    font-size: 1px; /* 1px для Opera */
+	/* Обнуляем для родителя*/
+	line-height: 0;
+	font-size: 1px; /* 1px для Opera */
 
-    /* Лекарство для IE6-7*/		
-    text-justify: newspaper;
-    zoom:1;
+	/* Лекарство для IE6-7*/		
+	text-justify: newspaper;
+	zoom:1;
 
-    /* Включаем в работу последнюю строку*/		
-    text-align-last: justify;	
+	/* Включаем в работу последнюю строку*/		
+	text-align-last: justify;	
 }
-.menu ul:after {
-    width: 100%; 
-    height: 0px;
-    visibility: hidden;
-    overflow: hidden;
-    content: '';
-    display: inline-block;
+.menu{
+	width: 975px;
+/*	width: 100%;*/
+	float: left;
+	height: 59px;
+	background: url("/images/design/menuBack.png") repeat-x;
+	border-radius: 8px;
+	box-shadow:         3px 1px 7px rgba(50, 50, 50, 0.56);
+/*	padding: 0 20px;*/
+}
+.menu>ul>li:first-child a{
+    border-radius: 8px 0 0 8px;
+    padding-left: 65px;
+}
+.menu>ul>li:last-child a{
+    border-radius: 0 8px 8px 0;
+    padding-right: 65px;
+}
+.menu>ul:after {
+	width: 100%; 
+	height: 0px;
+	visibility: hidden;
+	overflow: hidden;
+	content: '';
+	display: inline-block;
 
 }
-.menu ul li  {
-    display: inline-block;
-    text-align: left;
-    border: 1px solid #000;
+.menu>ul>li  {
+	display: inline-block;
+	text-align: left;
+	/* Востанавливаем у потомков, кроме последнего*/
+	line-height: normal;
+	font-size: 14px;
 
-    /* Востанавливаем у потомков, кроме последнего*/
-    line-height: normal;
-    font-size: 14px;
+	/* Без него в Opera будет отступ под элементами */
+	vertical-align: top; 
 
-    /* Без него в Opera будет отступ под элементами */
-    vertical-align: top; 
+	/* эмуляция inline-block для IE6-7*/
+	//display : inline;
+	//zoom : 1;
+}
+.menu>ul>li>a{
+	padding: 0 23px;
+	line-height: 59px;
+	height: 59px;
+	display: block;
+	font-family: 'PTSerifRegular';
+	font-size: 13px;
+	font-weight: bold;
+	color: #949494;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+.menu ul li ul {
+	display: none;
+}
+.menu>ul>li>a:hover{
+	background: url("/images/design/selectedMenu.png") repeat-x;
+}
+.menu-devider{
+	width: 2px;
+	height: 59px;
+	background: url("/images/design/menu-devider.png");
+}
+@font-face {
+	font-family: 'CompactBold';
+	src: url('/images/design/font/compact_bold-webfont.eot');
+	src: url('/images/design/font/compact_bold-webfont.eot?#iefix') format('embedded-opentype'),
+		url('/images/design/font/compact_bold-webfont.woff') format('woff'),
+		url('/images/design/font/compact_bold-webfont.ttf') format('truetype'),
+		url('/images/design/font/compact_bold-webfont.svg#CompactBold') format('svg');
+	font-weight: normal;
+	font-style: normal;
 
-    /* эмуляция inline-block для IE6-7*/
-    //display : inline;
-    //zoom : 1;
+}
+
+@font-face {
+	font-family: 'PTSerifRegular';
+	src: url('/images/design/font/pt_serif-web-regular-webfont.eot');
+	src: url('/images/design/font/pt_serif-web-regular-webfont.eot?#iefix') format('embedded-opentype'),
+		url('/images/design/font/pt_serif-web-regular-webfont.woff') format('woff'),
+		url('/images/design/font/pt_serif-web-regular-webfont.ttf') format('truetype'),
+		url('/images/design/font/pt_serif-web-regular-webfont.svg#PTSerifRegular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+
 }

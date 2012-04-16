@@ -625,7 +625,12 @@ class FrontendPages extends DynamicPages{
                 if($this->IsSubLevels($row['id'], 'front')){
                     $this->ShowHorizontalMenu($row['id'], $cnt_sublevels, $cnt);
                 }
-            ?></li><?
+            ?></li>
+		    <?
+	    if($i!=$rows-1):
+		    ?> <li class="menu-devider"></li>
+			    <?
+	    endif;
         }
         ?></ul><?
     }// end of function ShowHorizontalMenu()
@@ -705,7 +710,60 @@ class FrontendPages extends DynamicPages{
         <?
     }//end of function ShowFooterMenu()    
 
+     function headerPicturesOthers(){
+//        echo $_SERVER["REQUEST_URI"];
+        $q="SELECT * 
+            FROM `mod_catalog_spr_slider_main` 
+            WHERE 
+            `lang_id`='$this->lang_id' 
+             ORDER BY `id`   ";
+        $res=$this->db->db_Query($q); 
+	$rows=$this->db->db_GetNumRows();
+         
+//        if(!$res || $rows==0){
+//            $q="SELECT * FROM `mod_catalog_spr_slider_main` WHERE `lang_id`='$this->lang_id' AND `cod`='1' ORDER BY `id`";
+//            $res=$this->db->db_Query($q);
+//            $rows=$this->db->db_GetNumRows();
+////            $row=$this->db->db_FetchAssoc();
+//        }
+        ?>
+        <ul  id="caruselOtherPages"><?
+        for ($i = 0; $i < $rows; $i++) {
+            $row=$this->db->db_FetchAssoc();
 
+            $img="/images/spr/mod_catalog_spr_slider_main/".$this->lang_id."/".$row['img'];
+//            $img=$this->Catalog->ShowCurrentImageExSize($img, 960, 349, true, true, 86, NULL, NULL, "alt='".$row['name']."'",true);
+            ?>
+            <li>
+            <img class="big-photo-pages" src="<?=$img?>">
+            </li>
+                <?
+        }
+        ?></ul>
+            <div class="clearfix"></div>
+	    <div class="pagination" id="mainPaginationid"></div>
+        <script type="text/javascript">
+            $("#caruselOtherPages").carouFredSel({
+            auto    : {
+			duration        : 800,
+			fx          : "fade",
+			pauseDuration   : 4500
+
+	    },
+	    items:{
+		    visible:1
+	    },
+            pagination  : {
+		container   : "#mainPaginationid",
+		duration    : 800,
+		fx          : "fade"
+	    }
+            });
+        </script>    
+            
+            <?
+        
+    }
 
     /**
     * Class method ShowContent
@@ -724,7 +782,6 @@ class FrontendPages extends DynamicPages{
         if($this->page!=$this->main_page) $this->Form->WriteContentHeader($name, false,$path);
         else $this->Form->WriteContentHeader('', false,$path);
         
-        ?><div class="subBody"><?
          if( !$this->IsPublish($this->page) AND !$this->preview ){
             echo $this->multi['_MSG_CONTENT_NOT_PUBLISH'];
          }
@@ -742,21 +799,7 @@ class FrontendPages extends DynamicPages{
 //         $this->ShowUploadFileList($this->page);
 //         $this->ShowUploadImagesList($this->page);
             
-         if( $this->is_tags==1 ){
-             $Tags = new FrontTags();
-             if( count($Tags->GetSimilarItems($this->module, $this->page))>0){
-                ?><div><?
-                ?><br/><?=$this->multi['TXT_THEMATIC_LINKS'];?>:<br/><? 
-                $Tags->ShowSimilarItems($this->module, $this->page);
-                ?></div><?
-             }
-         }
-         if($this->is_comments==1){
-            $Comments = new FrontComments($this->module, $this->page);
-            $Comments->ShowCommentsByModuleAndItem();
-            $Comments->VkontakteComments();
-            $Comments->FacebookComments();
-         }
+        
          /*?>
          <!-- AddThis Button BEGIN -->
          <div class="addthis_toolbox addthis_default_style">

@@ -291,6 +291,7 @@ class PageUser extends Page {
         <link rel="icon" type="image/vnd.microsoft.icon"  href="/images/design/favicon.ico" />
         <link rel="SHORTCUT ICON" href="/images/design/favicon.ico" />
         <link href="/include/css/main.css" type="text/css" rel="stylesheet" />
+        <link href="/include/css/style.css" type="text/css" rel="stylesheet" />
         <!--[if IE 8]>
         <link href="/include/css/browsers/ie8.css" rel="stylesheet" type="text/css" media="screen" />
         <![endif]-->
@@ -301,6 +302,7 @@ class PageUser extends Page {
         
         <!--Include AJAX scripts-->
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> 
+        <script type="text/javascript" src="/include/js/jquery.carouFredSel-5.5.0-packed.js"></script> 
         <?/*<script type="text/javascript" src='http://<?=NAME_SERVER."/sys/js/jQuery/jquery.js";?>'></script>*/?>
     
         
@@ -308,7 +310,7 @@ class PageUser extends Page {
 
     <body lang='<?=$this->LangShortName;?>'>
 	<div class="light-back">
-        <!--[if lt IE 8]>
+        <!--[if lt IE 8]> 
         <div style=" margin:10px auto 0px auto; padding:20px; background:#DDDDDD; border:1px solid gray; width:980px; font-size:14px;">
         Уважаемый Пользователь!</br>
         Вы используете <span class="red">устаревший WEB-браузер</span>.</br>
@@ -325,6 +327,14 @@ class PageUser extends Page {
         <div id="wrapper">
 	      
 	    <header id="header">
+		    <div class="logo">
+			    <a href="" title="logo">
+				    <img src="/images/design/logo.png" alt="logo" title="logo"/>
+			    </a>
+		    </div>
+		    <div class="header-text">
+			    <?=$this->multi['TXT_HEADER_TEXT']?>
+		    </div>
 		    <menu class="menu"><?$this->FrontendPages->ShowHorizontalMenu();?></menu>
 	    </header><!-- #header-->
 	    
@@ -332,10 +342,9 @@ class PageUser extends Page {
 
 		<div id="container">
 			<div id="content">
-                <?
-                   
-               
-                   $this->Gallery->GalleryLast();  // Фото
+                <?  //$this->Gallery->GalleryLast();  // Фото
+		if($this->FrontendPages->page==$this->FrontendPages->main_page)
+			$this->FrontendPages->headerPicturesOthers();
                    
                 //=== if set error page 404 then show error ===
                 if( $this->Is_404() ){
@@ -350,10 +359,22 @@ class PageUser extends Page {
             //==================================================
     } // end of function WriteHeader()
     
+    function MainPartSideBar(){
+	    ?>
+	    <div class="side-title"><?=$this->multi['TXT_OUR_CONTACTS'];?></div>
+	    <?
+    }
+    
+    
+    
     function LeftSidebar(){
 	?>
 	<aside id="sideLeft">
-			<strong>Left Sidebar:</strong> Integer velit. Vestibulum nisi nunc, accumsan ut, vehicula sit amet, porta a, mi. Nam nisl tellus, placerat eget, posuere eget, egestas eget, dui. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In elementum urna a eros. Integer iaculis. Maecenas vel elit.
+		<?
+		if($this->FrontendPages->page==$this->FrontendPages->main_page){
+			$this->MainPartSideBar();
+		}
+		?>
 	</aside><!-- #sideLeft -->    
 	<?
     }
@@ -368,7 +389,6 @@ class PageUser extends Page {
     function WriteFooter()
     {
                     ?>
-			<strong>Content:</strong> Sed placerat accumsan ligula. Aliquam felis magna, congue quis, tempus eu, aliquam vitae, ante. Cras neque justo, ultrices at, rhoncus a, facilisis eget, nisl. Quisque vitae pede. Nam et augue. Sed a elit. Ut vel massa. Suspendisse nibh pede, ultrices vitae, ultrices nec, mollis non, nibh. In sit amet pede quis leo vulputate hendrerit. Cras laoreet leo et justo auctor condimentum. Integer id enim. Suspendisse egestas, dui ac egestas mollis, libero orci hendrerit lacus, et malesuada lorem neque ac libero. Morbi tempor pulvinar pede. Donec vel elit.
 			</div><!-- #content-->
 		</div><!-- #container-->
 
@@ -377,7 +397,7 @@ class PageUser extends Page {
 	</section><!-- #middle-->
 
 </div><!-- #wrapper -->
-</div><!---light-->
+</div>-light
 <footer id="footer">
     <div class="footer-center">
 	<strong>Footer:</strong> Mus elit Morbi mus enim lacus at quis Nam eget morbi. Et semper urna urna non at cursus dolor vestibulum neque enim. Tellus interdum at laoreet laoreet lacinia lacinia sed Quisque justo quis. Hendrerit scelerisque lorem elit orci tempor tincidunt enim Phasellus dignissim tincidunt. Nunc vel et Sed nisl Vestibulum odio montes Aliquam volutpat pellentesque. Ut pede sagittis et quis nunc gravida porttitor ligula.
