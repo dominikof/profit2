@@ -302,7 +302,7 @@ class PageUser extends Page {
         
         <!--Include AJAX scripts-->
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> 
-        <script type="text/javascript" src="/include/js/jquery.carouFredSel-5.5.0-packed.js"></script> 
+        <script type="text/javascript" src="/include/js/jquery.carouFredSel-5.5.2-packed.js"></script> 
         <?/*<script type="text/javascript" src='http://<?=NAME_SERVER."/sys/js/jQuery/jquery.js";?>'></script>*/?>
     
         
