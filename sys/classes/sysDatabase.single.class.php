@@ -94,7 +94,12 @@
                //return $this->error;
         }
         private function __clone() {}
- 
+	
+	/**
+	 *
+	 * @param type $param
+	 * @return DBs 
+	 */
         public static function getInstance($param=NULL) {
             if (self::$instance === null) {
                 self::$instance = new self($param);

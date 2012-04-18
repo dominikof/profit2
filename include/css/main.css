@@ -127,6 +127,8 @@ input {
 .footer-center{
 	width: 1000px;
 	margin: 0 auto;
+	background: url("/images/design/footer-people.png") no-repeat center center;
+	height: 115px;
 }
 .line-top{
 	height: 16px;

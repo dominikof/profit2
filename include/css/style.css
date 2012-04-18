@@ -2,9 +2,7 @@
     margin-top: 47px;
     float: left;
 }
-.new-class{
-	
-}
+
 .header-text{
     float: left;
     margin-top: 47px;
@@ -21,6 +19,10 @@
     color: #474444;
     font-weight: bold;
     font-size: 25px;
+    margin-bottom: 12px;
+}
+.side-title-main{
+	margin-top: 85px;
 }
 .header-big-photo {
     width: 674px;
@@ -58,4 +60,20 @@
 .clearfix {
     float: none;
     clear: both;
+}
+.contact-main{
+	display: inline-block;
+	width: 297px;
+	vertical-align: middle;
+	height: 58px;
+	line-height: 58px;
+	padding-left: 35px;
+	color: #7f7f7f;
+}
+.devider{
+	height: 2px;
+	background: url("/images/design/devider.jpg") repeat-x bottom;
+}
+.side-email{
+	color: #e25e1d;
 }

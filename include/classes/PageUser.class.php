@@ -22,7 +22,6 @@ include_once( SITE_PATH.'/include/defines.php' );
 * @property OrderLayout $Order
 * @property FrontSpr $Spr
 * @property FrontForm $Form 
-* @property db $db     
 * @property TblFrontMulti $multi
 * @property CatalogLayout $Catalog
 * @property SysLang $Lang
@@ -360,9 +359,7 @@ class PageUser extends Page {
     } // end of function WriteHeader()
     
     function MainPartSideBar(){
-	    ?>
-	    <div class="side-title"><?=$this->multi['TXT_OUR_CONTACTS'];?></div>
-	    <?
+	    $this->getSprDataContactsMain();
     }
     
     
@@ -400,7 +397,7 @@ class PageUser extends Page {
 </div>-light
 <footer id="footer">
     <div class="footer-center">
-	<strong>Footer:</strong> Mus elit Morbi mus enim lacus at quis Nam eget morbi. Et semper urna urna non at cursus dolor vestibulum neque enim. Tellus interdum at laoreet laoreet lacinia lacinia sed Quisque justo quis. Hendrerit scelerisque lorem elit orci tempor tincidunt enim Phasellus dignissim tincidunt. Nunc vel et Sed nisl Vestibulum odio montes Aliquam volutpat pellentesque. Ut pede sagittis et quis nunc gravida porttitor ligula.
+	    
     </div>
 </footer><!-- #footer -->
 
@@ -425,6 +422,25 @@ class PageUser extends Page {
            ?></div><?
        }
     } // end of function WriteFooter()
+    
+    
+    function getSprDataContactsMain(){
+	   $q="SELECT * FROM `mod_spr_diff` WHERE `cod` IN ('1','2','3') AND `lang_id`='$this->lang_id'";
+	   $res=$this->db->db_Query($q);
+	   if(!$res) return false;
+	   $rows=$this->db->db_GetNumRows();
+	   ?><div class="side-title side-title-main"><?=$this->multi['TXT_OUR_CONTACTS'];?></div><?
+	   for ($i = 0; $i < $rows; $i++) {
+		$row=$this->db->db_FetchAssoc();   
+		?><div class="contact-main <?if ($i==$rows-1) echo 'side-email';?>" style="background: url('/images/spr/mod_spr_diff/<?=$this->lang_id."/".$row['img']?>') no-repeat left center">
+			
+			<?=  strip_tags($row['descr'])?>
+		</div><?
+		if ($i!=$rows-1) {
+			?><div class="devider"></div><?
+		}
+	   }
+    }
 
 
 } //end of class PageUser
