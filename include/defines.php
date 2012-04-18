@@ -6,7 +6,7 @@ date_default_timezone_set('Europe/Kiev');
 
 if (!defined("SITE_PATH"))          define( "SITE_PATH", $_SERVER['DOCUMENT_ROOT'] );
 if (!defined("NAME_SERVER"))        define( "NAME_SERVER", $_SERVER['SERVER_NAME'] );
-
+	
 if (!defined("SEOCMS_DEBUGNAME"))   define( "SEOCMS_DEBUGNAME", "SEOCMS_make_debug" );
 
 if (!defined("MAKE_DEBUG")){

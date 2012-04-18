@@ -1,56 +1,56 @@
 .logo{
-	margin-top: 47px;
-	float: left;
+    margin-top: 47px;
+    float: left;
 }
 .header-text{
-	float: left;
-	margin-top: 47px;
-	font-size: 15px;
-	font-weight: bold;
-	color: #7f7f7f;
-	font-family: 'PTSerifRegular';
-	text-transform: uppercase;
-	width: 647px;
-	margin-left: 55px;
+    float: left;
+    margin-top: 47px;
+    font-size: 13px;
+    color: #7F7F7F;
+    font-family: 'PTSerifRegular';
+    text-transform: uppercase;
+    width: 647px;
+    margin-left: 55px;
+    line-height: 150%;
 }
 .side-title{
-	font-family: 'CompactBold';
-	color: #474444;
-	font-weight: bold;
-	font-size: 25px;
+    font-family: 'CompactBold';
+    color: #474444;
+    font-weight: bold;
+    font-size: 25px;
 }
 .header-big-photo {
-	width: 674px;
-	height: 407px;
-	margin-top: 11px;
-	position: relative;
+    width: 674px;
+    height: 407px;
+    margin-top: 11px;
+    position: relative;
 }
 #caruselOtherPages li {
-	float: left;
-	height: 407px;
-	width: 674px;
-	display: block;
-	position: relative;
+    float: left;
+    height: 407px;
+    width: 674px;
+    display: block;
+    position: relative;
 }
 
 
 
 .pagination {
-	text-align: right;
+    text-align: right;
 }
 .pagination a {
-	background: url(/images/design/pagination.png) no-repeat transparent;
-	width: 15px;
-	height: 15px;
-	margin: 0 5px 0 0;
-	display: inline-block;
+    background: url(/images/design/pagination.png) no-repeat transparent;
+    width: 15px;
+    height: 15px;
+    margin: 0 5px 0 0;
+    display: inline-block;
 }
 .pagination a.selected {
-	background-position: -21px 0px;
-	cursor: default;
+    background-position: -21px 0px;
+    cursor: default;
 }
 .pagination a span {
-	display: none;
+    display: none;
 }
 .clearfix {
     float: none;
