@@ -718,9 +718,9 @@
     // ================================================================================================
     function WriteContentHeader( $h1 = null, $title = null, $path=null)
     {
-        ?><div id="content2Box"><?
+        ?><div id="content2Box" class="user-text"><?
         if($h1) {
-            ?><h1><?=$h1;?></h1><?
+            ?><h1><?=$h1;?></h1><div class="devider"></div><?
         }
         if($title) {
             ?><div class="title"><?=$title;?></div><?

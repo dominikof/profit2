@@ -592,31 +592,27 @@ function GetMap() {
 }
 
 // ================================================================================================
-function ShowGalleryLast($cnt=5){
-   $db = new DB();
-   $q = "select `".TblModGallery."`.*,`".TblModGalleryTxt."`name from  `".TblModGallery."`,`".TblModGalleryTxt."` 
-   where `".TblModGallery."`.status='a' 
-   AND `".TblModGallery."`.id=".TblModGalleryTxt."`.cod
-   AND `".TblModGalleryTxt."`.lang_id='".$this->lang_id."'
-   order by position desc limit ".$cnt;
-   $res = $db->db_Query( $q);
-   $rows = $db->db_GetNumRows();
-   ?><table border="0" cellspacing="0" cellpadding="0"><?
-    for( $i=0; $i<$rows; $i++ )
-    {
-    $row = $db->db_FetchAssoc($res);
-    ?>
-    <tr>
-      <td class="b_marker"><img src="/images/design/block_mark.gif" /></td>
-      <td><a href="<?=$this->Link($row['category'], $row['id']);?>"><?=$row['name'];?></a>
-              <br><span class="time"><?=$this->ConvertDate($row['dttm'], true);?></span></td>
-    </tr>
-    <tr>
-      <td colspan="2" class="b_spacer"></td>
-    </tr>
-    <?
+function ShowGalleryLast($cnt=5,$id=23){
+   $items = $this->UploadImages->GetPictureInArrayExSize($id, $this->lang_id,$cnt,197,139,true,true,85);
+   $items_keys = array_keys($items);
+    $items_count = count($items);
+    for($j=0; $j<$items_count; $j++){   
+	$alt= $items[$items_keys[$j]]['name'][$this->lang_id];  // Заголовок
+	$title= $items[$items_keys[$j]]['text'][$this->lang_id]; // Описание 
+	$path = $items[$items_keys[$j]]['path'];                 // Путь уменьшенной копии
+	$path_org = $items[$items_keys[$j]]['path_original'];    // Путь оригинального изображения
+
+	?>
+	<a href="<?=$path_org;?>" class="fancybox side-gall image-thumb">
+	    <img src="<?=$path;?>" alt="<?=$alt?>" title="<?=$title;?>"/>
+	    <img src="/images/design/zoom.png" alt="zoom" title="zoom" class="zoom"/>
+	</a>
+	<a href="/gallery/" class="btn all-gall-btn" title="<?=$this->multi['TXT_ALL_GALLARY']?>">
+	    <?=$this->multi['TXT_ALL_GALLARY']?>
+	</a>
+	<?
     }
-?></table><?
+
 }  //   
 
 

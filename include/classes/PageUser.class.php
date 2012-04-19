@@ -27,6 +27,7 @@ include_once( SITE_PATH.'/include/defines.php' );
 * @property SysLang $Lang
 * @property NewsLayout $News
 * @property ArticleLayout $Article
+* @property GalleryLayout $Gallery
 */  
 class PageUser extends Page {
 
@@ -46,6 +47,7 @@ class PageUser extends Page {
     public $Catalog= NULL;
     public $News= NULL;
     public $Article= NULL;
+    public $Gallery = NULL;
 
     /**
     * Class Constructor
@@ -327,7 +329,7 @@ class PageUser extends Page {
 	      
 	    <header id="header">
 		    <div class="logo">
-			    <a href="" title="logo">
+			    <a href="/" title="logo">
 				    <img src="/images/design/logo.png" alt="logo" title="logo"/>
 			    </a>
 		    </div>
@@ -358,20 +360,21 @@ class PageUser extends Page {
             //==================================================
     } // end of function WriteHeader()
     
-    function MainPartSideBar(){
-	    $this->getSprDataContactsMain();
-    }
-    
-    
-    
     function LeftSidebar(){
 	?>
 	<aside id="sideLeft">
 		<?
 		if($this->FrontendPages->page==$this->FrontendPages->main_page){
-			$this->MainPartSideBar();
+			$this->getSprDataContactsMain();
 		}
 		?>
+		<div class="side-title foto-gallery-side-title"><?=$this->multi['TXT_PHOTO_GALLERY'];?></div>
+		<div class="devider"></div>
+		<?
+		$this->Gallery->ShowGalleryLast(1);
+		$this->FrontendPages->showSideBarSertificats();
+		?>
+		
 	</aside><!-- #sideLeft -->    
 	<?
     }
@@ -385,6 +388,8 @@ class PageUser extends Page {
     */
     function WriteFooter()
     {
+		if($this->FrontendPages->page==$this->FrontendPages->main_page)
+		    $this->getMainPart();
                     ?>
 			</div><!-- #content-->
 		</div><!-- #container-->
@@ -437,9 +442,22 @@ class PageUser extends Page {
 			<?=  strip_tags($row['descr'])?>
 		</div><?
 		if ($i!=$rows-1) {
-			?><div class="devider"></div><?
+			?><div class="devider devider-contacts-main"></div><?
 		}
 	   }
+    }
+    
+    function getMainPart(){
+	$q="SELECT * FROM `mod_spr_diff` WHERE `cod`=4 AND `lang_id`='$this->lang_id'";
+	   $res=$this->db->db_Query($q);
+	   if(!$res) return false;
+	   $rows=$this->db->db_GetNumRows();
+	   $row=$this->db->db_FetchAssoc();  
+	   ?><h2 class="side-title"><?=$row['short']?></h2>
+	   <div class="devider"></div>
+	       <?
+	       echo $row['descr'];
+	       ?><img class="image-main-bottom" src="/images/spr/mod_spr_diff/3/<?=$row['img']?>"/><?
     }
 
 

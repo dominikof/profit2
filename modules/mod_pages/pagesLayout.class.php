@@ -780,7 +780,7 @@ class FrontendPages extends DynamicPages{
         else
             $path = null;
         if($this->page!=$this->main_page) $this->Form->WriteContentHeader($name, false,$path);
-        else $this->Form->WriteContentHeader('', false,$path);
+        else $this->Form->WriteContentHeader($this->page_txt['short'], false,$path);
         
          if( !$this->IsPublish($this->page) AND !$this->preview ){
             echo $this->multi['_MSG_CONTENT_NOT_PUBLISH'];
@@ -797,7 +797,7 @@ class FrontendPages extends DynamicPages{
             }
          }
 //         $this->ShowUploadFileList($this->page);
-//         $this->ShowUploadImagesList($this->page);
+         $this->ShowUploadImagesList($this->page);
             
         
          /*?>
@@ -1095,7 +1095,31 @@ class FrontendPages extends DynamicPages{
         //$this->UploadImages->ShowMainPicture($pageId,$this->lang_id,'size_width=175 ', 85 ) ;
     }
 
-
+    function showSideBarSertificats($pageId=12){
+	$items = $this->UploadImages->GetPictureInArrayExSize($pageId, $this->lang_id,NULL,175,135,true,true,85);
+        $items_keys = array_keys($items);
+        $items_count = count($items);
+        if($items_count>0) {
+        ?><div class="leftBlockHead"><?= $this->multi['SYS_IMAGE_GALLERY'];?></div>
+            <div class="imageBlock " align="center">
+                <ul id="carouselLeft" class="vhidden jcarousel-skin-menu"><?
+                for($j=0; $j<$items_count; $j++){   
+                    $alt= $items[$items_keys[$j]]['name'][$this->lang_id];  // Заголовок
+                    $title= $items[$items_keys[$j]]['text'][$this->lang_id]; // Описание 
+                    $path = $items[$items_keys[$j]]['path'];                 // Путь уменьшенной копии
+                    $path_org = $items[$items_keys[$j]]['path_original'];    // Путь оригинального изображения
+                    ?><li>                            
+                            <a href="<?=$path_org;?>" class="highslide" onclick="return hs.expand(this);">
+                                <img src="<?=$path;?>" alt="<?=$alt?>" title="<?=$title;?>"/>
+                             </a>
+                             <div class="highslide-caption"><?=$title;?></div>
+                     </li><?                
+                }
+                ?></ul>
+            </div><?
+         }        
+    }
+    
     // ================================================================================================
     // Function : ShowRandomImage()
     // Date : 30.09.2010

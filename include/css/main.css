@@ -39,6 +39,9 @@ body {
 	width: 100%;
 	height: 100%;
 	background: url("/images/design/texture.jpg") repeat;
+        font-family: 'PTSerifRegular';
+        font-size: 14px;
+        color: #656565;
 }
 a {
 	color: blue;
@@ -109,7 +112,7 @@ input {
 -----------------------------------------------------------------------------*/
 #sideLeft {
 	float: left;
-	width: 297px;
+	width: 265px;
 	margin-left: -100%;
 	position: relative;
 	padding-left: 15px;

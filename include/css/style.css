@@ -14,15 +14,14 @@
     margin-left: 55px;
     line-height: 150%;
 }
-.side-title{
+.side-title, h1{
     font-family: 'CompactBold';
     color: #474444;
     font-weight: bold;
     font-size: 25px;
-    margin-bottom: 12px;
 }
 .side-title-main{
-	margin-top: 85px;
+    margin-top: 85px;
 }
 .header-big-photo {
     width: 674px;
@@ -37,9 +36,6 @@
     display: block;
     position: relative;
 }
-
-
-
 .pagination {
     text-align: right;
 }
@@ -62,18 +58,70 @@
     clear: both;
 }
 .contact-main{
-	display: inline-block;
-	width: 297px;
-	vertical-align: middle;
-	height: 58px;
-	line-height: 58px;
-	padding-left: 35px;
-	color: #7f7f7f;
+    display: inline-block;
+    width: 297px;
+    vertical-align: middle;
+    height: 58px;
+    line-height: 58px;
+    padding-left: 35px;
+    color: #7f7f7f;
 }
 .devider{
-	height: 2px;
-	background: url("/images/design/devider.jpg") repeat-x bottom;
+    height: 2px;
+    background: url("/images/design/devider.jpg") repeat-x bottom;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 .side-email{
-	color: #e25e1d;
+    color: #e25e1d;
+}
+.foto-gallery-side-title{
+    margin-top: 121px;
+}
+.side-gall{
+    margin-left: 25px;
+}
+.zoom{
+    position: absolute;
+    bottom: -3px;
+    right: -7px;
+}
+.image-thumb{
+    padding: 4px;
+    background-color: white;
+    display: inline-block;
+    box-shadow:         1px 1px 5px rgba(50, 50, 50, 0.75);
+    border-radius: 6px;
+    position: relative;
+}
+.image-thumb img{
+    display: block;
+}
+.btn{
+    background: url("/images/design/btn.png") no-repeat center center;
+    line-height: 40px;
+    height: 41px;
+    width: 129px;
+    text-align: center;
+    display: block;
+    color: #616161;
+    font-family: 'PTSerifRegular';
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 12px;
+}
+.all-gall-btn{
+    margin-top: 16px;
+    margin-left: 25px;
+}
+.devider-contacts-main{
+    margin: 0px;
+    width: 297px;
+}
+.user-text strong{
+    color: #515151;
+    font-weight: bold;
+}
+.image-main-bottom{
+    margin-left: -50px;
 }
