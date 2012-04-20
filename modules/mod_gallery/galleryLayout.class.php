@@ -596,6 +596,11 @@ function ShowGalleryLast($cnt=5,$id=23){
    $items = $this->UploadImages->GetPictureInArrayExSize($id, $this->lang_id,$cnt,197,139,true,true,85);
    $items_keys = array_keys($items);
     $items_count = count($items);
+    if($items_count==0) return false;
+    ?>
+	<div class="side-title foto-gallery-side-title"><?=$this->multi['TXT_PHOTO_GALLERY'];?></div>
+		<div class="devider"></div>
+	<?
     for($j=0; $j<$items_count; $j++){   
 	$alt= $items[$items_keys[$j]]['name'][$this->lang_id];  // Заголовок
 	$title= $items[$items_keys[$j]]['text'][$this->lang_id]; // Описание 

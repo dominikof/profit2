@@ -45,6 +45,7 @@ else $id = $Article->Form->GetRequestTxtData($_REQUEST['art'], 1);
 // $str_cat - for mod_rewrite
 if( isset( $_REQUEST['str_cat'] ) ){ 
     $Article->category = $Article->Spr->GetCodByTranslit(TblModArticleCat, $Article->Form->GetRequestTxtData($_REQUEST['str_cat'], 1), $Article->lang_id);
+    $Article->category_name = $Article->Spr->GetNameByCod('mod_article_spr_category',$Article->category,$Article->lang_id);
     if( empty($Article->category) ) $Page->Set_404(); 
     $Article->fltr .= " AND `".TblModArticle."`.`category`='".$Article->category."'";
 }
@@ -126,9 +127,12 @@ elseif($Article->task=='showall'){
     else 
         $title_content = $Article->multi['TXT_ALL_ARTICLES'];    
 }
-else*/{
-    $title_content = $Article->multi['TXT_ARTICLE_TITLE'];    
-}
+else*/
+if(isset($Article->category_name ) && !empty($Article->category_name ))
+{
+    $title_content=$Article->category_name;
+}else	 $title_content = $Article->multi['TXT_ARTICLE_TITLE'];    
+
 $Page->Form->WriteContentHeader($title_content, false,false);
 ?><div id="articles"><?
 switch( $Article->task ){

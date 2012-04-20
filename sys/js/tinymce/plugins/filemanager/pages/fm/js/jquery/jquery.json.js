@@ -79,7 +79,7 @@
             }
         };
 
-	$.toJSON = function(v){
+	$.toJSON = function(v) {
 		var f = isNaN(v) ? s[typeof v] : s['number'];
 		if (f) return f(v);
 	};
@@ -90,5 +90,7 @@
 			return undefined;
 		return eval('('+v+')');
 	};
+	
 	$.parseJSON.safe = false;
+
 })(jQuery);

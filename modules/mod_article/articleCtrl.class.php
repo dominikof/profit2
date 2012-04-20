@@ -74,10 +74,10 @@ class ArticleCtrl extends Article{
 
      if( !$this->sort ) $this->sort = 'position';
         $q = "SELECT `".TblModArticle."`.*, `".TblModArticleCat."`.name AS `cat_name`, `".TblModArticleTxt."`.name, `".TblModArticleTxt."`.short AS `short_descr`, `".TblModArticleTxt."`.full AS `full_descr` 
-              FROM `".TblModArticle."`, `".TblModArticleCat."`, `".TblModArticleTxt."`
-              WHERE `".TblModArticle."`.category=`".TblModArticleCat."`.cod
-              AND `".TblModArticleCat."`.lang_id='".$this->lang_id."'
-              AND `".TblModArticle."`.id=`".TblModArticleTxt."`.cod
+              FROM `".TblModArticle."`
+		 LEFT JOIN `".TblModArticleCat."` ON (`".TblModArticleCat."`.lang_id='".$this->lang_id."' AND `".TblModArticle."`.category=`".TblModArticleCat."`.cod)
+		     , `".TblModArticleTxt."`
+              WHERE  `".TblModArticle."`.id=`".TblModArticleTxt."`.cod
               AND `".TblModArticleTxt."`.lang_id='".$this->lang_id."'
              ";
      if( $this->fltr ) $q = $q." AND `".TblModArticle."`.".$this->fltr;
@@ -391,17 +391,6 @@ class ArticleCtrl extends Article{
                    // echo $img;
                     ?>
                 <td><input type="file" name="filename[]" size="40" value="<?=$this->img;?>"/></td>
-            </tr>
-            <tr>
-                <td><b><?=$this->multi['TXT_DEPARTMENT_TITLE'];?>:</b></td>
-                <td>
-                    <?
-                    if( $this->id!=NULL ) $this->Err!=NULL ? $val=$this->id_department : $val=$mas['id_department'];
-                    else $val=$this->id_department;
-                    $this->Department = new DepartmentCtrl();
-                    $this->Department->ShowCategoryInComboBox( 1, 'id_department',$val, 0, '--- Выберите отделение ---' ); // Список отделений
-                    ?>
-                </td>
             </tr>
         </table>
       </td>

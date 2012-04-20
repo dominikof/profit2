@@ -367,10 +367,7 @@ class PageUser extends Page {
 		if($this->FrontendPages->page==$this->FrontendPages->main_page){
 			$this->getSprDataContactsMain();
 		}
-		?>
-		<div class="side-title foto-gallery-side-title"><?=$this->multi['TXT_PHOTO_GALLERY'];?></div>
-		<div class="devider"></div>
-		<?
+		
 		$this->Gallery->ShowGalleryLast(1);
 		$this->FrontendPages->showSideBarSertificats();
 		?>

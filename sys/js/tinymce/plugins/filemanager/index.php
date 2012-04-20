@@ -5,8 +5,8 @@
 if (isset($_REQUEST['sessionid']))
         session_id($_REQUEST['sessionid']);
 */
+
 // Use install
-//ini_set("display_errors", 0); 
 if (file_exists("install")) {
         header("location: install/index.php");
         die();

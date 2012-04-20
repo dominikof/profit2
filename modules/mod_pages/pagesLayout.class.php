@@ -606,12 +606,14 @@ class FrontendPages extends DynamicPages{
         else{
             ?><ul><?
         }
-        
+        $hidden=0;
         for($i=0;$i<$rows;$i++){
            // $row = $arr_data[$i];
             $row = $this->treePageData[$keys[$i]];
-            if($row['visible']==0 or empty($row['pname']) ) 
+            if($row['visible']==0 or empty($row['pname']) or $row['publish']==0){
+		$hidden++;
                 continue;
+	    }
             $href = $this->Link($row['id']);
             $s="";
             if($this->page==$row['id']) $s="current";
@@ -627,7 +629,7 @@ class FrontendPages extends DynamicPages{
                 }
             ?></li>
 		    <?
-	    if($i!=$rows-1):
+	    if($i!=$rows-1-$hidden):
 		    ?> <li class="menu-devider"></li>
 			    <?
 	    endif;
@@ -775,12 +777,8 @@ class FrontendPages extends DynamicPages{
     function ShowContent()
     {
         $name = stripslashes($this->page_txt['pname']);
-        if($this->page!=$this->main_page)
-            $path = $this->ShowPath($this->page);
-        else
-            $path = null;
-        if($this->page!=$this->main_page) $this->Form->WriteContentHeader($name, false,$path);
-        else $this->Form->WriteContentHeader($this->page_txt['short'], false,$path);
+        if($this->page!=$this->main_page) $this->Form->WriteContentHeader($name, false,false);
+        else $this->Form->WriteContentHeader($this->page_txt['short'], false,false);
         
          if( !$this->IsPublish($this->page) AND !$this->preview ){
             echo $this->multi['_MSG_CONTENT_NOT_PUBLISH'];
@@ -1095,29 +1093,33 @@ class FrontendPages extends DynamicPages{
         //$this->UploadImages->ShowMainPicture($pageId,$this->lang_id,'size_width=175 ', 85 ) ;
     }
 
-    function showSideBarSertificats($pageId=12){
-	$items = $this->UploadImages->GetPictureInArrayExSize($pageId, $this->lang_id,NULL,175,135,true,true,85);
+    function showSideBarSertificats($pageId=91){
+//	$items = $this->UploadImages->GetPictureInArrayExSize($pageId, $this->lang_id,3,175,135,true,true,85);
+	$items = $this->UploadImages->GetPictureInArray($pageId, $this->lang_id, "size_height=170", 85, 3, NULL);
         $items_keys = array_keys($items);
         $items_count = count($items);
-        if($items_count>0) {
-        ?><div class="leftBlockHead"><?= $this->multi['SYS_IMAGE_GALLERY'];?></div>
-            <div class="imageBlock " align="center">
-                <ul id="carouselLeft" class="vhidden jcarousel-skin-menu"><?
+        if($items_count==0) return false;
+        ?>
+	<div class="side-title sertificats-side-title"><?=$this->multi['TXT_SIDEBAR_TITLE_SERTIFICATS'];?></div>
+		<div class="devider"></div>
+<!--		<div class="sertificats-sidebar">-->
+            <?
                 for($j=0; $j<$items_count; $j++){   
                     $alt= $items[$items_keys[$j]]['name'][$this->lang_id];  // Заголовок
                     $title= $items[$items_keys[$j]]['text'][$this->lang_id]; // Описание 
                     $path = $items[$items_keys[$j]]['path'];                 // Путь уменьшенной копии
                     $path_org = $items[$items_keys[$j]]['path_original'];    // Путь оригинального изображения
-                    ?><li>                            
-                            <a href="<?=$path_org;?>" class="highslide" onclick="return hs.expand(this);">
-                                <img src="<?=$path;?>" alt="<?=$alt?>" title="<?=$title;?>"/>
-                             </a>
-                             <div class="highslide-caption"><?=$title;?></div>
-                     </li><?                
+                    ?>                            
+			<img class="sidebar-sertificats sidebar-sertificats<?=$j?>" src="<?=$path;?>" alt="<?=$alt?>" title="<?=$title;?>"/>
+                    <?                
                 }
-                ?></ul>
-            </div><?
-         }        
+		?>
+<!--		</div>-->
+		<a href="/sertifikati/" class="btn all-sertificats-btn" title="<?=$this->multi['TXT_WATCH_ALL']?>">
+		    <?=$this->multi['TXT_WATCH_ALL']?>
+		</a>    
+		<?
+               
     }
     
     // ================================================================================================

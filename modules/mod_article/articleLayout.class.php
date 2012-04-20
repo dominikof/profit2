@@ -209,19 +209,15 @@ class ArticleLayout extends Article{
              } // end if
              ?>
              <div class="item">
-             <?if($i==5) {
-                ?><div class="banner"><?
-                    $this->Banner->GetBanner(3);   // Баннер (центральная колонка)
-                ?></div><?
-             }?>
+         
                 <div class="image">
                     <?
                     if ( isset($imagePath) AND !empty($imagePath )) {
                         $imagePath =   ArticleImg_Path.'/'.$row['id'].'/'.$imagePath;
-                        ?><a href="<?=$link;?>"><?=$this->ShowImage( $imagePath, $row['id'], 'size_width=132', 85, NULL, " alt='".$name."' title='".$name."'  ");?></a><?
+                        ?><a href="<?=$link;?>"><?=$this->ShowImage( $imagePath, $row['id'], 'size_width=174', 85, NULL, " alt='".$name."' title='".$name."'  ");?></a><?
                     }
                     else {
-                        ?><img src="/images/design/no-image.jpg" width="132"  title="<?=$name;?>" align="left" /><?
+                        ?><img src="/images/design/no-image.jpg" alt="<?=$name;?>" title="<?=$name;?>" align="left" /><?
                     }
                     ?>
                 </div>

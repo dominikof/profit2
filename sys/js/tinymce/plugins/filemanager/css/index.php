@@ -24,7 +24,7 @@
 		'expires_offset' => 3600 * 24 * 10,
 		'disk_cache' => true,
 		'cache_dir' => '_cache',
-		'gzip_compress' => false,
+		'gzip_compress' => true,
 		'remove_whitespace' => false,
 		'charset' => 'UTF-8',
 		'name' => $theme . "_" . $package,

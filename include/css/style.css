@@ -19,6 +19,8 @@
     color: #474444;
     font-weight: bold;
     font-size: 25px;
+    text-transform: uppercase;
+    line-height: 25px;
 }
 .side-title-main{
     margin-top: 85px;
@@ -69,24 +71,26 @@
 .devider{
     height: 2px;
     background: url("/images/design/devider.jpg") repeat-x bottom;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 .side-email{
     color: #e25e1d;
+    margin-bottom: 63px;
 }
 .foto-gallery-side-title{
-    margin-top: 121px;
+    margin-top: 40px;
 }
 .side-gall{
     margin-left: 25px;
+    margin-top: 5px;
 }
 .zoom{
     position: absolute;
     bottom: -3px;
     right: -7px;
 }
-.image-thumb{
+.image-thumb, .user-text img{
     padding: 4px;
     background-color: white;
     display: inline-block;
@@ -96,6 +100,11 @@
 }
 .image-thumb img{
     display: block;
+}
+
+.user-text img{
+    margin-right: 20px;
+    margin-bottom: 20px;
 }
 .btn{
     background: url("/images/design/btn.png") no-repeat center center;
@@ -110,7 +119,7 @@
     text-decoration: none;
     font-size: 12px;
 }
-.all-gall-btn{
+.all-gall-btn,.all-sertificats-btn{
     margin-top: 16px;
     margin-left: 25px;
 }
@@ -118,10 +127,37 @@
     margin: 0px;
     width: 297px;
 }
+.user-text{
+    line-height: 170%;
+}
 .user-text strong{
     color: #515151;
     font-weight: bold;
 }
 .image-main-bottom{
     margin-left: -50px;
+}
+.sidebar-sertificats{
+    position: absolute;
+    z-index: 3;
+}
+.sidebar-sertificats1{
+    margin: 34px 0 0 33px;
+    z-index: 2;
+}
+.sidebar-sertificats2{
+    margin: 51px 0 0 66px;
+    z-index: 1;
+}
+.sertificats-sidebar{
+    display: inline-block;
+}
+.all-sertificats-btn{
+    margin-top: 235px;
+}
+.sertificats-side-title{
+    margin-top: 80px;
+}
+#content2Box{
+    margin-top: 40px;
 }
