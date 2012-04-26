@@ -25,7 +25,7 @@ else $News->sort=$News->Form->GetRequestTxtData($_REQUEST['sort'], 1);
 if(!isset($_REQUEST['start'])) $News->start=0;
 else $News->start=$News->Form->GetRequestTxtData($_REQUEST['start'], 1);
 
-if(!isset($_REQUEST['display'])) $News->display=10;
+if(!isset($_REQUEST['display'])) $News->display=4;
 else $News->display=$News->Form->GetRequestTxtData($_REQUEST['display'], 1);
 
 if(!isset($_REQUEST['page'])) $News->page=1;
@@ -129,7 +129,7 @@ else{
 }
 //$News->ShowNewsPath();
 $Page->WriteHeader(); 
-$Page->Form->WriteContentHeader($title_content,false,false);
+$Page->Form->WriteContentHeader($FrontendPages->treePageData[$FrontendPages->page]['pname'],false,false);
 
 //echo  '<br />$News->task='.$News->task;
 switch( $News->task ){

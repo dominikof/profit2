@@ -616,7 +616,7 @@ class Article {
         $return_value='';   
         $alt = NULL;
         $title = NULL;
-        $settings_img_path = ArticleImg_Path;
+        $settings_img_path = ArticleImg_Path.'/';
         //echo "<br>img=".$img;
      
         if ( !strstr($img, '.') ) {

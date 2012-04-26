@@ -68,7 +68,7 @@ class Gallery {
     function Gallery()
     {
       $this->db =  DBs::getInstance();
-      $this->Right =  &check_init('Rights', 'Rights');
+      $this->Right =  &check_init('RightsGallary', 'Rights',"'".$this->user_id."','".$this->module."'");
       $this->Form = &check_init('FormGallery', 'Form', "'mod_gallery'");         /* create Form object as a property of this class */
       if(empty($this->Msg)) $this->Msg = &check_init('ShowMsg', 'ShowMsg');
      //$this->Msg->SetShowTable(TblModNewsSprTxt);

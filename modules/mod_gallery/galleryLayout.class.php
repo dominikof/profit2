@@ -41,7 +41,7 @@ class GalleryLayout extends Gallery{
         if(defined("_LANG_ID")) $this->lang_id = _LANG_ID;
         
         $this->db =  DBs::getInstance();
-        $this->Right =  &check_init('Rights', 'Rights');
+        $this->Right =  &check_init('RightsGalleryLayout', 'Rights',"'".$this->user_id."','".$this->module."'");
         $this->Form = &check_init('FormGallery', 'FrontForm', "'form_gallery'");        
         if(empty($this->multi)) $this->multi = &check_init_txt('TblFrontMulti', TblFrontMulti);
         if(empty($this->Spr)) $this->Spr = &check_init('SysSpr', 'SysSpr');

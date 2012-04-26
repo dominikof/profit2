@@ -76,7 +76,7 @@
 }
 .side-email{
     color: #e25e1d;
-    margin-bottom: 63px;
+    margin-bottom: 138px;
 }
 .foto-gallery-side-title{
     margin-top: 40px;
@@ -86,9 +86,9 @@
     margin-top: 5px;
 }
 .zoom{
-    position: absolute;
-    bottom: -3px;
-    right: -7px;
+    position: absolute !important;
+    bottom: -3px !important;
+    right: -7px !important;
 }
 .image-thumb, .user-text img{
     padding: 4px;
@@ -160,4 +160,91 @@
 }
 #content2Box{
     margin-top: 40px;
+}
+.image_article{
+    float: left;
+}
+.article-item{
+    display: inline-block;
+    margin-bottom: 40px;
+}
+.article-item img{
+    float: left;
+}
+a.article-name,.article-name{
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'PTSerifRegular';
+    text-decoration: none;
+    color: #d03c35;
+}
+h2.article-name{
+    font-size: 18px;
+}
+.article-short{
+    width: 468px;
+    float: left;
+}
+.thumb{
+    width:130px;
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 25px;
+}
+.big-article-image-box{
+    width: 420px;
+    display: inline-block;
+    vertical-align: top;
+    transition: all 0.2s ease;
+    position: relative;
+}
+.big-article-image,.big-article-image-box .zoom{
+    margin: 0px !important;
+}
+.user-text .zoom{
+    border: none;
+    border-radius: 0px;
+    padding: 0px;
+    background-color: transparent;
+}
+.article-full-name{
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+.pagesTable{
+    height: 30px;
+    margin-top: 30px;
+}
+.pagesTable a,.pagesTable b,.pagesTable .pagesPoints{
+    height: 24px;
+    display: inline-block;
+    line-height: 24px;
+    background: url("/images/design/pages.jpg");
+    padding: 0 9px;
+    color: #595959;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 4px;
+    box-shadow:         1px 1px 5px rgba(50, 50, 50, 0.75);
+    margin-left: 6px;
+}
+.pagesTable b{
+    background: url("/images/design/pages-selected.jpg");
+    color: white;
+}
+.news-single-by-pages{
+    margin: 25px 0 25px 0;
+}
+.news-date{
+    color: #5e5e5e;
+    font-style: italic;
+    font-size: 14px;
+}
+a.news-title{
+    color: #d03c35;
+    font-size: 14px;
+/*    font-weight: bold;*/
+    text-decoration: none;
+    font-family: 'PTSerifRegular';
 }

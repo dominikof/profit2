@@ -72,7 +72,7 @@ class News {
     function News()
     {
      $this->db =  DBs::getInstance();
-     $this->Right =  &check_init('Rights', 'Rights');
+     $this->Right =  &check_init('RightsNews', 'Rights',"'".$this->user_id."','".$this->module."'");
      $this->Form = &check_init('FormNews', 'Form', "'mod_pages'");         /* create Form object as a property of this class */
      if(empty($this->Msg)) $this->Msg = &check_init('ShowMsg', 'ShowMsg');
      //$this->Msg->SetShowTable(TblModNewsSprTxt);
@@ -142,7 +142,7 @@ class News {
      // Description :  Convert Date Time
      // Programmer :  Yaroslav Gyryn
      // ================================================================================================
-     function ConvertDate($date_to_convert, $showTimeOnly = false, $showMonth = false){
+     function ConvertDate($date_to_convert, $showTimeOnly = false, $showMonth = false,$show_month_txt=false,$devider='.'){
         $tmp = explode("-", $date_to_convert);
         $tmp2 = explode(" ", $tmp[2]);
         $month = NULL;
@@ -151,19 +151,24 @@ class News {
         $month =  $tmp[1];
         $day = intval($tmp2[0]);
         $year = $tmp[0];
+	if($show_month_txt){
+	    if(!isset($this->month[$month]))
+                $this->month[$month] = $this->Spr->GetShortNameByCod(TblSysSprMonth, $month, $this->lang_id, 1);
+            $month =  $this->month[$month];
+	}
         if($showMonth) {
             $month = intval($month);
             if(!isset($this->month[$month]))
                 $this->month[$month] = $this->Spr->GetShortNameByCod(TblSysSprMonth, $month, $this->lang_id, 1);
             $month =  $this->month[$month];
-            return $day." ".$month;
+            return $day.$devider.$month;
         }
         if($showTimeOnly) {
             $time = $tmp2[1];
             $tmp3 = explode(":", $time);
             return $tmp3[0].':'.$tmp3[1];      //18:30
         }
-        return $day.".".$month.".".$year;
+        return $day.$devider.$month.$devider.$year;
     } // end of function ConvertDate()
 
 

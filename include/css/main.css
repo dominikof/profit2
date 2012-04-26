@@ -44,7 +44,7 @@ body {
         color: #656565;
 }
 a {
-	color: blue;
+	color: #d03c35;
 	outline: none;
 	text-decoration: underline;
 }
@@ -200,7 +200,7 @@ input {
 	//zoom : 1;
 }
 .menu>ul>li>a{
-	padding: 0 26px;
+	padding: 0 23px;
 	line-height: 59px;
 	height: 59px;
 	display: block;
@@ -214,7 +214,7 @@ input {
 .menu ul li ul {
 	display: none;
 }
-.menu>ul>li>a:hover{
+.menu>ul>li>a:hover,.selected-menu-punkt{
 	background: url("/images/design/selectedMenu.png") repeat-x;
 }
 .menu-devider{

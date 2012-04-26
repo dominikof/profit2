@@ -195,7 +195,8 @@ class ArticleLayout extends Article{
         for( $i = 0; $i <$rows; $i++ ){
             $row = $arr[$i];
             $name = strip_tags(stripslashes($row['name']));
-            $short = strip_tags(stripslashes($this->Crypt->TruncateStr($row['short'],400)));
+            $short = strip_tags(stripslashes($row['short']));
+//	    $link=$this->Link($cat, $id)
             $link = _LINK.'articles/'.$row['cat_translit'].'/'.$row['art_link'].'.html';
             $linkCat = _LINK.'articles/'.$row['cat_translit'].'/';
             $imagePath ='';
@@ -208,25 +209,18 @@ class ArticleLayout extends Article{
                  /*?><div class="img"><a href="<?=$link?>"><?echo $this->ShowImage( $main_img_data['path'], $value['id'], 'size_width=120', 100, NULL, NULL);?></a></div><?*/
              } // end if
              ?>
-             <div class="item">
+             <div class="article-item">
          
-                <div class="image">
                     <?
                     if ( isset($imagePath) AND !empty($imagePath )) {
                         $imagePath =   ArticleImg_Path.'/'.$row['id'].'/'.$imagePath;
-                        ?><a href="<?=$link;?>"><?=$this->ShowImage( $imagePath, $row['id'], 'size_width=174', 85, NULL, " alt='".$name."' title='".$name."'  ");?></a><?
+                        ?><a href="<?=$link;?>"><?=$this->ShowImage( $imagePath, $row['id'], 'size_width=174', 85, NULL, " alt='".$name."' title='".$name."'  class='image_article'");?></a><?
                     }
-                    else {
-                        ?><img src="/images/design/no-image.jpg" alt="<?=$name;?>" title="<?=$name;?>" align="left" /><?
-                    }
+                    
                     ?>
-                </div>
-                <div class="data">
-                    <div class="dateArticles"><?=$this->ConvertDate($row['dttm']);?> - <a href="<?=$linkCat;?>"><?=$row['cat'];?></a></div>
-                    <a class="name" href="<?=$link;?>"><?=$name;?></a>
-                    <div class="short"><?=$short;?></div>
-                    <a class="detail" href="<?=$link;?>"><?=$this->multi['TXT_DETAILS'];?>→</a>
-                </div>
+			
+                    <a class="article-name" href="<?=$link;?>"><?=$name;?></a>
+                    <div class="article-short"><?=$short;?></div>
         	</div>
              <?
         }
@@ -333,11 +327,8 @@ class ArticleLayout extends Article{
         $full_news = stripslashes($value['full_art']);
         $id_department = stripslashes($value['id_department']);
         ?>
-        <div class="backContainer">
-            <div class="dateArticles left"><?=$this->ConvertDate($value['dttm']);?> - <a href="<?=$linkCat;?>"><?=$catName;?></a></div>
-            <a class="btnBack right" href="javascript:window.history.go(-1);">← <?=$this->multi['MOD_NEWS_BACK'];?></a> 
-        </div>
-         <h2><?=$name;?></h2>
+       
+         <h2 class="article-name article-full-name"><?=$name;?></h2>
          <?
          if ( isset($settings['img']) AND $settings['img']=='1' ){
              $main_img_data = $this->GetMainImageData($value['id'], 'front');
@@ -345,48 +336,48 @@ class ArticleLayout extends Article{
              $main_img_data["img_path"] = $this->GetImgPath( $mainImage, $value['id'] );
              $main_img_data["full_img_path"] = $this->GetImgFullPath( $mainImage, $value['id'] ); 
              //-------- get all photos start --------- 
-             $img_arr = $this->GetImagesToShow($value['id']);
+             
              //print_r($img_arr);*/
              //-------- get all photos end ---------
-             
+             $img_arr = $this->GetImagesToShow($value['id']);
              if (!empty($main_img_data['id'])) {
                 ?>
-                <div style="float:left;">
-                 <div style="margin: 5px 10px 5px 0px;">
-                    <?$path = ArticleImg_Path.'/'.$value['id'].'/'.$main_img_data['path'];?>
-                    <a href="<?=$path;?>" class="highslide" onclick="return hs.expand(this, {captionId: 'caption<?=$this->id;?>'});">
-                    <?=$this->ShowImage($main_img_data['path'], $value['id'], 'size_width=644', 85, NULL, "");?></a>
-                 </div>
+                <div class="big-article-image-box">
+                    <?$path = ArticleImg_Path.'/'.$value['id'].'/'.$main_img_data['path'];
+			$main_small=$this->ShowImage($main_img_data['path'], $value['id'], 'size_width=407', 85, NULL, "",true);
+		    ?>
+		    
+                    <a href="<?=$path;?>" class="fancybox" id="bigARticleImageId" title="<?=$name?>">
+			<img class="big-article-image" src="<?=$main_small?>" alt="<?=$name?>" title="<?=$name?>"/>
+			 <img src="/images/design/zoom.png" alt="zoom" title="zoom" class="zoom">
+		    </a>
+		   
+		</div>
                  <?
-                 /*if (!empty($main_img_data['id'])) {
                     if(count($img_arr)>1) {
-                        $count_in_row = count($img_arr);
-                        if($count_in_row>3) $count_in_row = 3;
-                        $j=0;
                         $href="";
+			?>
+			<div class="thumb">
+			<?
                         for($i=1;$i<count($img_arr);$i++){
-                            if($j==$count_in_row)
-                                $j=0;
-                            $path = ArticleImg_Path.$value['id'].'/'.$img_arr[$i]['path'];
-                            ?>
-                            <div style="width:62px; height:70px; float:left; margin:1px;">
-                             <?
-                             if( !empty($img_arr[$i]['path']) ) {
-                                 ?><a href="<?=$path;?>" class="highslide" onclick="return hs.expand(this, {captionId: 'caption<?=$this->id;?>'});"><?//=$this->ShowImageSquare($img_arr[$i]['path'], $value['id'], true, 60, 85, 'border="0"');?></a><?
+			    $row=$img_arr[$i];
+                            $path = ArticleImg_Path.'/'.$value['id'].'/'.$row['path'];
+                           $thumb=$this->ShowImage($row['path'], $value['id'], 'size_width=120', 85, NULL, "",true);
+			   $big=$this->ShowImage($row['path'], $value['id'], 'size_width=407', 85, NULL, "",true);
+                             if( !empty($row['path']) ) {
+                                 ?>
+				 <img alt="<?=$name?>" title="<?=$name?>" src="<?=$thumb?>" onclick="$('#bigARticleImageId').attr('href','<?=$path?>').children('img.big-article-image').attr('src', '<?=$big?>');"/>
+				 <?
                              } 
-                             $j++;
-                             ?></div><?
+                            
                         }//end for
+			 ?></div><?
                     }
-                 }//end if*/
-                 ?></div><?
+		}
+                 
              } // end if img 
-         }
          ?><div class="text"><?=$full_news;?></div><?
          
-         if(empty($this->Department) ) 
-            $this->Department = &check_init('DepartmentLayout', 'DepartmentLayout');
-         $this->Department->ShowDepartmentLinkForArticles($id_department);
          
          
          /*if( $this->is_comments==1){

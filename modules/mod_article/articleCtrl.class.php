@@ -38,9 +38,8 @@ class ArticleCtrl extends Article{
     {
         $this->user_id = $user_id;
         $this->module = $module;
-        
         $this->db = DBs::getInstance(); 
-        $this->Right =  &check_init("RightsArticle", "Rights", "'".$this->user_id."','".$this->module."'");
+        $this->Right =  &check_init("RightsArticleCtrl", "Rights", "'".$this->user_id."','".$this->module."'");
         $this->Form = &check_init("Form", "Form", "'form_art'" );
         $this->Msg = &check_init("ShowMsg", "ShowMsg");
         $this->Spr = &check_init("SysSpr", "SysSpr");
@@ -82,7 +81,6 @@ class ArticleCtrl extends Article{
              ";
      if( $this->fltr ) $q = $q." AND `".TblModArticle."`.".$this->fltr;
      $q = $q." ORDER BY `".TblModArticle."`.".$this->sort." desc";
-
      $res = $this->Right->Query( $q, $this->user_id, $this->module );
      //echo '<br>$q='.$q.' $res='.$res;
      if( !$res )return false;
@@ -1248,7 +1246,6 @@ class ArticleCtrl extends Article{
     // ================================================================================================
     function ShowImagesBackEnd()
     {
-     $this->Rights =  new Rights;   
      $Panel = new Panel();
      $ln_sys = new SysLang(); 
      $settings = $this->GetSettings(); 
@@ -1260,15 +1257,15 @@ class ArticleCtrl extends Article{
      
      $img_arr = null;
      for ($i=0; $i<$rows; $i++) {
-        $row = $this->Rights->db_FetchAssoc();
+        $row = $this->Right->db_FetchAssoc();
         $img_arr[$i] = $row;
      }
 
      $q="SELECT * FROM `".TblModArticleTxt."` WHERE `cod`='$this->id' and `lang_id`="._LANG_ID."";
-     $res2 = $this->Rights->Query( $q, $this->user_id, $this->module );
-     if( !$this->Rights->result ) return false;
-     $rows2 = $this->Rights->db_GetNumRows();
-     $row2 = $this->Rights->db_FetchAssoc();
+     $res2 = $this->Right->Query( $q, $this->user_id, $this->module );
+     if( !$this->Right->result ) return false;
+     $rows2 = $this->Right->db_GetNumRows();
+     $row2 = $this->Right->db_FetchAssoc();
      //$this->Form->IncludeHTMLTextArea();          
      
      $txt = $this->Msg->show_text('TXT_ADDITING_IMAGES');

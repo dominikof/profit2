@@ -1627,7 +1627,7 @@ function news_update( $module )
     // ================================================================================================
     function ShowImagesBackEnd()
     {
-         $this->Rights =  new Rights;   
+         //$this->Rights =  new Rights;   
          $Panel = new Panel();
          $ln_sys = new SysLang(); 
 
@@ -1642,10 +1642,10 @@ function news_update( $module )
 
          
          $q="SELECT * FROM `".TblModNewsSprSbj."` WHERE `cod`='".$this->id."' and `lang_id`=".$this->lang_id."";
-         $res2 = $this->Rights->Query( $q, $this->user_id, $this->module );
-         if( !$this->Rights->result ) return false;
-         $rows2 = $this->Rights->db_GetNumRows();
-         $row2 = $this->Rights->db_FetchAssoc();
+         $res2 = $this->Right->Query( $q, $this->user_id, $this->module );
+         if( !$this->Right->result ) return false;
+         $rows2 = $this->Right->db_GetNumRows();
+         $row2 = $this->Right->db_FetchAssoc();
          //$this->Form->IncludeHTMLTextArea();
          
          $txt = $this->Msg->show_text('TXT_ADDITING_IMAGES');

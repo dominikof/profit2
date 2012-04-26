@@ -96,6 +96,11 @@ else
     
 $FrontendPages->lang_id = _LANG_ID; 
 $FrontendPages->page = PAGE_ARTICLE;
+if($Article->category==1)
+$FrontendPages->page = 73;
+if($Article->category==2)
+$FrontendPages->page = 90;
+
 
 $Article->SetMetaData(PAGE_ARTICLE);  
 

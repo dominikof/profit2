@@ -302,8 +302,12 @@ class PageUser extends Page {
      
         
         <!--Include AJAX scripts-->
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> 
+	
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> 
+	<script type="text/javascript" src="/include/js/lib.js"></script> 
         <script type="text/javascript" src="/include/js/jquery.carouFredSel-5.5.2-packed.js"></script> 
+	<script type="text/javascript" src="/include/js/fancybox2.0.6/jquery.fancybox.pack.js"></script> 
+	<link href="/include/js/fancybox2.0.6/jquery.fancybox.css" type="text/css" rel="stylesheet" />
         <?/*<script type="text/javascript" src='http://<?=NAME_SERVER."/sys/js/jQuery/jquery.js";?>'></script>*/?>
     
         

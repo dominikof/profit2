@@ -607,16 +607,23 @@ class FrontendPages extends DynamicPages{
             ?><ul><?
         }
         $hidden=0;
-        for($i=0;$i<$rows;$i++){
-           // $row = $arr_data[$i];
-            $row = $this->treePageData[$keys[$i]];
-            if($row['visible']==0 or empty($row['pname']) or $row['publish']==0){
-		$hidden++;
+	$arr=array();
+	for($i = 0; $i < $rows; $i++)
+	{
+	    $row = $this->treePageData[$keys[$i]];
+	    if($row['visible']==0 or empty($row['pname']) or $row['publish']==0){
                 continue;
 	    }
+	    $arr[]=$row;
+	}
+	$count=count($arr);
+        for($i=0;$i<$count;$i++){
+           // $row = $arr_data[$i];
+            $row = $arr[$i];
+            
             $href = $this->Link($row['id']);
             $s="";
-            if($this->page==$row['id']) $s="current";
+            if($this->page==$row['id']) $s="selected-menu-punkt";
             $name = stripslashes($row['pname']);
             //echo '<br>$name='.$name.' $row[id]='.$row['id'];
             ?>
@@ -629,7 +636,8 @@ class FrontendPages extends DynamicPages{
                 }
             ?></li>
 		    <?
-	    if($i!=$rows-1-$hidden):
+		    
+	    if($i!=$count-1):
 		    ?> <li class="menu-devider"></li>
 			    <?
 	    endif;

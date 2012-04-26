@@ -220,6 +220,7 @@ RewriteRule ^articles/arch/page([0-9]+)/$                                    /mo
 RewriteRule ^articles/arch/showall/$                                         /modules/mod_article/article.php?task=arch&page=all [L]
 RewriteRule ^articles/showimg/([0-9]+)/([^/]*)$                              /img.php?art=$1&item=$2 [L]
 RewriteRule ^articles/([^/]*)/$                                              /modules/mod_article/article.php?task=showall&str_cat=$1 [L]
+RewriteRule ^articles/([^/]*)/page([0-9]+)/$                                 /modules/mod_article/article.php?task=showall&str_cat=$1&page=$2 [L]
 RewriteRule ^articles/([^/]*)/([^/]*).html$                                  /modules/mod_article/article.php?task=art&str_cat=$1&str_art=$2 [L]
 
 RewriteRule ^(en|ru|ua)/articles/showimg/([0-9]+)/([^/]*)$                   /img.php?art=$2&item=$3&lang_st=$1 [L]

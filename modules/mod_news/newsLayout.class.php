@@ -51,7 +51,7 @@ class NewsLayout extends News{
         if(defined("_LANG_ID")) $this->lang_id = _LANG_ID;
 
         $this->db =  DBs::getInstance();
-        $this->Right =  &check_init('Rights', 'Rights');
+        $this->Right =  &check_init('RightsNewsLayout', 'Rights',"'".$this->user_id."','".$this->module."'");
         $this->Form = &check_init('FormNews', 'FrontForm', "'form_news'");        
         if(empty($this->multi)) $this->multi = &check_init_txt('TblFrontMulti', TblFrontMulti);
         if(empty($this->Spr)) $this->Spr = &check_init('SysSpr', 'SysSpr');
@@ -257,7 +257,7 @@ class NewsLayout extends News{
          for( $i = 0; $i <$rows; $i++ ){
              $value = $array[$i]; 
              $name = stripslashes($value['name']);
-             $date = $this->ConvertDate($value['start_date']);
+             $date = $this->ConvertDate($value['start_date'],false,false,true,' ');
              //$short = stripslashes($value['shrt']);
              $short = strip_tags(stripslashes($value['shrt']), '<a>');
              $short  = $this->Crypt->TruncateStr($short, 450);
@@ -270,26 +270,20 @@ class NewsLayout extends News{
              $oldCatId = $value['id_category'];
              //$link = $this->Link( $value['id_category'], $value['id']);
              $link = $linkCat.$value['link'].'.html';
+	     
               ?>      
-            <div class="newsSpacer15">
-                <div class="newsDate left"><?=$date;?></div> 
-                <a class="newsTitle" href="<?=$link;?>"><?=$name;?></a>
-                <div class="newsImg left">
-                <?$img_path = $this->GetMainImage($value['id'], 'front');
-                  if(!empty($img_path)) { 
-                      echo $this->ShowImage( $img_path, $value['id'], 'size_width=68', 85, NULL, "align='left' alt='".$name."' title='".$name."' style='margin: 0;'"); 
-                  }
-                  else {
-                    ?><img  src="/images/design/no-image.gif" width="68"  alt="" /><?
-                }
-                  ?>
-                 </div>
+            <div class="news-single-by-pages">
+                <div class="news-date"><?=$date?></div> 
+                <a class="news-title" href="<?=$link;?>" title="<?=$name;?>"><?=$name;?></a>
+               
                  
                 <div class="newsShort">
                     <?=$short;?><br/>
-                    <a class="detail" href="<?=$link;?>"><?=$this->multi['MOD_NEWS_READ_MORE'];?></a>
                 </div>
             </div><?
+	    if($i!=$rows-1):
+		?><div class="devider"></div><?
+	    endif;
 
          }
          if($rows>0){
@@ -381,43 +375,49 @@ class NewsLayout extends News{
         if( !isset($value['id']) ) return false;
         ?>
         <div class="subBody">
-         <div class="date"><?=$this->ConvertDate($value['start_date']);?></div>
+         <div class="news-date"><?=$this->ConvertDate($value['start_date'],false,false,true,' ');?></div>
          <?/* <a href="<?=$this->Link( $value['id_category']);?>"><?=stripslashes($value['category']);?></a><?*/
-         if ( isset($this->settings['img']) AND $this->settings['img']=='1' ){
+         if ( isset($settings['img']) AND $settings['img']=='1' ){
+           
              $img_arr = $this->GetImagesToShow($value['id']);
-             if (is_array($img_arr ) and !empty($img_arr[0]['id'])) {
-                ?><div class="newsImage"><?
-                    $img_path  = $img_arr[0]['path'];
-                    $path = "http://".NAME_SERVER.$this->settings['img_path']."/".$this->id."/".$img_path;
-                    $imgName = '';
-                    if(!empty($img_arr[0]['name']))
-                        $imgName = $img_arr[0]['name'];
-                    $title = $img_arr[0]['descr'];
-                    ?><a href="<?=$path;?>" class="highslide" title="<?=$imgName;?>" onclick="return hs.expand(this);"><?=$this->ShowImage( $img_path , $value['id'], 'size_width=656', 85, NULL, " alt='".$imgName."' title='".$title."' ");?></a>
-                    <div class="name">
-                        <table border="0" width="100%">
-                            <tr>
-                                <td align="left"><?=$imgName?></td>
-                                <td align="right"><a  href="<?=$path;?>" onclick="return hs.expand(this);"><div class="lupa">&nbsp;</div></a></td>
-                            </tr>
-                        </table>
-                    </div >
-                    <?
-                    $n = count($img_arr);
-                    for($i=1; $i<$n; $i++) {
-                        $alt =  $img_arr[$i]['name'];
-                        $title = $img_arr[$i]['descr'];
-                        ?><div class="thumb"><?
-                         if( !empty($img_arr[$i]['path']) ) {
-                             $path = "http://".NAME_SERVER.$this->settings['img_path']."/".$this->id."/".$img_arr[$i]['path'];
-                             //echo '$img_arr[$i][path]'.$img_arr[$i]['path'];
-                             ?><a  href="<?=$path;?>" onclick="return hs.expand(this);"><?=$this->ShowImageSquare($img_arr[$i]['path'], $value['id'], true, 100, 85, "  alt='".$alt."' title='".$title."'  ");?></a><?
-                         } 
-                         ?></div><?
-                    }//end for
-                 ?></div><?
-             } // end if img        
-         }
+	       
+             if (isset($img_arr[0])) {
+		 $main_img_data = $img_arr[0];
+                ?>
+                <div class="big-article-image-box">
+                    <?$path = '/images/mod_news/'.$value['id'].'/'.$main_img_data['path'];
+			$main_small=$this->ShowImage($main_img_data['path'], $value['id'], 'size_width=407', 85, NULL, "",true);
+		    ?>
+		    
+                    <a href="<?=$path;?>" class="fancybox" id="bigARticleImageId" title="<?=$name?>">
+			<img class="big-article-image" src="<?=$main_small?>" alt="<?=$name?>" title="<?=$name?>"/>
+			 <img src="/images/design/zoom.png" alt="zoom" title="zoom" class="zoom">
+		    </a>
+		   
+		</div>
+                 <?
+                    if(count($img_arr)>1) {
+                        $href="";
+			?>
+			<div class="thumb">
+			<?
+                        for($i=1;$i<count($img_arr);$i++){
+			    $row=$img_arr[$i];
+                            $path = ArticleImg_Path.'/'.$value['id'].'/'.$row['path'];
+                           $thumb=$this->ShowImage($row['path'], $value['id'], 'size_width=120', 85, NULL, "",true);
+			   $big=$this->ShowImage($row['path'], $value['id'], 'size_width=407', 85, NULL, "",true);
+                             if( !empty($row['path']) ) {
+                                 ?>
+				 <img alt="<?=$name?>" title="<?=$name?>" src="<?=$thumb?>" onclick="$('#bigARticleImageId').attr('href','<?=$path?>').children('img.big-article-image').attr('src', '<?=$big?>');"/>
+				 <?
+                             } 
+                            
+                        }//end for
+			 ?></div><?
+                    }
+		}
+                 
+             } // end if img
          if ( isset($this->settings['full_descr']) AND $this->settings['full_descr']=='1' ) { 
              $full_news = stripslashes($value['full_news']);
              ?><div><?=$full_news;?></div><?

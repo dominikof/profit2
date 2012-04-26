@@ -567,11 +567,8 @@
      if($end<=1) return;
      $goToPage = $this->multi['TXT_FRONT_GO_PAGE'];
      ?>
-     <table border="0" cellpadding="2" cellspacing="0" align="center" class="pagesTable">
+     <table border="0" cellpadding="2" cellspacing="0" align="right" class="pagesTable">
       <tr>
-          <td>
-              <?=$this->multi['FLD_PAGE'];?>:
-          </td>
        <td align="left">
            <?
            $curr = round($start/$display, 0) +1;
@@ -582,7 +579,6 @@
                 if($page-1==1) $link_prevpage= $scriptact;
                 else $link_prevpage= $scriptact.'page'.($page-1).'/';
                 if(!empty($param_url)) $link_prevpage .=  $param_url;
-                ?><a href="<?=$link_prevpage;?>" class="lnk_page">←&nbsp;<?=$this->multi['TXT_FRONT_PREVIOUS'];?></a>&nbsp;<?
            }
            $start_=0;
            $end_=0;
@@ -630,8 +626,6 @@
            if(!empty($param_url)) $script = $scriptact.'page'.($page+1).'/'.$param_url;
            else $script = $scriptact.'page'.($page+1).'/';
            
-           if(($display+$start)>=$rows){?><?}
-           else{?><a href="<?=$script;?>" class="lnk_page"><?=$this->multi['TXT_FRONT_NEXT'];?>&nbsp;→</a><?}
            ?>
          </td>
          
