@@ -4,8 +4,8 @@ if( strstr($_SERVER['SERVER_NAME'], 'seotm.biz') ){
     define("_DBNAME", "profit2"); // Database Name
     define("_USER","profit2"); // User to access the database
     define("_PASSWD", "AZdViWo6"); // Password to access the database
-}
-else{
+} 
+else{ 
     define("_HOST", "localhost"); // Hostname of the server 
     define("_DBNAME", "seocms2011"); // Database Name
     define("_USER","root"); // User to access the database

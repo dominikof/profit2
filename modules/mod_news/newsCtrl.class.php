@@ -15,7 +15,7 @@
 * Class definition for News module
 * @author Igor Trokhymchuk  <ihor@seotm.com>
 * @version 1.1, 08.10.2011
-*/ 
+*/
 class NewsCtrl extends News{
 
     var $Right;
@@ -57,33 +57,33 @@ class NewsCtrl extends News{
     * @return true/false
     * @author Igor Trokhymchuk  <ihor@seotm.com>
     * @version 1.0, 08.10.2011
-    */ 
+    */
     function __construct($user_id = NULL, $module = NULL)
     {
         if(defined("_LANG_ID")) $this->lang_id = _LANG_ID;
-        
+
         $this->user_id = $user_id;
         $this->module = $module;
-        
+
         $this->db =  DBs::getInstance();
         $this->Right =  &check_init('RightsNews', 'Rights', "'".$this->user_id."','".$this->module."'");
-        $this->Form = &check_init('FormNews', 'Form', "'mod_pages'");        
-        $this->ln_sys = &check_init('SysLang', 'SysLang'); 
-        $this->ln_arr = $this->ln_sys->LangArray( $this->lang_id ); 
+        $this->Form = &check_init('FormNews', 'Form', "'mod_pages'");
+        $this->ln_sys = &check_init('SysLang', 'SysLang');
+        $this->ln_arr = $this->ln_sys->LangArray( $this->lang_id );
         if (empty($this->Msg)) $this->Msg = &check_init('ShowMsg', 'ShowMsg');
         if (empty($this->Spr)) $this->Spr = &check_init('SysSpr', 'SysSpr');
 
         $this->width = '850';
-        
+
         //echo '$this->lang_id ='.$this->lang_id;
         ( defined("USE_TAGS")                  ? $this->is_tags = USE_TAGS                     : $this->is_tags=0 ); // использовать тэги
-        
+
         $this->multi = &check_init_txt('TblBackMulti',TblBackMulti);
         $this->settings = $this->GetSettings(false);
-        
+
         $this->AddTable();
-         
-    } //end of constructor NewsCtrl 
+
+    } //end of constructor NewsCtrl
 
     /**
     * Class method AddTable
@@ -91,22 +91,22 @@ class NewsCtrl extends News{
     * @author Igor Trokhymchuk  <ihor@seotm.com>
     * @version 1.1, 08.10.2011
     * @return true or false
-    */    
+    */
     function AddTable()
     {
         $tmp_db = DBs::getInstance();
 
         if( defined("DB_TABLE_CHARSET")) $this->tbl_charset = DB_TABLE_CHARSET;
         else $this->tbl_charset = 'utf8';
-       
+
        // add field id_group to the table settings
        if ( !$this->db->IsFieldExist(TblModNews, "source") ) {
            $q = "ALTER TABLE `".TblModNews."` ADD source char(255) NOT NULL default '';";
            $res = $this->db->db_Query( $q );
          //  echo '<br>$q='.$q.' $res='.$res;
-           if( !$res )return false; 
+           if( !$res )return false;
        }
-       
+
        // create table for strore individual name of category
        $q = "
         CREATE TABLE IF NOT EXISTS `".TblModNewsRelatProd."` (
@@ -166,15 +166,15 @@ class NewsCtrl extends News{
              else $arr_visible_news .= ','.$row['id'];
              $j = $j + 1;
            }
-        }        
-        
+        }
+
         if ( isset($this->settings['relat_prod']) AND $this->settings['relat_prod']=='1' ) {
             $arrRelatProd = array();
             if( !empty($arr_visible_news)){
-                $q00 = "SELECT 
+                $q00 = "SELECT
                       `".TblModNewsRelatProd."`.*,
                       `".TblModCatalogPropSprName."`.`name`
-                      FROM `".TblModNewsRelatProd."`, `".TblModCatalogPropSprName."` 
+                      FROM `".TblModNewsRelatProd."`, `".TblModCatalogPropSprName."`
                       WHERE `id_news` IN (".$arr_visible_news.")
                       AND `".TblModNewsRelatProd."`.`id_prod`=`".TblModCatalogPropSprName."`.`cod`";
                 $res00 = $this->db->db_Query( $q00 );
@@ -187,7 +187,7 @@ class NewsCtrl extends News{
             }
             //echo '<br>$arrRelatProd=';print_r($arrRelatProd);
         }
-        
+
         /* Write Form Header */
         $this->Form->WriteHeader( $script );
 
@@ -201,7 +201,7 @@ class NewsCtrl extends News{
 
         $script2 = 'module='.$this->module.'&display='.$this->display.'&start='.$this->start.'&task=show&fltr='.$this->fltr.'&fltr2='.$this->fltr2;
         $script2 = $_SERVER['PHP_SELF']."?$script2";
-     
+
         $this->Form->WriteLinkPages( $script1, $rows, $this->display, $this->start, $this->sort );
 
         if ( isset($this->settings['subscr']) AND $this->settings['subscr']=='1' ) {
@@ -218,7 +218,7 @@ class NewsCtrl extends News{
              if($cnt_news_to_dispatch>0){
                  $q = "SELECT * FROM `".TblModNewsSubscr."` WHERE 1 AND `user_status`='1'";
                  $res = $tmp_db->db_Query($q);
-                 $cnt_subscr = $tmp_db->db_GetNumRows(); 
+                 $cnt_subscr = $tmp_db->db_GetNumRows();
                  $q = "SELECT * FROM `".TblModNewsSubscr."` WHERE 1 AND `user_status`='1' AND `is_send`='0'";
                  $res = $tmp_db->db_Query($q);
                  $cnt_not_send = $tmp_db->db_GetNumRows();
@@ -230,19 +230,19 @@ class NewsCtrl extends News{
              }
              if($cnt_news_to_dispatch==0) {
                  ?>
-                 <span class="not_href"><?=$this->Msg->show_text('TXT_DISPATCH_TITLE');?>:</span><input type="text" name="dispatch_sbj" value="<?=stripslashes($this->dispatch_sbj);?>" size="40"> 
+                 <span class="not_href"><?=$this->Msg->show_text('TXT_DISPATCH_TITLE');?>:</span><input type="text" name="dispatch_sbj" value="<?=stripslashes($this->dispatch_sbj);?>" size="40">
                  <br/><input type="button" value="<?=$this->Msg->show_text('TXT_DISPATCH_CREATE_IT');?>" onclick="if( !window.confirm('<?=$this->Msg->show_text('TXT_DISPATCH_WARNING1');?>') ) return false; else <?=$this->Form->name;?>.task.value='news_posting_arr';<?=$this->Form->name;?>.submit();">
                  <?
              }
-             ?>       
+             ?>
              <br/>
           </td>
-         </tr>  
-      
+         </tr>
+
          <?/*<li><a href="javascript:<?=$this->Form->name;?>.task.value='subscr_send';<?=$this->Form->name;?>.submit();" onclick="if( !window.confirm('Вы точно хотите запустить рассылку отмеченных новостей?') ) return false;"><?=$this->Msg->show_text('TXT_SUBSCRIBE_SEND');?></a></li>*/?>
         <?
         } // end if settings
-         
+
         echo '<TR><TD COLSPAN=3>';
         $this->Form->WriteTopPanel( $script );
         echo '<td CLASS="TR1" align="center">'.$this->Msg->show_text('_FLD_NEWS_CATEGORY_FLTR')." ";
@@ -257,7 +257,7 @@ class NewsCtrl extends News{
             $row1 = $this->Right->db_FetchAssoc();
             $arr['id_category='.$row1['cod']] = stripslashes($row1['name']); //$this->Spr->GetNameById( TblModNewsCat, $row1['id'] );
         }
-        $this->Form->SelectAct( $arr, 'id_category', $this->fltr, "onChange=\"location='$script'+'&fltr='+this.value\"" );     
+        $this->Form->SelectAct( $arr, 'id_category', $this->fltr, "onChange=\"location='$script'+'&fltr='+this.value\"" );
         echo '<TD align="left">'; //<a href="'.$script1.'&task=subscr_send">'.$this->Msg->show_text('TXT_SUBSCRIBE_SEND').'</a>'; ;
          // set rss import
         if ( isset($this->settings['rss_import']) AND $this->settings['rss_import']=='1' ) {
@@ -265,21 +265,21 @@ class NewsCtrl extends News{
           <li><a href="javascript:<?=$this->Form->name;?>.task.value='read_rss';<?=$this->Form->name;?>.submit();"><?=$this->Msg->show_text('TXT_RSS_IMPORT');?></a></li>
           <?
         } // end if settings rss inport
-        
+
         if ( isset($this->settings['top_news']) AND $this->settings['top_news']=='1' ) {
             ?><td></td><?
         }
         if ( isset($this->settings['newsline']) AND $this->settings['newsline']=='1' ) {
             ?><td></td><?
         }
-    
+
         echo '<td CLASS="TR1" align="center">';
         $arr = '';
         $arr[''] = $this->multi['TXT_NEWS_ALL_STATUSES'];
         $arr['a'] = $this->multi['TXT_STATUS_ACTIVE'];
         $arr['e'] = $this->multi['TXT_STATUS_EXPIRED'];
         $arr['i'] = $this->multi['TXT_STATUS_INACTIVE'];
-        $this->Form->SelectAct( $arr, 'status', $this->fltr2, "onChange=\"location='$script'+'&fltr2='+this.value\"" );     
+        $this->Form->SelectAct( $arr, 'status', $this->fltr2, "onChange=\"location='$script'+'&fltr2='+this.value\"" );
         echo '</td>';
         echo '<td colspan=2>';
         if($rows>$this->display) $ch = $this->display;
@@ -330,7 +330,7 @@ class NewsCtrl extends News{
        echo '<TD>';
        $this->Form->Link( $this->script."&task=edit&id=".$row['id'], stripslashes( $row['id'] ), $this->multi['TXT_EDIT'] );
 
-       echo '<TD align=center>';                                                       
+       echo '<TD align=center>';
        $this->Form->Link( $script."&task=edit&id=".$row['id'], stripslashes($this->Spr->GetNameByCod( TblModNewsSprSbj, $row['id'] )), $this->Msg->show_text('_TXT_EDIT_DATA') );
        //echo '<TD align=center>';
        //if( trim( $this->Spr->GetNameByCod( TblModNewsSprShrt, $row['id'] ) )!='' ) $this->Form->ButtonCheck();
@@ -343,7 +343,7 @@ class NewsCtrl extends News{
        //$category = $this->Category->GetCategoryNameById($row['id_category']);
        $category = $this->Spr->GetNameByCod( TblModNewsCat, $id_category );
        $this->Form->Link( $script."&task=show&fltr=id_category=$id_category", $category, $this->Msg->show_text('_TXT_FLT_DATA') );
-       
+
         if( isset($this->settings['img']) AND $this->settings['img']==1){
         echo '<td align="center">';
         $img = $this->GetMainImage($row['id'], 'back');
@@ -352,7 +352,7 @@ class NewsCtrl extends News{
                 <br><?=$this->Msg->show_text('TXT_ADD_EDIT_IMAGES').'['.$this->GetImagesCount($row['id']).']';?></a><?
               }
               else {?><a href="<?=$script?>&task=showimages&id=<?=$row['id'];?>"><?=$this->Msg->show_text('TXT_ADD_EDIT_IMAGES').'['.$this->GetImagesCount($row['id']).']';?></a><?}
-        
+
 
 	    echo '</td>';
         }
@@ -369,7 +369,7 @@ class NewsCtrl extends News{
                 echo '<img src="images/icons/publish_x.png">';
                 break;
         }
-        
+
         echo '</td>';}
         if( isset($this->settings['newsline']) AND $this->settings['newsline']==1){
         echo '<td align="center">';
@@ -381,13 +381,13 @@ class NewsCtrl extends News{
                 echo '<img src="images/icons/publish_x.png">';
                 break;
         }
-        echo '</td>';                
-        }       
+        echo '</td>';
+        }
        echo '<TD align=center>';
        if( $row['status'] =='i') echo $this->multi['TXT_STATUS_INACTIVE'];
        if( $row['status'] =='e') echo $this->multi['TXT_STATUS_EXPIRED'];
        if( $row['status'] =='a') echo $this->multi['TXT_STATUS_ACTIVE'];
-       
+
        if ( isset($this->settings['relat_prod']) AND $this->settings['relat_prod']=='1' ) {
            ?><td align="center"><?
            if(isset($arrRelatProd[$row['id']])){
@@ -441,7 +441,7 @@ class NewsCtrl extends News{
 // ================================================================================================
 function edit( $id, $mas=NULL )
 {
- $this->settings = $this->GetSettings(false); 
+ $this->settings = $this->GetSettings(false);
  $Panel = new Panel();
  $ln_sys = new SysLang();
  $calendar = new DHTML_Calendar(false, 'en', 'calendar-win2k-2', false);
@@ -470,7 +470,7 @@ function edit( $id, $mas=NULL )
  $this->Form->IncludeSpecialTextArea( $this->Form->textarea_editor );
  if( $id!=NULL ) $txt = $this->Msg->show_text('_TXT_EDIT_DATA');
  else $txt = $this->Msg->show_text('_TXT_ADD_DATA');
- 
+
  AdminHTML::PanelSubH( $txt );
  $this->Form->ShowErrBackEnd($this->Err);
  AdminHTML::PanelSimpleH();
@@ -487,7 +487,7 @@ function edit( $id, $mas=NULL )
             $this->Form->Hidden( 'id', $mas['id'] );
            }
            else $this->Form->Hidden( 'id', '' );
-          
+
           if($id!=NULL ) $this->Err!=NULL ? $top = $this->top : $top=$mas['top'];
            else $top=0;
            if($top==1) $checked='checked';
@@ -497,7 +497,7 @@ function edit( $id, $mas=NULL )
            <script type="text/javascript">
            // Функция для отображения блока топ новости
             function show(id)
-            {                        
+            {
                 if (document.getElementById(id).style.display == "none") {
                     document.getElementById(id).style.display = "block";
                     if(document.getElementById('top1')!=null) document.getElementById('top1').style.display = "block";
@@ -510,18 +510,18 @@ function edit( $id, $mas=NULL )
                     if(document.getElementById('top2')!=null) document.getElementById('top2').style.display = "none";
                     if(document.getElementById('top3')!=null) document.getElementById('top3').style.display = "none";
                 }
-            }    
-           </script> 
+            }
+           </script>
            <?
            if( isset($this->settings['top_news']) AND $this->settings['top_news']==1){?>
            <input type="checkbox" onchange="show('top');" name="top" align="left" <?=$checked;?>> <b><?=$this->Msg->show_text('TXT_TOP')?></b><br/>
-          
+
            <?if($id!=NULL ) $this->Err!=NULL ? $topMain = $this->topMain : $topMain=$mas['top_main'];
            else $topMain=0;
            if($topMain==1) $checked='checked';
            else $checked='';
-           // ТОП      
-            if($top==1) 
+           // ТОП
+            if($top==1)
                 $style ='block;';
             else
                 $style ='none;';
@@ -534,21 +534,21 @@ function edit( $id, $mas=NULL )
            if($line==1) $checked='checked';
            else $checked='';
            }
-           
+
            if( isset($this->settings['newsline']) AND $this->settings['newsline']==1){?>
            <input type="checkbox" name="line" align="left" <?=$checked;?> />  <b><?=$this->Msg->show_text('TXT_NEWS_LINE')?></b>
            <br/><br/><?}?>
            <?if( isset($this->settings['img']) AND $this->settings['img']==1){?>
-         <div align="center"> 
+         <div align="center">
           <?
           $img = $this->GetMainImage($mas['id'], 'back');
           if ( !empty($img) ) {
              $this->Form->Hidden( 'pic', $img );
-             $arr = $this->GetImagesToShow($mas['id']); 
+             $arr = $this->GetImagesToShow($mas['id']);
              ?><a href="<?=$script?>&task=showimages&id=<?=$mas['id'];?>"><?=$this->ShowImage( $img, $mas['id'], 'size_width=100', 100, NULL, "border=0");?>
              <br><?=$this->Msg->show_text('TXT_ADD_EDIT_IMAGES2').'['.$this->GetImagesCount($mas['id']).']';?></a>
-             <br><a href="<?=$script?>&task=qdelimg&id_img_del=<?=$arr[0]['id'];?>&id=<?=$mas['id']?>"><?=$this->Msg->show_text('TXT_DELETE')?></a> 
-             <?/*<a href="<?=$script?>&task=showimages&id=<?=$mas['id'];?>"><?=$this->Msg->show_text('TXT_ADD_EDIT_IMAGES2').'['.$this-> GetImagesCount($mas['id']).']';?></a>*/ 
+             <br><a href="<?=$script?>&task=qdelimg&id_img_del=<?=$arr[0]['id'];?>&id=<?=$mas['id']?>"><?=$this->Msg->show_text('TXT_DELETE')?></a>
+             <?/*<a href="<?=$script?>&task=showimages&id=<?=$mas['id'];?>"><?=$this->Msg->show_text('TXT_ADD_EDIT_IMAGES2').'['.$this-> GetImagesCount($mas['id']).']';?></a>*/
           }
           ?>
          </div><?}?>
@@ -561,12 +561,12 @@ function edit( $id, $mas=NULL )
           <?
           if( $this->id!=NULL ) $this->Err!=NULL ? $val=$this->id_category : $val=$mas['id_category'];
           else $val=$this->id_category;
-          //echo '$this->id_category='.$this->id_category;   
-          //printf($val);   
+          //echo '$this->id_category='.$this->id_category;
+          //printf($val);
           $this->Spr->ShowInComboBox( TblModNewsCat, 'id_category',$val, 0 );
           ?>
          </td>
-        </tr> 
+        </tr>
         <?if( isset($this->settings['ukraine_news']) AND $this->settings['ukraine_news']==1){?>
         <tr>
           <td><strong><?=$this->Msg->show_text('TXT_UKRAINE_NEWS');?></strong></td>
@@ -591,7 +591,7 @@ function edit( $id, $mas=NULL )
             <td><b><?=$this->Msg->show_text('_FLD_NEWS_STARTDATE')?></b></td>
             <td><?
               if( $this->id!=NULL ) $this->Err!=NULL ? $start_date_val=$this->start_date : $start_date_val=$mas['start_date'];
-              else $start_date_val=strftime('%Y-%m-%d %H:%M', strtotime('now'));      
+              else $start_date_val=strftime('%Y-%m-%d %H:%M', strtotime('now'));
               //if( empty($start_date_val) ) $start_date_val = strftime('%Y-%m-%d %H:%M', strtotime('now'));
               $a1 = array('firstDay'       => 1, // show Monday first
                          'showsTime'      => true,
@@ -660,37 +660,37 @@ function edit( $id, $mas=NULL )
      </tr>
      <?}?>
     </table>
-   </td> 
+   </td>
   </tr>
-  
+
     <?
-     if ( $this->is_tags==1 ) {  
+     if ( $this->is_tags==1 ) {
         $Tags = new SystemTags($this->user_id, $this->module);
         if( $this->id!=NULL ) $this->Err!=NULL ? $id_tag=$this->id_tag : $id_tag=$Tags->GetTagsByModuleAndItem($this->module, $this->id);
         else $id_tag=$this->id_tag;
         //echo '<br>$id_tag='.$id_tag; print_r($id_tag);
-        ?><tr><td valign="top"><?$Tags->ShowEditTags($id_tag);?></td></tr><?        
-     }     
+        ?><tr><td valign="top"><?$Tags->ShowEditTags($id_tag);?></td></tr><?
+     }
     ?>
 
  <tr>
-  <td> 
+  <td>
     <?
     $Panel->WritePanelHead( "SubPanel_" );
-   
+
     $ln_arr = $ln_sys->LangArray( _LANG_ID );
     if( $id!=NULL ) {
-        $q = "SELECT  
+        $q = "SELECT
                         `".TblModNewsTop."`. lang_id,
                         `".TblModNewsTop."`. name,
                         `".TblModNewsTop."`. short,
                         `".TblModNewsTop."`. image
-                FROM 
-                        `".TblModNewsTop."` 
+                FROM
+                        `".TblModNewsTop."`
                 WHERE
                      ".TblModNewsTop.".cod = '$id'
-       ";   
-       
+       ";
+
        $res = $this->Right->Query( $q, $this->user_id, $this->module );
        $rows = $this->Right->db_GetNumRows();
        //echo '<br/>',$q.'<br/>'.$res;
@@ -700,14 +700,14 @@ function edit( $id, $mas=NULL )
             $row = $this->Right->db_FetchAssoc();
             $topArr[$row['lang_id']]=$row;
         }
-    } 
+    }
     while( $el = each( $ln_arr ) ){
          $lang_id = $el['key'];
          $lang = $el['value'];
          $mas_s[$lang_id] = $lang;
          $Panel->WriteItemHeader( $lang );
          if( isset($this->settings['top_news']) AND $this->settings['top_news']==1){
-             // ТОП      
+             // ТОП
             ?>
             <div id="top<?=$lang_id;?>" style="display: <?=$style;?>">
                 <fieldset style="border: 1px solid #4682B4; padding: 5px;">
@@ -728,15 +728,15 @@ function edit( $id, $mas=NULL )
                     <b><?=$this->Msg->show_text('FLD_TOP_SUBJECT')?>:</b><br><?
                         isset($topArr[$lang_id]['name']) ? $row = $topArr[$lang_id]['name'] :$row='' ;
                         if( $this->id!=NULL ) $this->Err!=NULL ? $val=$this->topSubject[$lang_id] : $val = $row;
-                        else $val=$this->topSubject[$lang_id];  
+                        else $val=$this->topSubject[$lang_id];
                         $this->Form->TextBox( 'topSubject['.$lang_id.']',  stripslashes($val), 60 );
-                        echo "\n <br/>";                                                                    
-                        
+                        echo "\n <br/>";
+
                         echo "\n <b>".$this->Msg->show_text('FLD_TOP_SHORT').":</b>";
                         echo "\n <br>";
                         isset($topArr[$lang_id]['name']) ? $row = $topArr[$lang_id]['short'] :$row='' ;
                         if( $this->id!=NULL ) $this->Err!=NULL ? $val=$this->topShort[$lang_id] : $val = $row;
-                        else $val=$this->topShort[$lang_id];        
+                        else $val=$this->topShort[$lang_id];
                         $this->Form->TextArea( 'topShort['.$lang_id.']',  stripslashes($val), 6, 60 );
                         echo "\n <br>";
                        ?>
@@ -749,28 +749,28 @@ function edit( $id, $mas=NULL )
                 </fieldset>
                 <br>
             </div>
-            <?           
-            // End TOP 
-         } 
-         
+            <?
+            // End TOP
+         }
+
         echo "\n <table border=0 class='EditTable' width='100%'>";
         echo "\n <tr>";
         echo "\n <td><b>".$this->Msg->show_text('_FLD_NEWS_SUBJECT').":</b>";
         echo "\n <br>";
-        
+
         $row = NULL;
         if( isset( $mas['id'] ) ) $row = $this->Spr->GetByCod( TblModNewsSprSbj, $mas['id'], $lang_id );
         if( $this->id!=NULL ) $this->Err!=NULL ? $val=$this->subj_[$lang_id] : $val=$row[$lang_id];
-        else $val=$this->subj_[$lang_id];  
+        else $val=$this->subj_[$lang_id];
         $this->Form->TextBox( 'subject['.$lang_id.']',  stripslashes($val), 110 );
         echo "\n <br/>";
-        echo "\n </tr>"; 
-        
+        echo "\n </tr>";
+
         echo "\n <tr><td><b>".$this->Msg->show_text('FLD_DECRIPTION').":</b>";
         echo "\n <br>";
         if( isset( $mas['id'] ) ) $row = $this->Spr->GetByCod( TblModNewsSprDescription, $mas['id'], $lang_id );
         if( $this->id!=NULL ) $this->Err!=NULL ? $val=$this->description[$lang_id] : $val=$row[$lang_id];
-        else $val=$this->description[$lang_id];        
+        else $val=$this->description[$lang_id];
         $this->Form->TextArea( 'description['.$lang_id.']',  stripslashes($val), 2, 110 );
         echo "\n <br>";
 
@@ -778,21 +778,21 @@ function edit( $id, $mas=NULL )
         echo "\n <br>";
         if( isset( $mas['id'] ) ) $row = $this->Spr->GetByCod( TblModNewsSprKeywords, $mas['id'], $lang_id );
         if( $this->id!=NULL ) $this->Err!=NULL ? $val=$this->keywords[$lang_id] : $val=$row[$lang_id];
-        else $val=$this->keywords[$lang_id];        
-        $this->Form->TextArea( 'keywords['.$lang_id.']',  stripslashes($val), 2, 110 );        
+        else $val=$this->keywords[$lang_id];
+        $this->Form->TextArea( 'keywords['.$lang_id.']',  stripslashes($val), 2, 110 );
         echo "\n <br>";
         if( isset($this->settings['main_thing']) AND $this->settings['main_thing']==1){
-        
+
         echo "\n <tr><td><b>".$this->Msg->show_text('FLD_MAIN_IN_NEWS').":</b>";
         echo "\n <br>";
         if( isset( $mas['id'] ) ) $row = $this->Spr->GetByCod( TblModNewsSprMain, $mas['id'], $lang_id );
         if( $this->id!=NULL ) $this->Err!=NULL ? $val=$this->main[$lang_id] : $val=$row[$lang_id];
-        else $val=$this->main[$lang_id];        
+        else $val=$this->main[$lang_id];
         $this->Form->TextArea( 'main['.$lang_id.']',  stripslashes($val), 7, 110 );
         echo "\n <br>";
-            } 
-        if( isset($this->settings['short_descr']) AND $this->settings['short_descr']==1){    
-                       
+            }
+        if( isset($this->settings['short_descr']) AND $this->settings['short_descr']==1){
+
         echo "\n <tr>";
         echo "\n <td><br><b>".$this->Msg->show_text('_FLD_NEWS_SHORT').":</b>";
         echo "\n <br>";
@@ -810,24 +810,24 @@ function edit( $id, $mas=NULL )
         if( isset( $mas['id'] ) ) $row = $this->Spr->GetByCod( TblModNewsSprFull, $mas['id'], $lang_id );
         if( $this->id!=NULL ) $this->Err!=NULL ? $val=$this->full_[$lang_id] : $val=$row[$lang_id];
         else $val=$this->full_[$lang_id];
-        $this->Form->SpecialTextArea( $this->Form->textarea_editor, 'full['.$lang_id.']',  stripslashes($val), 60, 80,  'class="contentInput"', $lang_id, 'full' );        
+        $this->Form->SpecialTextArea( $this->Form->textarea_editor, 'full['.$lang_id.']',  stripslashes($val), 60, 80,  'class="contentInput"', $lang_id, 'full' );
         echo "\n <br>";
         }
         echo   "\n </table>";
         $Panel->WriteItemFooter();
     }
     $Panel->WritePanelFooter();
-    
+
     if ( isset($this->settings['source']) AND $this->settings['source']=='1' ) {
-        echo "\n <table border=0 class='EditTable'>";     
+        echo "\n <table border=0 class='EditTable'>";
         echo "\n <tr>";
         echo "\n <td><b>".$this->Msg->show_text('_TXT_SOURCE').":</b>";
         echo "\n <br>";
         if(isset($mas['source'])) $this->Form->TextBox( 'source',  stripslashes($mas['source']), 60 );
-        else  $this->Form->TextBox( 'source',  "", 60 );  
+        else  $this->Form->TextBox( 'source',  "", 60 );
         echo "\n <br>";
         echo "\n </tr>";
-        echo   "\n </table>"; 
+        echo   "\n </table>";
     }
 
     ?>
@@ -837,7 +837,7 @@ function edit( $id, $mas=NULL )
  <?
  AdminHTML::PanelSimpleF();
  $this->Form->WriteSaveAndReturnPanel( $script );?>&nbsp;<?
- $this->Form->WriteSavePanel( $script );?>&nbsp;<? 
+ $this->Form->WriteSavePanel( $script );?>&nbsp;<?
  $this->Form->WriteCancelPanel( $script );?>&nbsp;<?
  //$this->Form->WritePreviewPanel( 'http://'.NAME_SERVER."/modules/mod_news/news.preview.php" );
  $this->Form->WritePreviewPanelNewWindow( "http://".NAME_SERVER.$this->GetLink(NULL, NULL, $this->id) );
@@ -860,21 +860,21 @@ function edit( $id, $mas=NULL )
     $this->Err=NULL;
     if( isset($this->settings['top_news']) AND $this->settings['top_news']==1){
     if($this->top) {
-        if(empty( $this->topSubject[_LANG_ID] )) 
-            $this->Err=$this->Err.$this->Msg->show_text('NEWS_TOP_SUBJECT_EMPTY').'<br>'; 
-        if(empty( $this->topShort[_LANG_ID] )) 
-            $this->Err=$this->Err.$this->Msg->show_text('NEWS_TOP_SHORT_EMPTY').'<br>'; 
+        if(empty( $this->topSubject[_LANG_ID] ))
+            $this->Err=$this->Err.$this->Msg->show_text('NEWS_TOP_SUBJECT_EMPTY').'<br>';
+        if(empty( $this->topShort[_LANG_ID] ))
+            $this->Err=$this->Err.$this->Msg->show_text('NEWS_TOP_SHORT_EMPTY').'<br>';
     }
      }
      if(empty($this->id_category)) {
-         $this->Err=$this->Err.$this->Msg->show_text('NEWS_CATEGORY_EMPTY').'<br>'; 
+         $this->Err=$this->Err.$this->Msg->show_text('NEWS_CATEGORY_EMPTY').'<br>';
      }
      if( isset($this->settings['dt']) AND $this->settings['dt']==1){
      if(empty($this->start_date)) {
-         $this->Err=$this->Err.$this->Msg->show_text('MSG_NEWS_START_DATE_EMPTY').'<br>'; 
+         $this->Err=$this->Err.$this->Msg->show_text('MSG_NEWS_START_DATE_EMPTY').'<br>';
      }
      if(empty($this->end_date)) {
-         $this->Err=$this->Err.$this->Msg->show_text('MSG_NEWS_END_DATE_EMPTY').'<br>'; 
+         $this->Err=$this->Err.$this->Msg->show_text('MSG_NEWS_END_DATE_EMPTY').'<br>';
      }
      /*
      if($this->start_date >= $this->end_date) {
@@ -882,7 +882,7 @@ function edit( $id, $mas=NULL )
      }
      */
      }
-     
+
      $tmp = explode( '-', $this->start_date );
      $tmp1 = explode( ' ', $tmp[2] );
      $tmp2 = explode( ':', $tmp1[1] );
@@ -896,8 +896,8 @@ function edit( $id, $mas=NULL )
      //echo '<br>$start_d='.$start_d.' $end_d='.$end_d.' $this->start_date='.$this->start_date.' $this->end_date='.$this->end_date;
      if( $start_d >= $end_d ){
          $this->Err=$this->Err.$this->Msg->show_text('NEWS_STARTDATE_ENDDATE_WRONG');
-     }     
-     
+     }
+
      if(empty( $this->subj_[_LANG_ID] )) {
          $this->Err=$this->Err.$this->Msg->show_text('NEWS_SUBJECT_EMPTY').'<br>';
      }
@@ -925,40 +925,40 @@ function edit( $id, $mas=NULL )
 function save()
 {
     $ln_sys = &check_init('SysLang','SysLang');
-     
+
     if( isset($this->settings['top_news']) AND $this->settings['top_news']==1){
         // Обнуление признака основной топ новости, если задана новая
         if($this->topMain==1) {
             $this->ClearTopMainArticles($this->id);
         }
     }
-     
+
     $q = "SELECT * FROM ".TblModNews." WHERE `id`='".$this->id."'";
     $res = $this->Right->Query( $q, $this->user_id, $this->module );
     if( !$res ) return false;
     $rows = $this->Right->db_GetNumRows();
     //echo 'rows='.$rows;
-    
+
     if( $rows>0 )   //--- update
     {
-        $q = "UPDATE `".TblModNews."` SET          
+        $q = "UPDATE `".TblModNews."` SET
               `id_category` = '".$this->id_category."',
-              `id_relart` = '".$this->id_relart."', 
+              `id_relart` = '".$this->id_relart."',
               `status` = '".$this->status."'
              ";
-               
-        if( isset($this->settings['top_news']) AND $this->settings['top_news']==1){           
+
+        if( isset($this->settings['top_news']) AND $this->settings['top_news']==1){
             $q.=",`top` = '".$this->top."',
                  `top_main` = '".$this->topMain."'
                 ";
         }
-        if( isset($this->settings['newsline']) AND $this->settings['newsline']==1){          
+        if( isset($this->settings['newsline']) AND $this->settings['newsline']==1){
             $q.=",`line` = '".$this->line."'";
-        }  
-        if( isset($this->settings['dt']) AND $this->settings['dt']==1){      
+        }
+        if( isset($this->settings['dt']) AND $this->settings['dt']==1){
             $q.=",`start_date` = '".$this->start_date."'
                  ,`end_date` = '".$this->end_date."'";
-        } 
+        }
         if( isset($this->settings['source']) AND $this->settings['source']==1){
             $q.=",`source` = '".$this->source."'";
         }
@@ -970,65 +970,65 @@ function save()
         //echo "<br / > q = ".$q." res = ".$res;
         if( !$res ) return false;
         //else return true;
-     }                                                                                                                                                             
+     }
      else          //--- insert
      {
         $display = $this->GetMaxValueOfField(TblModNews, 'display')+1;
-         
-        $q = "INSERT INTO `".TblModNews."` SET 
+
+        $q = "INSERT INTO `".TblModNews."` SET
               `id_category` = '".$this->id_category."',
-              `id_relart` = '".$this->id_relart."', 
+              `id_relart` = '".$this->id_relart."',
               `status` = '".$this->status."',
               `display` = '".$display."'
              ";
-               
-        if( isset($this->settings['top_news']) AND $this->settings['top_news']==1){           
+
+        if( isset($this->settings['top_news']) AND $this->settings['top_news']==1){
             $q.=",`top` = '".$this->top."',
                  `top_main` = '".$this->topMain."'
                 ";
         }
-        if( isset($this->settings['newsline']) AND $this->settings['newsline']==1){          
+        if( isset($this->settings['newsline']) AND $this->settings['newsline']==1){
             $q.=",`line` = '".$this->line."'";
-        }  
-        if( isset($this->settings['dt']) AND $this->settings['dt']==1){      
+        }
+        if( isset($this->settings['dt']) AND $this->settings['dt']==1){
             $q.=",`start_date` = '".$this->start_date."'
                  ,`end_date` = '".$this->end_date."'";
-        } 
+        }
         if( isset($this->settings['source']) AND $this->settings['source']==1){
             $q.=",`source` = '".$this->source."'";
         }
         if( isset($this->settings['ukraine_news']) AND $this->settings['ukraine_news']==1){
             $q.=",`property` = '".$this->property."'";
         }
-    
+
         $res = $this->Right->Query( $q, $this->user_id, $this->module );
         //echo "<br / > q = ".$q." res = ".$res;
         if( !$res ) return false;
-    
-        $this->id = $this->Right->db_GetInsertID(); 
+
+        $this->id = $this->Right->db_GetInsertID();
      }
-     
+
      //save related products to current news
      if ( isset($this->settings['relat_prod']) AND $this->settings['relat_prod']=='1' ) {
          $res = $this->SaveRelatProdToNews($this->id, $this->arr_relat_prop);
          if( !$res ) return false;
      }
-     
+
      //---- save tags ----
      if ( $this->is_tags==1 ) {
         $Tags = new SystemTags();
         $res=$Tags->SaveTagsById( $this->module, $this->id, $this->id_tag );
         if( !$res ) return false;
-     }  
-       
+     }
+
      $ln_arr = $ln_sys->LangArray( _LANG_ID );
      while( $el = each( $ln_arr ) )
      {
         $lang_id = $el['key'];
         $subject = addslashes(strip_tags(trim($this->subj_[ $lang_id ])));
-        $keywords = addslashes(strip_tags(trim($this->keywords[ $lang_id ])));  
-        $description = addslashes(strip_tags(trim($this->description[ $lang_id ]))); 
-       
+        $keywords = addslashes(strip_tags(trim($this->keywords[ $lang_id ])));
+        $description = addslashes(strip_tags(trim($this->description[ $lang_id ])));
+
         $res = $this->Spr->SaveToSpr( TblModNewsSprSbj, $this->id, $lang_id, $subject );
         //echo '<br />TblModNewsSprSbj $res='.$res;
         if( !$res ) return false;
@@ -1036,11 +1036,11 @@ function save()
         $res = $this->Spr->SaveToSpr( TblModNewsSprKeywords, $this->id, $lang_id, $keywords );
         //echo '<br />TblModNewsSprKeywords $res='.$res;
         if( !$res ) return false;
-       
+
         $res = $this->Spr->SaveToSpr( TblModNewsSprDescription, $this->id, $lang_id, $description );
         //echo '<br />TblModNewsSprDescription $res='.$res;
         if( !$res ) return false;
-        
+
         if( isset($this->settings['main_thing']) AND $this->settings['main_thing']==1){
            $main = addslashes(trim($this->main[ $lang_id ]));
            $res = $this->Spr->SaveToSpr( TblModNewsSprMain, $this->id, $lang_id, $main );
@@ -1048,13 +1048,13 @@ function save()
            if( !$res ) return false;
         }
 
-        if( isset($this->settings['short_descr']) AND $this->settings['short_descr']==1){ 
+        if( isset($this->settings['short_descr']) AND $this->settings['short_descr']==1){
             $short = addslashes(trim($this->short_[$lang_id]));
             $res = $this->Spr->SaveToSpr( TblModNewsSprShrt, $this->id, $lang_id, $short );
             //echo '<br />TblModNewsSprShrt $res='.$res;
             if( !$res ) return false;
         }
-        
+
         if( isset($this->settings['full_descr']) AND $this->settings['full_descr']==1){
             $full = addslashes(trim($this->full_[ $lang_id ]));
             $res = $this->Spr->SaveToSpr( TblModNewsSprFull, $this->id, $lang_id, $full );
@@ -1062,30 +1062,30 @@ function save()
             if( !$res ) return false;
         }
      } //--- end while
-      
+
      $l_res = $this->Link($this->id_category, $this->id);
-           
+
      if( isset($this->settings['top_news']) AND $this->settings['top_news']==1){
         //--- save topNews ---
         if($this->top == 1 )
             $res = $this->SaveTopNews($this->id);
         else {
             $res = $this->DelTopPicture($this->id);
-            $res = $this->DeleteTopNews($this->id); 
+            $res = $this->DeleteTopNews($this->id);
         }
         if( !$res ) return false;
      }
-      
+
      $res = $this->SavePicture();
      // if( !$res ) return false;
      if( isset($this->settings['rss_import']) AND $this->settings['rss_import']==1){
         $res = $this->GenerateRSSNews();
-     } 
-      
+     }
+
      //$uploaddir = NewsImg_Path;
      //$Uploads = new Uploads( $this->user_id , $this->module , $uploaddir, 200, $this->module );
      //$Uploads->saveCurentImages($this->id, $this->module);
-         
+
      return true;
 }
 
@@ -1102,7 +1102,7 @@ function save()
 function SaveTopNews($id)
 {
     $ln_sys = new SysLang();
-    $ln_arr = $ln_sys->LangArray( _LANG_ID ); 
+    $ln_arr = $ln_sys->LangArray( _LANG_ID );
 
     $q = "SELECT * FROM ".TblModNewsTop." WHERE `cod`='".$id."'";
     $res = $this->Right->Query( $q, $this->user_id, $this->module );
@@ -1112,22 +1112,22 @@ function SaveTopNews($id)
     while( $el = each( $ln_arr ) )
     {
         $name = addslashes(strip_tags(trim($this->topSubject[ $el['key'] ])));
-        $short = addslashes(strip_tags(trim($this->topShort[ $el['key'] ])));  
+        $short = addslashes(strip_tags(trim($this->topShort[ $el['key'] ])));
         if( $rows>0 )   //--- update
         {
-           $q = "UPDATE 
-                    `".TblModNewsTop."` 
+           $q = "UPDATE
+                    `".TblModNewsTop."`
                   SET
                    `name`='".$name."',
                    `short`='".$short."'
-                WHERE 
+                WHERE
                     cod ='".$this->id."'
-                AND 
+                AND
                     lang_id ='".$el['key']."'
                     ";
-        } 
+        }
         else {   // --insert
-           $q = "INSERT INTO `".TblModNewsTop."` values(NULL, '".$id."','".$el['key']."','".$name."','".$short."',  '' )";   
+           $q = "INSERT INTO `".TblModNewsTop."` values(NULL, '".$id."','".$el['key']."','".$name."','".$short."',  '' )";
         }
         $res = $this->Right->Query( $q, $this->user_id, $this->module );
             //echo "<br/>".$q."<br/> $res = ".$res;
@@ -1150,7 +1150,7 @@ function DeleteTopNews( $id )
     $res = $this->Right->Query( $q, $this->user_id, $this->module );
     //echo '<br/>'.$q.'<br/>$res='.$res;
     if (!$res)
-         return false; 
+         return false;
     return true;
 }
 
@@ -1158,7 +1158,7 @@ function DeleteTopNews( $id )
 // Function : ClearTopMainArticles()
 // Date : 30.03.2011
 // Returns :      true,false / Void
-// Description :  Clear Top Main Articles 
+// Description :  Clear Top Main Articles
 // Programmer :  Yaroslav Gyryn
 // ================================================================================================
 function ClearTopMainArticles($id=null)
@@ -1173,11 +1173,11 @@ function ClearTopMainArticles($id=null)
    $res = $this->Right->Query( $q, $this->user_id, $this->module );
     //echo '<br/>'.$q.'<br/>$res='.$res;
     if (!$res)
-         return false;           
+         return false;
     return true;
 }
 
- 
+
 // ================================================================================================
 // Function : del()
 // Date : 04.02.2011
@@ -1193,11 +1193,11 @@ function del( $id_del )
     for( $i=0; $i<$kol; $i++ )
     {
        $u = $id_del[$i];
-        
-      //--- delete relation between tags for current position --- 
+
+      //--- delete relation between tags for current position ---
       $res = $Tags->DelTagsByModuleItem( $this->module, $u);
       if( !$res ) return false;
-      
+
 	 $q = "DELETE FROM `".TblModNews."` WHERE id='$u'";
      $res = $this->Right->Query( $q, $this->user_id, $this->module );
      //echo "<br>q=".$q." res=".$res;
@@ -1209,26 +1209,26 @@ function del( $id_del )
      $res = $this->Spr->DelFromSpr( TblModNewsSprDescription, $u );
 	 // del links
      $q = "DELETE FROM `".TblModNewsLinks."` WHERE cod='$u'";
-     $res = $this->Right->Query( $q, $this->user_id, $this->module );	
+     $res = $this->Right->Query( $q, $this->user_id, $this->module );
 	   // delete news images
      $q = "SELECT * FROM `".TblModNewsImg."` where `id_news`='$u'";
      $res = $this->Right->Query( $q, $this->user_id, $this->module );
-     $rows = $this->Right->db_GetNumRows(); 
+     $rows = $this->Right->db_GetNumRows();
      $id_img=NULL;
      for($j=0;$j<$rows;$j++){
             $row = $this->Right->db_FetchAssoc();
             $id_img[$j] = $row['id'];
-     } 
+     }
      if(count($id_img)>0) {
      $res = $this->DelPicture($id_img, $u);
-     if (!$res) return false; 
+     if (!$res) return false;
      }
      /*$q="DELETE FROM `".TblModNewsRel."` WHERE id_news='$u'";
      $res = $this->Right->Query( $q, $this->user_id, $this->module );
      if( !$res )return false;     */
      $this->DelTopPicture($u);
-     $this->DeleteTopNews($u); 
-     
+     $this->DeleteTopNews($u);
+
      if ( $res ){
       $del=$del+1;
       $id_img = NULL;
@@ -1236,7 +1236,7 @@ function del( $id_del )
      else
       return false;
     }
-	
+
   return $del;
 }
 
@@ -1617,7 +1617,7 @@ function news_update( $module )
  $res1 = mysql_query( $q );
 
  }
- 
+
     // ================================================================================================
     // Function : ShowImagesBackEnd
     // Date : 03.04.2006
@@ -1627,27 +1627,27 @@ function news_update( $module )
     // ================================================================================================
     function ShowImagesBackEnd()
     {
-         //$this->Rights =  new Rights;   
+         //$this->Rights =  new Rights;
          $Panel = new Panel();
-         $ln_sys = new SysLang(); 
+         $ln_sys = new SysLang();
 
          $q="SELECT * FROM `".TblModNewsImg."` WHERE `id_news`='".$this->id."' order by `move`";
          $res = $this->Right->Query( $q, $this->user_id, $this->module );
          if( !$this->Right->result ) return false;
-         $rows = $this->Right->db_GetNumRows(); 
+         $rows = $this->Right->db_GetNumRows();
          $arr = array();
          for ($i=0; $i<$rows; $i++) {
            $arr[] = $this->Right->db_FetchAssoc();
          }
 
-         
+
          $q="SELECT * FROM `".TblModNewsSprSbj."` WHERE `cod`='".$this->id."' and `lang_id`=".$this->lang_id."";
          $res2 = $this->Right->Query( $q, $this->user_id, $this->module );
          if( !$this->Right->result ) return false;
          $rows2 = $this->Right->db_GetNumRows();
          $row2 = $this->Right->db_FetchAssoc();
          //$this->Form->IncludeHTMLTextArea();
-         
+
          $txt = $this->Msg->show_text('TXT_ADDITING_IMAGES');
          AdminHTML::PanelSubH( $txt );
           $script2 = 'module='.$this->module.'&display='.$this->display.'&start='.$this->start.'&task=show&fltr='.$this->fltr;
@@ -1655,10 +1655,10 @@ function news_update( $module )
         //   echo  $this->script;
         //-------- Show Error text for validation fields --------------
         $this->ShowErrBackEnd();
-        //-------------------------------------------------------------          
+        //-------------------------------------------------------------
 
          AdminHTML::PanelSimpleH();
-         
+
          ?>
          <Table border=0 class="EditTable">
           <TR>
@@ -1671,7 +1671,7 @@ function news_update( $module )
 
          $a = $rows;
          $up = 0;
-         $down = 0;         
+         $down = 0;
          for ($i=0; $i<$rows; $i++) {
            $row = $arr[$i]; //$this->Right->db_FetchAssoc();
            ?>
@@ -1686,15 +1686,15 @@ function news_update( $module )
               </TD>
               <TD valign="top">
                <table border=0 cellpadding=0 cellspacing=2 class="EditTable">
-                <tr>             
+                <tr>
                  <TD><b><?=$this->Msg->show_text('FLD_ID')?>:</b><?=$row['id']; $this->Form->Hidden( 'id_img[]', $row['id'] );?></TD>
                 </tr>
                 <tr>
-                 <TD><b><?=$this->Msg->show_text('FLD_IMG')?>:</b> <?=$this->GetImgFullPath($row['path'], $this->id);?></TD> 
+                 <TD><b><?=$this->Msg->show_text('FLD_IMG')?>:</b> <?=$this->GetImgFullPath($row['path'], $this->id);?></TD>
                 </tr>
                 <tr><td>
                <?
-                $Panel->WritePanelHead( "SubPanel_" );               
+                $Panel->WritePanelHead( "SubPanel_" );
                 $ln_arr = $ln_sys->LangArray( $this->lang_id );
                 while( $el = each( $ln_arr ) )
                 {
@@ -1708,27 +1708,27 @@ function news_update( $module )
                   echo "\n<tr><td>";
                   $name = $this->Spr->GetByCod( TblModNewsImgSprName, $row['id'], $lang_id );
                   if( $this->id!=NULL ) $this->Err!=NULL ? $val=$this->img_title[$lang_id] : $val=$name[$lang_id];
-                  else $val=$this->img_title[$lang_id];              
+                  else $val=$this->img_title[$lang_id];
                   $this->Form->TextBox( 'img_title['.$row['id'].']['.$lang_id.']', stripslashes($val), 60 );
-                  
-                  echo "\n<tr><td><b>".$this->Msg->show_text('FLD_IMG_TITLE').":</b></td>"; 
-                  echo "\n<tr><td>";                                 
+
+                  echo "\n<tr><td><b>".$this->Msg->show_text('FLD_IMG_TITLE').":</b></td>";
+                  echo "\n<tr><td>";
                   $name = $this->Spr->GetByCod( TblModNewsImgSprDescr, $row['id'], $lang_id );
                   if( $this->id!=NULL ) $this->Err!=NULL ? $val=$this->img_descr[$lang_id] : $val=$name[$lang_id];
-                  else $val=$this->img_descr[$lang_id];              
-                  //$this->Form->HTMLTextArea( 'img_descr['.$row['id'].']['.$lang_id.']', stripslashes($val), 5, 50  ); 
+                  else $val=$this->img_descr[$lang_id];
+                  //$this->Form->HTMLTextArea( 'img_descr['.$row['id'].']['.$lang_id.']', stripslashes($val), 5, 50  );
                   $this->Form->TextArea( 'img_descr['.$row['id'].']['.$lang_id.']', stripslashes($val), 4, 50  );
                   echo "\n</table>";
-                  $Panel->WriteItemFooter();                     
+                  $Panel->WriteItemFooter();
                 }
                 $Panel->WritePanelFooter();
-                ?>          
+                ?>
                 <tr>
                  <td align=left><b><?=$this->Msg->show_text('FLD_SHOW')?>:</b><INPUT class='checkbox' TYPE=checkbox NAME='id_img_show[]' VALUE="<?=$row['id']?>" <?if ($row['show']=='1') echo 'CHECKED';?>></TD>
                 </tr>
-               <? 
-                 
-                ?>       
+               <?
+
+                ?>
                 <tr>
                  <td><b>
                  <? if( $i!=($rows-1) or $up!=0 )  {
@@ -1752,9 +1752,9 @@ function news_update( $module )
                   }
                   $up=$row['id'];
                   $a=$a-1;
-                  ?>   
+                  ?>
                  </td>
-                </tr>                
+                </tr>
                </table>
               </TD>
              </TR>
@@ -1771,7 +1771,7 @@ function news_update( $module )
               ?><?=$this->Form->Button('updimg',$this->Msg->show_text('TXT_SAVE'));?>
                 <?=$this->Form->Button('delimg',$this->Msg->show_text('TXT_DELETE'));
               }?>
-              <?=$this->Form->Button('cancel',$this->Msg->show_text('TXT_CANCEL'));?> 
+              <?=$this->Form->Button('cancel',$this->Msg->show_text('TXT_CANCEL'));?>
            </TD>
           </TR>
           <TR>
@@ -1784,11 +1784,11 @@ function news_update( $module )
             <br>
             <INPUT TYPE="file" NAME="filename[]" size="80" VALUE="<?=$this->img['name']['2']?>">
             <br>
-            <INPUT TYPE="file" NAME="filename[]" size="80" VALUE="<?=$this->img['name']['3']?>">            
+            <INPUT TYPE="file" NAME="filename[]" size="80" VALUE="<?=$this->img['name']['3']?>">
             <br>
             <INPUT TYPE="file" NAME="filename[]" size="80" VALUE="<?=$this->img['name']['4']?>">
             <br><?=$this->Form->Button('saveimg',$this->Msg->show_text('TXT_ADD_IMAGES'));?>
-            
+
            </TD>
           </TR>
           <?
@@ -1802,7 +1802,7 @@ function news_update( $module )
            //echo "<input type=hidden name='fltr2' value='".$this->fltr2."'>";
 
 
-          ?>          
+          ?>
           </FORM>
          </Table>
          <?
@@ -1811,9 +1811,9 @@ function news_update( $module )
          return true;
     } // end of function ShowImagesBackEnd()
 
- 
- 
- 
+
+
+
     // ================================================================================================
     // Function : ShowSubscribe()
     // Date : 04.01.2005
@@ -1837,7 +1837,7 @@ function news_update( $module )
      $res = $this->Right->Query( $q, $this->user_id, $this->module );
      if( !$res )return false;
      $rows = $this->Right->db_GetNumRows();
-     
+
      $j = 0;
      $row_arr = NULL;
      for( $i = 0; $i < $rows; $i++ )
@@ -1848,8 +1848,8 @@ function news_update( $module )
          $row_arr[$j] = $row;
          $j = $j + 1;
        }
-     }     
-     
+     }
+
      $this->settings = $this->GetSettings(false);
 
      /* Write Form Header */
@@ -1871,7 +1871,7 @@ function news_update( $module )
      <img src="images/icons/delete.png" alt="Delete" title="Delete" align="center" name="delete" border="0" />Удалить из рассылки
      </a>
      <?
-     
+
      $script2 = 'module='.$this->module.'&display='.$this->display.'&start='.$this->start.'&task=show&fltr='.$this->fltr.'&task=show_subscr';
      $script2 = $_SERVER['PHP_SELF']."?$script2";
     ?>
@@ -1887,13 +1887,13 @@ function news_update( $module )
          ?><td class="THead"><A class="aTHead" HREF=<?=$script2?>&sort=is_send><?=$this->Msg->show_text('FLD_NEWS_SUBSCR_IS_SEND');?></A></Th><?
      }
 
-     
+
      $str_yes = $this->Spr->GetNAmeByCod(TblSysLogic, 1);
      $str_no = $this->Spr->GetNAmeByCod(TblSysLogic, 2);
-     
+
      $str_status_a = $this->Msg->show_text('TXT_ACTIVE_OK');
      $str_status_ina = $this->Msg->show_text('TXT_ACTIVE_NOT_OK');
-     
+
      $style1 = 'TR1';
      $style2 = 'TR2';
      for( $i = 0; $i < count( $row_arr ); $i++ )
@@ -1910,19 +1910,19 @@ function news_update( $module )
 
        echo '<TD>';
        $this->Form->Link( $script."&task=edit_subscr&id=".$row['id'], stripslashes( $row['id'] ), $this->Msg->show_text('_TXT_EDIT_DATA') );
-       
+
        echo '<TD align=center>'.stripslashes($row['login']);
 
        ?><td align="center"><?
-        if( $row['user_status']==0 ) echo $str_status_ina; 
+        if( $row['user_status']==0 ) echo $str_status_ina;
         else echo $str_status_a;
        ?></td><?
 
        ?><td align="center"><?=stripslashes($row['dt']);?></td><?
-       
+
        ?><td><?
-         $q2 = "SELECT `".TblModNewsCat."`.`name` 
-                FROM `".TblModNewsCat."`, `".TblModNewsSubscrCat."` 
+         $q2 = "SELECT `".TblModNewsCat."`.`name`
+                FROM `".TblModNewsCat."`, `".TblModNewsSubscrCat."`
                 WHERE `".TblModNewsSubscrCat."`.`subscr_id`='".$row['id']."'
                 AND `".TblModNewsSubscrCat."`.`cat_id`=`".TblModNewsCat."`.`cod`
                 AND `".TblModNewsCat."`.`lang_id`='".$this->lang_id."'";
@@ -1935,7 +1935,7 @@ function news_update( $module )
              echo $row2['name'].'<br/>';
          }
        ?></td><?
-       
+
        if ( isset($this->settings['subscr']) AND $this->settings['subscr']=='1' ) {
         ?><td><?
         if($row['is_send']==0) echo $str_no;
@@ -1947,7 +1947,7 @@ function news_update( $module )
      AdminHTML::TablePartF();
      $this->Form->WriteFooter();
      return true;
-    } // end of function ShowSubscribe() 
+    } // end of function ShowSubscribe()
 
     // ================================================================================================
     // Function : EditSubscribe()
@@ -1965,7 +1965,7 @@ function news_update( $module )
         $mas = $this->Right->db_FetchAssoc();
 
         $this->settings = $this->GetSettings();
-        
+
         /* Write Form Header */
         $this->Form->WriteHeader( $this->script );
         if( $this->id!=NULL ) $txt = $this->Msg->show_text('_TXT_EDIT_DATA');
@@ -1973,12 +1973,12 @@ function news_update( $module )
         AdminHTML::PanelSubH( $txt );
 
         $this->ShowErrBackEnd();
-        
+
         AdminHTML::PanelSimpleH();
         ?>
         <tr>
             <td width="400" valign="top">
-                <table border="0" > 
+                <table border="0" >
                  <tr>
                   <td><strong><?=$this->Msg->show_text('_FLD_ID')?>:</strong>
                    <?
@@ -1994,13 +1994,13 @@ function news_update( $module )
                    <?
                    if( $this->id!=NULL ) $this->Err!=NULL ? $val=$this->user_status : $val=$mas['user_status'];
                    else $val=$this->user_status;
-                   
+
                    $arr_v[0] = $this->Msg->show_text('TXT_ACTIVE_NOT_OK');
                    $arr_v[1] = $this->Msg->show_text('TXT_ACTIVE_OK');
-                   $this->Form->Select( $arr_v, 'user_status', $val );  
+                   $this->Form->Select( $arr_v, 'user_status', $val );
                    ?>
                   </td>
-                 </tr>  
+                 </tr>
                  </tr>
                  <tr>
                   <td><strong><?=$this->Msg->show_text('FLD_NEWS_SUBSCR_EMAIL')?>:</strong>
@@ -2063,15 +2063,15 @@ function news_update( $module )
                 //echo '<br>$cnt_rows='.$cnt_rows.' $this->Spr->GetCountValuesInSprOnLang( TblModNewsCat, $this->lang_id ))='.$this->Spr->GetCountValuesInSprOnLang( TblModNewsCat, $this->lang_id );
                 $this->Spr->ShowInCheckBox( TblModNewsCat, 'categories', $cnt_rows, $val, 'left' );
                 ?>
-                </div>            
+                </div>
             </td>
             <?}?>
          </tr>
-         
+
 
 
         <?
-        AdminHTML::PanelSimpleF(); 
+        AdminHTML::PanelSimpleF();
        $this->Form->WriteSavePanel( $this->script, 'save_subscr');
        /*
         ?>
@@ -2079,8 +2079,8 @@ function news_update( $module )
          <img src="images/icons/save.png" alt="Save" title="Save" align="center" name="save" border="0" /> <?=$this->Msg->show_text('TXT_SAVE') ?>
         </a>
         <?
-        */ 
-        $this->Form->WriteCancelPanel( $this->script ); 
+        */
+        $this->Form->WriteCancelPanel( $this->script );
         $this->Form->WriteFooter();
 
         AdminHTML::PanelSubF();
@@ -2089,7 +2089,7 @@ function news_update( $module )
     // ================================================================================================
     // Function : GetSubscrCat()
     // Date : 15.09.2009
-    // Parms :        $id - if of the subscriber         
+    // Parms :        $id - if of the subscriber
     // Returns :      true,false / Void
     // Description :  retur array of categories for current subscriber
     // Programmer :  Igor Trokhymchuk
@@ -2110,11 +2110,11 @@ function news_update( $module )
         }
         return $arr;
     } //end of fuinction GetSubscrCat()
-    
+
     // ================================================================================================
     // Function : GetCountSubscrCat()
     // Date : 15.09.2009
-    // Parms :        $id - if of the subscriber         
+    // Parms :        $id - if of the subscriber
     // Returns :      true,false / Void
     // Description :  retur count of categories for current subscriber
     // Programmer :  Igor Trokhymchuk
@@ -2130,7 +2130,7 @@ function news_update( $module )
         $row = $db->db_FetchAssoc();
         return $row['COUNT(`cat_id`)'];
     } //end of fuinction GetCountSubscrCat()
-    
+
     // ================================================================================================
     // Function : CheckSubscr()
     // Date : 31.05.2008
@@ -2144,8 +2144,8 @@ function news_update( $module )
 
         if (empty( $this->login )) {
             $this->Err=$this->Err.$this->Msg->show_text('MSG_FLD_EMAIL_EMPTY').'<br>';
-        } 
-        /*         
+        }
+        /*
         if (empty( $this->pass )) {
             $this->Err=$this->Err.$this->Msg->show_text('MSG_FLD_PASS_EMPTY').'<br>';
         }
@@ -2161,10 +2161,10 @@ function news_update( $module )
                 if($rows>0 AND $row['id']!=$this->id) $this->Err = $this->Err.$this->Msg->show_text('MSG_EMAIL_ALREADY_EXIST').'<br>';
             }
         }
-        if(count($this->categories)==0) $this->Err = $this->Err.$this->Msg->show_text('MSG_SELECT_NEWS_CATEGORIES').'<br>';  
+        if(count($this->categories)==0) $this->Err = $this->Err.$this->Msg->show_text('MSG_SELECT_NEWS_CATEGORIES').'<br>';
         //echo '<br>$this->Err='.$this->Err.' $this->Msg->table='.$this->Msg->table;
         return $this->Err;
-    } //end of fuinction CheckSubscr()    
+    } //end of fuinction CheckSubscr()
 
 
     // ================================================================================================
@@ -2202,22 +2202,22 @@ function news_update( $module )
                  ";
         }
         $res = $this->Right->db_Query( $q );
-        //echo '<br>q='.$q.' res='.$res.' $this->Right->result='.$this->Right->result; 
+        //echo '<br>q='.$q.' res='.$res.' $this->Right->result='.$this->Right->result;
         if( !$res OR !$this->Right->result ) return false;
-        
+
         if ( empty($this->id)) $this->id = $this->Right->db_GetInsertID();
-        
+
         $cnt = count($this->categories);
         if($cnt>0){
             $q = "DELETE FROM `".TblModNewsSubscrCat."` WHERE `subscr_id`='".$this->id."'";
             $res = $this->db->db_Query( $q );
             //echo "<br>q=".$q." res=".$res;
             if( !$res ) return false;
-            
+
         }
         for($i=0;$i<$cnt;$i++){
             $q = "INSERT `".TblModNewsSubscrCat."` SET
-                  `subscr_id`='".$this->id."',   
+                  `subscr_id`='".$this->id."',
                   `cat_id`='".$this->categories[$i]."'
                  ";
             $res = $this->db->db_Query( $q );
@@ -2241,7 +2241,7 @@ function news_update( $module )
         <div class="err_text">'.$this->Err.'</div>
         </fieldset>';
      }
-    } //end of fuinction ShowErrBackEnd()   
+    } //end of fuinction ShowErrBackEnd()
 
     // ================================================================================================
     // Function : DelSubscribe()
@@ -2259,7 +2259,7 @@ function news_update( $module )
          $u = $id_del[$i];
          $q = "DELETE FROM `".TblModNewsSubscr."` WHERE `id`='".$u."'";
          $res = $this->Right->Query( $q, $this->user_id, $this->module );
-         
+
          $q = "DELETE FROM `".TblModNewsSubscrCat."` WHERE `subscr_id`='".$u."'";
          $res = $this->Right->Query( $q, $this->user_id, $this->module );
          if ( $res )
@@ -2269,7 +2269,7 @@ function news_update( $module )
         }
       return $del;
     }
- 
+
      // ================================================================================================
      // Function : NewsPostingArr()
      // Date :03.05.2008
@@ -2282,17 +2282,17 @@ function news_update( $module )
     {
         $db1 = new DB();
         $script = 'module='.$this->module.'&display='.$this->display.'&start='.$this->start.'&sort='.$this->sort.'&fltr='.$this->fltr.'&fln='.$this->fln;
-        $script = $_SERVER['PHP_SELF']."?$script";        
+        $script = $_SERVER['PHP_SELF']."?$script";
         $this->Form->WriteHeader( $script );
         for($i=0;$i<count($arr);$i++){
-            $this->Form->Hidden('id_del[]', $arr[$i]); 
+            $this->Form->Hidden('id_del[]', $arr[$i]);
         }
         AdminHTML::PanelSubH( $this->Msg->show_text('TXT_DISPATCH_TITLE').': '.stripcslashes($this->dispatch_sbj) );
-                
+
         $body = $this->GetEmailBody($arr);
         echo $body;
         $res = $this->CreateDispatch($arr);
-        
+
         ?><br/>
         <h3><?if($res){echo $this->Msg->show_text('TXT_DISPATCH_CREATED');} else{echo $this->Msg->show_text('TXT_DISPATCH_NOT_CREATED');}?></h3>
         <br/><a href="<?=$this->script;?>"><?=$this->Msg->show_text('TXT_DISPATCH_BACK_TO_NEWS');?></a><?
@@ -2310,9 +2310,9 @@ function news_update( $module )
      // ================================================================================================
     function GetEmailBody($arr)
     {
-        $tmp_db = new DB(); 
+        $tmp_db = new DB();
         $db1 = new DB();
-       
+
         $body='<table border="0" cellpadding="0" cellspacing="5" style="font-family: Tahoma;">';
         for($j=0;$j<count($arr);$j++){
             $q = "SELECT * FROM `".TblModNews."` WHERE `id`='".$arr[$j]."' ORDER BY `id` desc";
@@ -2320,15 +2320,15 @@ function news_update( $module )
             //echo '<br>$q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;
             if (!$res or !$tmp_db->result) return false;
             //$rows = $tmp_db->db_GetNumRows();
-            $row = $tmp_db->db_FetchAssoc();  
-            
+            $row = $tmp_db->db_FetchAssoc();
+
             $txt = html_entity_decode( stripslashes( $this->Spr->GetNameByCod( TblModNewsSprSbj, $row['id'] ) ) );
             $short = html_entity_decode( strip_tags( stripslashes( $this->Spr->GetNameByCod( TblModNewsSprShrt, $row['id'] ) ), '<img>,<a>,<b>,<strong>,<li>,<ul>,<br>' ) );
             //$full = stripslashes( $this->Spr->GetNameByCod( TblModNewsSprFull, $row['id'] ) );
-            //$categ = stripslashes( $this->Spr->GetNameByCod( TblModNewsCat, $row['id_category'] ) ); 
+            //$categ = stripslashes( $this->Spr->GetNameByCod( TblModNewsCat, $row['id_category'] ) );
             //$sart_date = $row['start_date'];
-            
-            $link = $this->Link(NULL, $row['id']);    
+
+            $link = $this->Link(NULL, $row['id']);
             $body = $body.'
             <tr><td style="border:0px solid black;">
             <a href="http://www.'.$_SERVER['SERVER_NAME'].$link.'" style="padding-top:20px; text-decoration:none; font-size:20px; font-weight:bold;">'.$txt.'</a>';
@@ -2342,9 +2342,9 @@ function news_update( $module )
         }
         $body=$body.'</table>';
 
-        return $body;        
+        return $body;
     } // end of GetEmailBody
-    
+
      // ================================================================================================
      // Function : CreateDispatch()
      // Date : 05.05.2008
@@ -2356,17 +2356,17 @@ function news_update( $module )
      function CreateDispatch($arr)
      {
          $tmp_db = new DB();
-         
-         $q = "DELETE FROM `".TblModNewsDispatchSet."` WHERE 1"; 
+
+         $q = "DELETE FROM `".TblModNewsDispatchSet."` WHERE 1";
          $res = $tmp_db->db_Query($q);
-         $q = "INSERT INTO `".TblModNewsDispatchSet."` SET 
+         $q = "INSERT INTO `".TblModNewsDispatchSet."` SET
                `id`='1',
                `sbj`='".$this->dispatch_sbj."'
               ";
          $res = $tmp_db->db_Query($q);
          //echo '<br>$q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;
          if (!$res or !$tmp_db->result) return false;
-         
+
          for($j=0;$j<count($arr);$j++){
             $q = "SELECT * FROM `".TblModNewsDispatch."` WHERE `id_news`='".$arr[$j]."'";
             $res = $tmp_db->db_Query($q);
@@ -2375,7 +2375,7 @@ function news_update( $module )
             $rows = $tmp_db->db_GetNumRows();
             //echo '<br>$rows='.$rows;
             if($rows==0){
-                $q = "INSERT INTO `".TblModNewsDispatch."` SET 
+                $q = "INSERT INTO `".TblModNewsDispatch."` SET
                       `id_news`='".$arr[$j]."',
                       `is_partner`='".$this->is_partner."'
                      ";
@@ -2386,7 +2386,7 @@ function news_update( $module )
          }
          return true;
      }//end of function CreateDispatch()
-     
+
      // ================================================================================================
      // Function : MakeDispatch()
      // Date : 05.05.2008
@@ -2405,7 +2405,7 @@ function news_update( $module )
          $rows = $tmp_db->db_GetNumRows();
          //echo '<br>$rows='.$rows;
          //if no news to make dispatch then go out.
-         if($rows>0){ 
+         if($rows>0){
              $arr=array();
              for($j=0;$j<$rows;$j++){
                  $row = $tmp_db->db_FetchAssoc();
@@ -2414,7 +2414,7 @@ function news_update( $module )
              $this->MakeDispatchArr($arr, 0);
          }
          //====== send to all subscribers end ==========
-         
+
          //====== send to Partners start ==========
          $q = "SELECT * FROM `".TblModNewsDispatch."` WHERE 1 AND `is_partner`='1'";
          $res = $tmp_db->db_Query($q);
@@ -2431,10 +2431,10 @@ function news_update( $module )
              }
              $this->MakeDispatchArr($arr, 1);
          }
-         //====== send to Partners end ==========         
+         //====== send to Partners end ==========
          return true;
      }//end of function MakeDispatch()
-     
+
      // ================================================================================================
      // Function : MakeDispatchArr()
      // Date : 05.05.2008
@@ -2448,17 +2448,17 @@ function news_update( $module )
      {
         ini_set('max_execution_time', 10000);
         $tmp_db = new DB();
-        $db1 = new DB(); 
+        $db1 = new DB();
         $mail = new Mail();
-        
+
         $q = "SELECT * FROM `".TblModNewsDispatchSet."` WHERE 1";
         $res = $db1->db_Query($q);
         $row_sbj = $db1->db_FetchAssoc();
         $subject = stripslashes($row_sbj['sbj']);
-        
+
         $body = $this->GetEmailBody($arr, $is_partner);
         //echo $body;
-        $arr_html_img = array();    
+        $arr_html_img = array();
         $arr_html_img = array_merge($arr_html_img, $mail->ConvertHtmlWithImagesForSend($body));
         //print_r($arr_html_img);
         $body = $arr_html_img['content'];
@@ -2467,14 +2467,14 @@ function news_update( $module )
         if($is_partner==1) {
             $tbl_name = TblModPartners;
         }
-        else $tbl_name = TblModNewsSubscr;        
-        
+        else $tbl_name = TblModNewsSubscr;
+
         $this->subscr_cnt=45;
-        //$this->subscr_start = $this->subscr_start+1; 
+        //$this->subscr_start = $this->subscr_start+1;
         $q = "SELECT * FROM `".$tbl_name."` WHERE 1 AND `status`='1'";
         $res = $db1->db_Query($q);
         $this->subcsr = $db1->db_GetNumRows();
-              
+
         $q = "SELECT * FROM `".$tbl_name."` WHERE `is_send`='0' AND `user_status`='1' ORDER BY `id` asc LIMIT ".$this->subscr_cnt;
         $res = $db1->db_Query($q);
         //echo '<br>$q='.$q.' res='.$res.' $db1->result='.$db1->result;
@@ -2483,20 +2483,20 @@ function news_update( $module )
         //$rows=1;
         for($i=0;$i<$rows;$i++){
             $row = $db1->db_FetchAssoc();
-            echo '<br>'.($this->subscr_start+$i+1).'. '.$row['login'];     
+            echo '<br>'.($this->subscr_start+$i+1).'. '.$row['login'];
             $mail = new Mail();
             foreach($arr_html_img as $key=>$value){
                 //echo '<br>$key='.$key;
                 if( $key!='content') $mail->AddAttachment($key);
             }
-            
+
             //$row['email'] = 'ihor@seotm.com';
             $tmp_arr_emails = explode(',',$row['login']);
             //print_r($tmp_arr_emails); echo '<br>count($tmp_arr_emails)='.count($tmp_arr_emails);
-            
+
             $cnt_emails = count($tmp_arr_emails);
             if( $cnt_emails>1){
-                for($tmp_i=0;$tmp_i<$cnt_emails;$tmp_i++){            
+                for($tmp_i=0;$tmp_i<$cnt_emails;$tmp_i++){
                     $email = addslashes(trim($tmp_arr_emails[$tmp_i]));
                     echo '<br>$email='.$email;
                     $mail->AddAddress($email);
@@ -2504,9 +2504,9 @@ function news_update( $module )
             }
             else {
                 echo '<br>$email='.$row['login'];
-                $mail->AddAddress(addslashes($row['login'])); 
+                $mail->AddAddress(addslashes($row['login']));
             }
-            
+
             //$mail->AddAddress('ihor@seotm.com');
 
             $mail->WordWrap = 500;
@@ -2516,12 +2516,12 @@ function news_update( $module )
             $mail->Body = $body;
             $res = $mail->SendMail();
             if( $res ) {
-                $q = "UPDATE `".$tbl_name."` SET `is_send`='1' WHERE `id`='".$row['id']."'"; 
-                //echo '<br>$q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result; 
+                $q = "UPDATE `".$tbl_name."` SET `is_send`='1' WHERE `id`='".$row['id']."'";
+                //echo '<br>$q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;
                 $res = $tmp_db->db_Query($q);
                 echo ' - OK!';
             }
-            else echo ' - ОШИБКА!'; 
+            else echo ' - ОШИБКА!';
         }//end for
         //check if email send to all subscribers
         $q = "SELECT * FROM `".$tbl_name."` WHERE `user_status`='1' AND `is_send`='0'";
@@ -2530,15 +2530,15 @@ function news_update( $module )
         if($rows==0){
             $q = "DELETE FROM `".TblModNewsDispatchSet."` WHERE 1";
             $res = $db1->db_Query($q);
-            
+
             $q = "DELETE FROM `".TblModNewsDispatch."` WHERE 1";
             $res = $db1->db_Query($q);
 
             $q = "UPDATE `".$tbl_name."` SET `is_send`='0'";
-            $res = $db1->db_Query($q);            
+            $res = $db1->db_Query($q);
         }
         return true;
-     }//end of function MakeDispatchArr()     
+     }//end of function MakeDispatchArr()
 
      // ================================================================================================
      // Function : StopDispatch()
@@ -2552,20 +2552,20 @@ function news_update( $module )
          $db1 = new DB();
          $q = "DELETE FROM `".TblModNewsDispatchSet."` WHERE 1";
          $res = $db1->db_Query($q);
-            
+
          $q = "DELETE FROM `".TblModNewsDispatch."` WHERE 1";
          $res = $db1->db_Query($q);
 
          $q = "UPDATE `".TblModNewsSubscr."` SET `is_send`='0'";
          $res = $db1->db_Query($q);
-         
+
          if( defined("TblModPartners")){
             $q = "UPDATE `".TblModPartners."` SET `is_send`='0'";
             $res = $db1->db_Query($q);
          }
      }
-     
-     
+
+
      // ================================================================================================
      // Function : SaveRelatProdToNews()
      // Version : 1.0.0
@@ -2587,7 +2587,7 @@ function news_update( $module )
         $res = $db1->db_Query($q);
         //echo '<br>$q='.$q.' $res='.$res.' $db1->result='.$db1->result;
         if( !$res OR ! $db1->result) return false;
-        
+
         $rows = count($arr_relat_prop);
         for($i=0;$i<$rows;$i++){
             if( !isset($arr_relat_prop[$i]) OR empty($arr_relat_prop[$i]) ) continue;
@@ -2599,9 +2599,9 @@ function news_update( $module )
             //echo '<br>$q='.$q.' $res='.$res.' $db1->result='.$db1->result;
             if( !$res OR ! $db1->result) return false;
         }
-        return true; 
-     }//end of function SaveRelatProdToNews()     
-     
+        return true;
+     }//end of function SaveRelatProdToNews()
+
 
     /**
     * Class method ImportEdifierNews
@@ -2619,12 +2619,12 @@ function news_update( $module )
         define("TblModNewsEdSprFull", "mod_news_ed_spr_full");
         define("TblModNewsEdRelatProd","mod_news_ed_relat_prod");
         define("TblModNewsEdSubscr","mod_news_ed_subscr");
-        
-        
+
+
         //формирую соответствие старого id товара к новому
-        $q = "SELECT 
+        $q = "SELECT
               `".TblModCatalogPropSprName."`.`cod`,
-              `".TblModProd."`.`id`  
+              `".TblModProd."`.`id`
               FROM `".TblModCatalogPropSprName."`, `".TblModProd."`
               WHERE `".TblModProd."`.`model`=`".TblModCatalogPropSprName."`.`name`";
         $res = $this->db->db_Query( $q );
@@ -2637,17 +2637,17 @@ function news_update( $module )
             $prod_old_new[$sss['id']] = $sss['cod'];
 
         }
-        
+
         // достаю все старые новости
-        $q = "SELECT 
+        $q = "SELECT
               `".TblModNewsEd."`.*,
               `".TblModNewsEdSprSbj."`.`name` AS `sbj`,
               `".TblModNewsEdSprShort."`.`name` AS `short`,
-              `".TblModNewsEdSprFull."`.`name` AS `full` 
+              `".TblModNewsEdSprFull."`.`name` AS `full`
               FROM `".TblModNewsEd."`
               LEFT JOIN `".TblModNewsEdSprSbj."` ON (`".TblModNewsEd."`.`id`=`".TblModNewsEdSprSbj."`.`cod` AND `".TblModNewsEdSprSbj."`.`lang_id`='3')
               LEFT JOIN `".TblModNewsEdSprShort."` ON (`".TblModNewsEd."`.`id`=`".TblModNewsEdSprShort."`.`cod` AND `".TblModNewsEdSprShort."`.`lang_id`='3')
-              LEFT JOIN `".TblModNewsEdSprFull."` ON (`".TblModNewsEd."`.`id`=`".TblModNewsEdSprFull."`.`cod` AND `".TblModNewsEdSprFull."`.`lang_id`='3') 
+              LEFT JOIN `".TblModNewsEdSprFull."` ON (`".TblModNewsEd."`.`id`=`".TblModNewsEdSprFull."`.`cod` AND `".TblModNewsEdSprFull."`.`lang_id`='3')
               WHERE 1
               ORDER BY `".TblModNewsEd."`.`display` asc";
         $res = $this->db->db_Query( $q );
@@ -2659,8 +2659,8 @@ function news_update( $module )
             $arr_prod[$i] = $this->db->db_FetchAssoc();
 
         }
-        
-        //формирую спписок подвязаннх товаров к новости, при чем на id старой новости вешаю новый id товара 
+
+        //формирую спписок подвязаннх товаров к новости, при чем на id старой новости вешаю новый id товара
         $q = "SELECT * FROM `".TblModNewsEdRelatProd."` WHERE 1";
         $res = $this->db->db_Query( $q );
         echo '<br />$q='.$q.' $this->db->result='.$this->db->result;
@@ -2669,7 +2669,7 @@ function news_update( $module )
         $arr_relat_prod = array();
         for($i=0;$i<$rows;$i++){
             $rrr = $this->db->db_FetchAssoc();
-            $arr_relat_prod[$rrr['id_news']][] = $prod_old_new[$rrr['id_prod']]; 
+            $arr_relat_prod[$rrr['id_news']][] = $prod_old_new[$rrr['id_prod']];
 
         }
         $cnt_prod = count($arr_prod);
@@ -2677,21 +2677,21 @@ function news_update( $module )
         for($i=0;$i<$cnt_prod;$i++){
             echo '<br>===== START OF '.$i.' =====';
             $row = $arr_prod[$i];
-            
-            $q = "SELECT 
+
+            $q = "SELECT
                   `".TblModNews."`.*,
                   `".TblModNewsSprSbj."`.`name` AS `sbj`
                   FROM `".TblModNews."`
                   LEFT JOIN `".TblModNewsSprSbj."` ON (`".TblModNews."`.`id`=`".TblModNewsSprSbj."`.`cod` AND `".TblModNewsSprSbj."`.`lang_id`='3')
                   WHERE `start_date`='".$row['start_date']."' AND `".TblModNewsSprSbj."`.`name`='".addslashes($row['sbj'])."'
-                 "; 
+                 ";
             $res = $this->db->db_Query( $q );
             echo '<br />$q='.$q.' $this->db->result='.$this->db->result;
             if( !$res OR !$this->db->result) return false;
             $rows = $this->db->db_GetNumRows();
             echo '<br>$rows='.$rows;
             if($rows>0) continue;
-            
+
             //=== Prepare input data Start ===
             $old_id_news = $row['id'];
             $this->id = NULL;
@@ -2700,18 +2700,18 @@ function news_update( $module )
             $this->status = $row['status'];
             $this->start_date = $row['start_date'];
             $this->end_date = $row['end_date'];
-            
+
             $this->subj_[3] = $row['sbj'];
             $this->keywords[3] = '';
             $this->description[3] = '';
             $this->short_[3] = str_replace("http://edifier.com.ua/images/", "/images/", $row['short']);
             $this->full_[3] = str_replace("http://edifier.com.ua/images/", "/images/", $row['full']);
             //=== Prepare input data End ===
-            
+
             $res = $this->save();
             echo '<br>SAVE = '.$res;
             if(!$res) continue;
-            
+
             if(strstr( strtolower($row['short']), "<img")){
                 $img_big = trim(strip_tags(stripslashes($row['short']),'<img>'));
                 //echo '<br>$img_big2='.$img_big;
@@ -2720,7 +2720,7 @@ function news_update( $module )
             }
             else $img_rel_path = '';
             echo '<br>$img_rel_path='.$img_rel_path;
-            
+
             if(!empty($img_rel_path)){
                 $ext = substr($img_rel_path,1 + strrpos($img_rel_path, "."));
                 $imgNameNoExt = substr($img_rel_path, 1 + strrpos($img_rel_path, "/"));
@@ -2728,36 +2728,36 @@ function news_update( $module )
                 $filename = SITE_PATH.$img_rel_path;
                 $alias = $this->id;
                 $uploaddir = SITE_PATH.$this->settings['img_path'].'/'.$alias;
-                $uploaddir_0 =$uploaddir; 
-                if ( !file_exists ($uploaddir) ) mkdir($uploaddir,0777); 
+                $uploaddir_0 =$uploaddir;
+                if ( !file_exists ($uploaddir) ) mkdir($uploaddir,0777);
                 else @chmod($uploaddir,0777);
     			//$uploaddir2 = time().$i.'.'.$ext;
                 $Crypt = &check_init('Crypt', 'Crypt');
                 $uploaddir2 = $Crypt->GetTranslitStr($imgNameNoExt).'.'.$ext;
-    			$uploaddir = $uploaddir."/".$uploaddir2; 
+    			$uploaddir = $uploaddir."/".$uploaddir2;
                 //$uploaddir = $uploaddir."/".$_FILES['image']['name']["$i"];
                 //$uploaddir2 = $_FILES['image']['name']["$i"];
-                 
+
                 //echo '<br>$filename='.$filename.'<br> $uploaddir='.$uploaddir.'<br> $uploaddir2='.$uploaddir2;
-                
+
                 if ( @copy($filename,$uploaddir) ) {
                     //====== set next max value for move START ============
-                    $maxx = NULL; 
+                    $maxx = NULL;
                     $q = "SELECT MAX(`move`) AS `maxx` FROM `".TblModNewsImg."` WHERE 1";
                     $res = $this->db->db_Query( $q );
                     $row = $this->db->db_FetchAssoc();
-                    $maxx = $row['maxx']+1;     
+                    $maxx = $row['maxx']+1;
                     //====== set next max value for move END ==============
-                     
+
                      $q="INSERT INTO `".TblModNewsImg."` values(NULL,'".$this->id."','".$uploaddir2."','1', '".$maxx."', NULL)";
                      $res = $this->db->db_Query( $q );
                      if( !$this->db->result ) $this->Err = $this->Err.$this->multi['MSG_ERR_SAVE_FILE_TO_DB'].' ('.$img_rel_path.')<br>';
                      echo '<br>q='.$q.' res='.$res.' $this->Right->result='.$this->Right->result;
                 }
-                
+
                 @chmod($uploaddir_0,0755);
             }
-            
+
             //СОХРАНЯЮ ПРИВЯЗАННЫЕ ТОВАРЫ К НОВОСТИ
             if (isset($arr_relat_prod[$old_id_news]) AND count($arr_relat_prod[$old_id_news])>0){
                 $cnt00 = count($arr_relat_prod[$old_id_news]);
@@ -2769,9 +2769,9 @@ function news_update( $module )
                     $res = $this->db->db_Query( $q );
                     echo '<br>q='.$q.' res='.$res.' $this->Right->result='.$this->Right->result;
                 }
-            }            
-            
-            echo '<br>===== END OF '.$i.' =====';                        
+            }
+
+            echo '<br>===== END OF '.$i.' =====';
         }
     }//end of function ImportEdifierNews()
 
