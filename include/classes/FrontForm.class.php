@@ -710,9 +710,9 @@
     // Description : Write Content  Header
     // Programmer : Yaroslav Gyryn
     // ================================================================================================
-    function WriteContentHeader( $h1 = null, $title = null, $path=null)
+    function WriteContentHeader( $h1 = null, $title = null, $path=null,$sprecialClass=NULL)
     {
-        ?><div id="content2Box" class="user-text"><?
+        ?><div id="content2Box" class="user-text <?=$sprecialClass?>"><?
         if($h1) {
             ?><h1><?=$h1;?></h1><div class="devider"></div><?
         }

@@ -90,13 +90,21 @@
     bottom: -3px !important;
     right: -7px !important;
 }
-.image-thumb, .user-text img{
+.image-thumb, .user-text img,#ymaps-map-container{
     padding: 4px;
     background-color: white;
     display: inline-block;
     box-shadow:         1px 1px 5px rgba(50, 50, 50, 0.75);
     border-radius: 6px;
     position: relative;
+}
+#ymaps-map-container{
+    width: 288px !important;
+    height: 280px !important;
+    margin-left: 30px;
+}
+.mapBox a{
+    display: none;
 }
 .image-thumb img{
     display: block;
@@ -118,6 +126,8 @@
     text-transform: uppercase;
     text-decoration: none;
     font-size: 12px;
+    border: none;
+    cursor: pointer;
 }
 .all-gall-btn,.all-sertificats-btn{
     margin-top: 16px;
@@ -244,7 +254,87 @@ h2.article-name{
 a.news-title{
     color: #d03c35;
     font-size: 14px;
-/*    font-weight: bold;*/
+    /*    font-weight: bold;*/
     text-decoration: none;
     font-family: 'PTSerifRegular';
+}
+.news-title-full{
+    font-size: 14px;
+    color:#515151;
+    font-family: 'PTSerifRegular';
+    font-weight: bold;
+    text-transform: none;
+    margin:6px 0 8px 0;
+}
+.news-gall-link{
+    display: none;
+}
+.back-to-devel{
+    font-size: 11px;
+    float: right;
+}
+.don_show_image_border img{
+    background-color: transparent !important;
+    box-shadow: none;
+}
+.user-text h2,.side-bar-contacy-text h2{
+    color: #515151;
+    font-size: 14px;
+    font-weight: bold;
+}
+.side-bar-contacy-text h2{
+    margin-bottom: 5px;
+}
+.mapBox{
+    width: 396px;
+    display: inline-block;
+}
+.feedbackFormBox{
+    display: inline-block;
+    vertical-align: top;
+}
+.map-header,.feddaback-title{
+    background: url("/images/design/map.png") no-repeat left center;
+    padding-left: 47px;
+    margin-bottom: 18px;
+}
+.feddaback-title{
+    background: url("/images/design/message.png") no-repeat left center;
+}
+.request_text,.request_areaAsk{
+    border-left: 1px solid #cacaca;
+    border-top: 1px solid #cacaca;
+    border-bottom: 1px solid #ededed;
+    border-right: 1px solid #ededed;
+    /*    border-bottom: none;
+        border-right: none;*/
+    font-size: 12px;
+    color: #676565;
+    padding: 3px 10px 3px 10px;
+    border-radius: 4px;
+    font-style: italic;
+    font-family: 'arial';
+    margin-bottom: 8px;
+    width: 220px;
+}
+.request_areaAsk{
+    height: 128px;
+    resize: none;
+}
+.ajax-loader{
+    position: absolute;
+    border-radius: 6px;
+    background: white url("/images/design/ajax-loader.gif") no-repeat center center;
+    margin-top: 33px;
+    margin-left: -8px;
+    display: none;
+}
+.ico{
+    display: inline-block;
+    vertical-align: top;
+}
+.side-bar-contacy-text{
+    display: inline-block;
+    width: 230px;
+    margin-left: 10px;
 }

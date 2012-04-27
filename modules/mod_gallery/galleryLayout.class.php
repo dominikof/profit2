@@ -46,6 +46,7 @@ class GalleryLayout extends Gallery{
         if(empty($this->multi)) $this->multi = &check_init_txt('TblFrontMulti', TblFrontMulti);
         if(empty($this->Spr)) $this->Spr = &check_init('SysSpr', 'SysSpr');
         if (empty($this->Crypt)) $this->Crypt = &check_init('Crypt', 'Crypt');
+	 $this->UploadImages = new UploadImage(149, null, $this->settings['img_path'],'mod_gallery_img',NULL,NULL,$this->ln_arr, 800, 1024);
         if(empty($this->settings)) $this->settings = $this->GetSettings();
         //if (empty($this->Msg))  $this->Msg = Singleton::getInstance('ShowMsg');
         //$this->Msg->SetShowTable(TblModGallerySprTxt);
@@ -248,64 +249,26 @@ class GalleryLayout extends Gallery{
 // ================================================================================================
 function ShowGallerysByPages()
 {
-     $rows = $this->GetGallerysRows('limit');
-     $rows = $this->db->db_GetNumRows();
-     $array = array();
-     for( $i = 0; $i <$rows; $i++ ){
-        $array[] = $this->db->db_FetchAssoc();
-     }
-     if($rows==0){
-         ?><div class="err"><?=$this->multi['MSG_NO_GALLERY'];?></div><?
-         return;
-     }
-     for( $i = 0; $i <$rows; $i++ ){
-         $value = $array[$i]; 
-         $name = stripslashes($value['sbj']);
-         $date = $this->ConvertDate($value['start_date']);
-         $short = $this->Crypt->TruncateStr(strip_tags(stripslashes($value['shrt'])),280);
-         $link_cat = $this->Link( $value['cat_translit']);
-         $link = $this->Link( $value['cat_translit'], $value['translit']);
-         ?>
-            <div class="videoNew">
-                <div class="videoNewImage">
-                <?
-                 $title = $name;
-                 //$items = $this->UploadImages->GetPictureInArray($value['id'], $this->lang_id,'size_width=315',85,1);
-                 $items = $this->UploadImages->GetPictureInArrayExSize($value['id'], $this->lang_id,NULL,311,211,true,true,85,false,1,215);
-                 $items_keys = array_keys($items);
-                 $items_count = count($items);
-                 if($items_count>0) {
-                    $items_count =1; // Ограничение для видео не более 1 картинки
-                    for($j=0; $j<$items_count; $j++){   
-                        $alt= $items[$items_keys[$j]]['name'][$this->lang_id];      // Заголовок
-                        $titleImg= $items[$items_keys[$j]]['text'][$this->lang_id]; // Описание 
-                        $path = $items[$items_keys[$j]]['path'];                    // Путь уменьшенной копии
-                        //$path2 = $items[$items_keys[$j]]['path2'];                 // Путь большой копии
-                        //$path_org = $items[$items_keys[$j]]['path_original'];   // Путь оригинального изображения                                
-                        ?><a class="image" href="<?=$link;?>" title="<?=$title;?>"><img src="<?=$path;?>" alt="<?=$alt?>" title="<?=$titleImg;?>" alt="<?=$title;?>" /></a><?
-                    }
-                 }
-                 else {
-                    ?><a href="<?=$link;?>" title="<?=$title;?>"><img  src="/images/design/no-image.jpg" width="310" height="210" alt="" /></a><?
-                 }
-                ?>
-                 </div>
-                <div class="videoShort">
-                    <div class="dateArticles"><?=$date;?></div>
-                    <div class="videoNewTitle"><a href="<?=$link;?>" title="<?=$name;?>"><?=$name;?></a></div>
-                    <div class="short"><?=$short;?></div>
-                    <a class="btnWatch" href="<?=$link;?>"><?=$this->multi['TXT_WATCH'];?></a>
-                </div>
-         </div><? 
-     }
-     if($rows>0){
-     ?>
-     <div class="clear">&nbsp;</div>
-     <div class="pageNaviClass"><?
-         $n_rows = $this->GetGallerysRows('nolimit');
-         $link = $this->Link(null, null );
-         $this->Form->WriteLinkPagesStatic( $link, $n_rows, $this->display, $this->start, $this->sort, $this->page );
-     ?></div><?
+    $items = $this->UploadImages->GetPictureInArrayExSize($pageId, $this->lang_id,NULL,175,135,true,true,85);
+     $q="SELECT `mod_gallery_img`.*,`mod_gallery_img_spr`.* 
+	    FROM `mod_gallery_img`
+		    LEFT JOIN (`mod_gallery_img_spr`) ON (`mod_gallery_img`.`id`=`mod_gallery_img_spr`.`cod` AND `mod_gallery_img_spr`.`$this->lang_id`)
+	    WHERE '1'  
+	 ";
+     $res=$this->db->db_Query($q);
+     if(!$res) return false;
+     $rows=$this->db->db_GetNumRows();
+     for($i = 0; $i < $rows; $i++)
+     {
+	 $row=$this->db->db_FetchAssoc();
+	 if(!empty($row['name']))
+	    $alt=$row['name'];
+	 else $alt=$this->multi['TXT_GALLERY_TITLE'];
+	 if(!empty($row['text']))
+	    $title=$row['text'];
+	 else $title=$this->multi['TXT_GALLERY_TITLE'];
+	 $img=
+	 ?><img src="" alt="<?php echo $alt;?>" title="<?php echo $title;?>"/><?
      }
 } // end of function ShowGallerysByPages
 

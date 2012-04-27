@@ -124,6 +124,41 @@ class FrontendPages extends DynamicPages{
         return true;
     } //end of function loadTree()
     
+    function showSideBarContacts(){
+	$q="SELECT * FROM `mod_spr_diff` WHERE `cod` IN ('5','6','3') AND `lang_id`='$this->lang_id' ORDER BY `cod` DESC";
+	   $res=$this->db->db_Query($q);
+	   if(!$res) return false;
+	   $rows=$this->db->db_GetNumRows();
+	    ?><div class="side-title foto-gallery-side-title">Контакты</div><div class="devider"></div><?
+	    for($i = 0; $i < $rows; $i++)
+	    {
+		$row=$this->db->db_FetchAssoc();
+		 if($row['id']==6){
+			$title= $this->multi['FLD_ADR'];
+			$ico='/images/ico/home.png';
+		    }elseif($row['id']==5){	 
+			$title= $this->multi['_TXT_TEL'];
+			$ico='/images/ico/phone.png';
+		    }elseif($row['id']==3){
+			$ico='/images/ico/email.png';
+			$title= $this->multi['TXT_ELECTR_MAIL'];
+		    }
+		?><div class="ico"><img src="<?=$ico?>" title="<?=$title?>" alt="<?=$title?>"/></div><?
+		?><div class="side-bar-contacy-text">
+		    <h2><?php
+		   echo $title;
+			?>:
+		    </h2>
+		    <?php 
+		    if($row['id']==3)
+			echo '<a href="mailto:'.strip_tags($row['descr']).'" title="'.strip_tags($row['descr']).'">'.strip_tags($row['descr'])."</a>";
+		    else
+			echo $row['descr'];?>
+		</div><?
+	    }
+	
+    }
+    
     /**
     * Class method SetTreeCatLevel
     * set new vlaue to property $this->treePageLevels. It build array $this->treePageLevels[level][id_cat]='' 
@@ -782,10 +817,10 @@ class FrontendPages extends DynamicPages{
     * @author Igor Trokhymchuk  <ihor@seotm.com>
     * @version 1.0, 12.04.2012
     */
-    function ShowContent()
+    function ShowContent($sprecialClass=NULL)
     {
         $name = stripslashes($this->page_txt['pname']);
-        if($this->page!=$this->main_page) $this->Form->WriteContentHeader($name, false,false);
+        if($this->page!=$this->main_page) $this->Form->WriteContentHeader($name, false,false,$sprecialClass);
         else $this->Form->WriteContentHeader($this->page_txt['short'], false,false);
         
          if( !$this->IsPublish($this->page) AND !$this->preview ){

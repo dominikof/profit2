@@ -143,38 +143,7 @@
 
         echo '<TR><TD COLSPAN=6>';
         $this->Form->WriteTopPanel( $this->script, 2);
-        ?>
-        <script type="text/javascript">
-        function send_print(){
-            //alert($(".check0").val());
-            //$(".check0").val();
-            var x = $('.check0');
-            str='';
-            len=x.length;
-            flag=0;
-            for (i=0; i<len; i++)
-            {
-                //alert(x[i].checked);
-                if(x[i].checked==true) {
-                    if(flag==0) flag=1;
-                    else str=str+';';
-                    str=str+x[i].value;
-                }
-            }
-            //alert(str);
-            if(str=='') {
-                alert('<?=$this->msg['TXT_NOTHING_SELECTED']?>');
-                return false;
-            }
-            window.open("/modules/mod_feedback/feedback_ajax.php?task=print_all&id_zvon=1&id_del="+str+"", "", "width=620px, height=400px, status=0, toolbar=0, location=100, menubar=0, resizable=0, scrollbars=1");
-        }
-        </script>
-        <a class="r-button"  href="#" onclick="send_print(); return false;">
-        <span><span>
-         <img src="images/icons/save.png" alt="<?=$this->msg['TXT_PRINT_FEEDBACK']?>" title="<?=$this->msg['TXT_PRINT_FEEDBACK']?>" align="center" name="save" /><?=$this->msg['TXT_PRINT_FEEDBACK']?>
-        </span></span>
-        </a>
-        <?
+        
         //echo '<br>$this->asc_desc='.$this->asc_desc;
         $script2 = 'module='.$this->module.'&display='.$this->display.'&start='.$this->start.'&task=show&fltr='.$this->fltr.'&sort_old='.$this->sort.'&asc_desc='.$this->asc_desc;
         $script2 = $_SERVER['PHP_SELF']."?$script2";

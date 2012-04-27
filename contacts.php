@@ -20,7 +20,7 @@ $Page->SetDescription( $Description );
 $Page->SetKeywords( $Keywords );   
 
 $Page->WriteHeader();
-$Page->FrontendPages->showContent();
+$Page->FrontendPages->showContent('don_show_image_border');
 include_once(SITE_PATH.'/modules/mod_feedback/feedback.php');
 $Page->WriteFooter();
 ?>

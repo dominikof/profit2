@@ -50,7 +50,7 @@ class Feedback {
     * @author Igor Trokhymchuk  <ihor@seotm.com>
     * @version 1.1, 22.12.2010
     */    
-    function __construct() {
+    function Feedback() {
         if(defined("_LANG_ID")) $this->lang_id = _LANG_ID;
     } // End of Feedback Constructor
 
@@ -138,34 +138,6 @@ class Feedback {
         }
         return true;
     }//end of function SaveContact()         
-    
-    /**
-    * Class method GetContentFoId_del
-    * get contebt fo id_del
-    * @return array fo content
-    * @author Bogdan Iglinsky <bi@seotm.com>
-    * @version 1.0, 9.04.2012
-    */
-    function GetContentFoId_del($id_del=NULL){
-        if(!is_array($id_del) | empty($id_del)) return false;
-        $count=count($id_del);
-        $q="SELECT `".TblModfeedback."`.*
-        FROM `".TblModfeedback."`
-        WHERE
-        `".TblModfeedback."`.id in(";
-        for($i=0;$i<$count;$i++){
-            $q.=$id_del[$i];
-            if($i+1<$count) $q.=",";
-        }
-        $q.=") ORDER BY date";
-        //echo '$q='.$q;
-        $res = $this->db->db_Query($q);
-        $rows = $this->db->db_GetNumRows();
-        $array=array();
-        for($i=0;$i<$rows;$i++){
-            $array[] = $this->db->db_FetchAssoc();  
-        }
-        return $array;
-    } 
+   
 } // End of class Feedback
 

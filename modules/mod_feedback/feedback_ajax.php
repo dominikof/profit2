@@ -57,43 +57,38 @@ switch ($FeedbackLayout->task){
   case 'send':
     $err = NULL;
     //echo '<br>$_SESSION[captcha_keystring]='.$_SESSION['captcha_keystring'];
-    if ($FeedbackLayout->CheckFields()!=NULL) {
-        $FeedbackLayout->show_form_left();
-        return false;    
-    }
-    
-    if( !isset($_FILES['filename']) ) $filename = NULL;
-    else $filename = $_FILES['filename'];      
-    if ( $filename!=null and $_FILES["filename"]["error"]==0) {
-      $FeedbackLayout->fpath = $FeedbackLayout->Form->GetRequestTxtData($_FILES["filename"]["name"], 1);
-      $tmp_f_name = $_FILES["filename"]["tmp_name"];
-  
-      $uploaddir = SITE_PATH.FeedbackUploadFilesPath;
-      if ( !file_exists ($uploaddir) ) mkdir($uploaddir,0777); 
-      else @chmod($uploaddir,0777);
-      $uploaddir1 = $uploaddir.$FeedbackLayout->fpath; 
-      if ( !copy($tmp_f_name,$uploaddir1) ) {
-          $FeedbackLayout->Err = $FeedbackLayout->Err.$FeedbackLayout->multi['MSG_ERR_FILE_MOVE'].'<br>';
-          @chmod($uploaddir,0755); 
-          $FeedbackLayout->show_form(); 
-          return false;
-      }
-      @chmod($uploaddir,0755);
-    }
-    else $FeedbackLayout->fpath = NULL;    
-    
+//    if ($FeedbackLayout->CheckFields()!=NULL) {
+//        $FeedbackLayout->show_form();
+//        return false;    
+//    }
+//    
+//    if( !isset($_FILES['filename']) ) $filename = NULL;
+//    else $filename = $_FILES['filename'];      
+//    if ( $filename!=null and $_FILES["filename"]["error"]==0) {
+//      $FeedbackLayout->fpath = $FeedbackLayout->Form->GetRequestTxtData($_FILES["filename"]["name"], 1);
+//      $tmp_f_name = $_FILES["filename"]["tmp_name"];
+//  
+//      $uploaddir = SITE_PATH.FeedbackUploadFilesPath;
+//      if ( !file_exists ($uploaddir) ) mkdir($uploaddir,0777); 
+//      else @chmod($uploaddir,0777);
+//      $uploaddir1 = $uploaddir.$FeedbackLayout->fpath; 
+//      if ( !copy($tmp_f_name,$uploaddir1) ) {
+//          $FeedbackLayout->Err = $FeedbackLayout->Err.$FeedbackLayout->multi['MSG_ERR_FILE_MOVE'].'<br>';
+//          @chmod($uploaddir,0755); 
+//          $FeedbackLayout->show_form(); 
+//          return false;
+//      }
+//      @chmod($uploaddir,0755);
+//    }
+//    else $FeedbackLayout->fpath = NULL;    
+//    
     if( !$FeedbackLayout->send_form() ) {
-        $FeedbackLayout->show_form_left(); 
+        $FeedbackLayout->show_form(); 
     }
     else echo $FeedbackLayout->multi['_TXT_MESS_SENT'];
     break;
-  case 'print_all':
-    if( !isset($_REQUEST['id_del']) ) $id_del=NULL;
-    else $id_del = $_REQUEST['id_del'];
-    $FeedbackLayout->print_all($id_del);
-    break;
   default:
-    //$FeedbackLayout->show_form_left();
+    //$FeedbackLayout->show_form();
     break;      
 }
 ?>

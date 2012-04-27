@@ -7,7 +7,7 @@ include_once( SITE_PATH.'/modules/mod_feedback/feedback.defines.php' );
 * @author Igor Trokhymchuk  <ihor@seotm.com>
 * @version 1.1, 22.12.2010
 */ 
-class FeedbackLayout extends Feedback {
+class FeedbackLayout extends Feedback{
                
     /**
     * Class Constructor FeedbackLayout
@@ -39,62 +39,66 @@ class FeedbackLayout extends Feedback {
     * @author Igor Trokhymchuk  <ihor@seotm.com>
     * @version 1.0, 22.12.2010
     */
-    function show_form()
+    function show_form($showMap=true)
     {
+        
        ?>
-       <div class="subBody" id="feedback">
-           <form method="post" action="<?=_LINK;?>contacts/send/" name="form_mod_feedback" id="form_mod_feedback" enctype="multipart/form-data">
+       <div class="subBody user-text" id="feedback">
+	   <?if($showMap):?>
+	    <div class="mapBox">
+		<h2 class="map-header"><?=$this->multi['TXT_IN_MAP']?>:</h2>
+		<?echo $this->pageTxt['short']?>
+	    </div>
+	   <?endif;?>
+	   <div id="idFeedbackFormBox" class="<?if($showMap) echo 'feedbackFormBox';else echo "feedbackFormBoxSideBar";?>" style="<?if(!$showMap) echo "margin-Left:0px;"?>">
+	       <div id="ajaxLoaderId" class="ajax-loader"></div>
+	       <script type="text/javascript">
+		   function checkName(field, rules, i, options){
+		      if (field.val() == "<?=$this->multi['_TXT_NAME']?>") {
+			    // this allows to use i18 for the error msgs
+			    return options.allrules.required.alertText;
+			}
+ 
+		   }
+		   function checkQuestion(field, rules, i, options){
+		      if (field.val() == "<?=$this->multi['_TXT_MESSAGE']?>") {
+			    // this allows to use i18 for the error msgs
+			    return options.allrules.required.alertText;
+			}
+ 
+		   }
+	       </script>
+	   <?if($showMap):?>
+	   <h2 class="feddaback-title"><?=$this->multi['TXT_FEEDBACK']?></h2>
+	   <?endif;?>
+           <form method="post" action="#" name="form_mod_feedback" id="form_mod_feedback" enctype="multipart/form-data">
                <?$this->ShowErr();?>
-               <div class="floatContainer">
-                   <div class="width25 floatToLeft"><?=$this->multi['_TXT_NAME'];?>: <span class="red">*</span></div>
-                   <div class="width75 floatToRight"><?$this->Form->TextBox('name', stripslashes($this->name));?></div>
+               <div class="floatContainer ">
+		       <input type="text" class="request_text   validate[required,funcCall[checkName]]" id="request1111" placeholder="<?=$this->multi['_TXT_NAME']?>"  value="<?if(empty($this->name)) echo $this->multi['_TXT_NAME']; else echo $this->name;?>" name="name" onclick="if(this.value=='<?=$this->multi['_TXT_NAME'];?>') this.value='';" onblur="if(this.value=='') this.value='<?=$this->multi['_TXT_NAME'];?>';"/>
                </div>
-               <div class="floatContainer">
-                   <div class="width25 floatToLeft"><?=$this->multi['_TXT_E_MAIL'];?>: <span class="red">*</span></div>
-                   <div class="width75 floatToRight"><?$this->Form->TextBox('e_mail', stripslashes($this->e_mail));?></div>
+               <div class="floatContainer ">
+		       <input type="text" class="request_text   validate[required,custom[phone]]" id="requestPhone" placeholder="<?=$this->multi['_TXT_TEL']?>" value="<?if(empty($this->tel)) echo $this->multi['_TXT_TEL']; else echo $this->tel;?>" name="tel" onclick="if(this.value=='<?=$this->multi['_TXT_TEL'];?>') this.value='';" onblur="if(this.value=='') this.value='<?=$this->multi['_TXT_TEL'];?>';"/>
                </div>
-               <div class="floatContainer">
-                   <div class="width25 floatToLeft"><?=$this->multi['_TXT_TEL'];?>: <span class="red">*</span></div>
-                   <div class="width75 floatToRight"><?$this->Form->TextBox('tel', stripslashes($this->tel));?></div>
+               <div class="floatContainer ">
+		       <input type="text" class="request_text   validate[required,custom[email]]" id="request3" placeholder="<?=$this->multi['_TXT_E_MAIL']?>" value="<?if(empty($this->e_mail)) echo $this->multi['_TXT_E_MAIL']; else echo $this->e_mail;?>" name="e_mail" onclick="if(this.value=='<?=$this->multi['_TXT_E_MAIL'];?>') this.value='';" onblur="if(this.value=='') this.value='<?=$this->multi['_TXT_E_MAIL'];?>';"/>
                </div>
-               <div class="floatContainer">
-                   <div class="width25 floatToLeft"><?=$this->multi['_TXT_FAX'];?>:</div>
-                   <div class="width75 floatToRight"><?$this->Form->TextBox('fax', stripslashes($this->fax));?></div>
+               <div class="floatContainer ">
+		       <textarea id="request5" name="question" class="request_areaAsk   validate[required,funcCall[checkQuestion]]" placeholder="<?=$this->multi['_TXT_MESSAGE']?>" onclick="if(this.value=='<?=$this->multi['_TXT_MESSAGE']?>') this.value='';" onblur="if(this.value=='') this.value='<?=$this->multi['_TXT_MESSAGE']?>';"><?if(empty($this->question)) echo $this->multi['_TXT_MESSAGE']; else echo $this->question;?></textarea>
                </div>
                
-               <div class="floatContainer">
-                   <div class="width25 floatToLeft"><?=$this->multi['_TXT_MESSAGE'];?>: <span class="red">*</span></div>
-                   <div class="width75 floatToRight"><?$this->Form->TextArea('question', stripslashes($this->question), 6, 38);?></div>
-               </div>
-               <?
-               if($this->is_files==1){
-                   ?>
-                   <div class="floatContainer">
-                       <div class="width25 floatToLeft"><?=$this->multi['ATTACH_FILE'];?>:</div>
-                       <div class="width75 floatToRight">
-                         <input type="file" name="filename" />
-                         <br /><span style="font-size: 10px;"><?=$this->multi['ATTACH_FILE_DESCR'];?></span>
-                       </div>
-                   </div>
-                   <?
-               }
-               include_once(SITE_PATH.'/include/kcaptcha/kcaptcha.php');
-               ?>
-               <div class="floatContainer">
-                    <div class="width25 floatToLeft"><img src="/include/kcaptcha/index.php?<?=session_name()?>=<?=session_id()?>" alt="" /></div>
-                    <div class="width75 floatToRight">
-                        <div style="font-size:10px;"><?=$this->multi['_TXT_CAPTCHA'];?></div>
-                        <input type="text" name="captchacodestr" class="captchacode"/>
-                    </div>
-               </div>
-               
-               <div class="floatContainer">
-                    <div class="width75 floatToRight">
-                    <input type="submit" name="submit" value="<?=$this->multi['_TXT_SEND']?>" class="btnSubmit" onclick="return verify();"/>
+               <div class="widht100procentov ">
+                    <input id="sendFeedback" type="button" name="submit" value="<?=$this->multi['_TXT_SEND']?>" class="btn" onclick="return check();"/>
                     <?//$this->Form->Button('submit',$this->multi['_TXT_SEND'], 'onclick="return verify();"');?></div>
                </div>
+	   <div id="container_feedback"></div>
            </form>
-       </div>
+	   <script type="text/javascript">
+	       $(document).ready(function(){
+		  $("#form_mod_feedback").validationEngine(); 
+	       });
+	       
+	   </script>
+	   </div>
        <?
        $this->show_JS();
     } //end of fucntion show_form()
@@ -109,80 +113,28 @@ class FeedbackLayout extends Feedback {
     function show_JS()
     {
        ?>
+       
        <script type="text/javascript">
-            function emailCheck (emailStr) {
-                if (emailStr=="") return true;
-                var emailPat=/^(.+)@(.+)$/;
-                var matchArray=emailStr.match(emailPat);
-                if (matchArray==null) 
-                {
-                    return false;
-                }
-                return true;
-            }
-
-            function verify() {
-                var themessage = "<?=$this->multi['_TXT_CHECK'].'\n';?>";
-                if (document.forms.form_mod_feedback.name.value=="") {
-                    themessage = themessage + " - <?=$this->multi['_TXT_CHECK_FIO'].'\n';?>";
-                }
-                if ((!emailCheck(document.forms.form_mod_feedback.e_mail.value))||(document.forms.form_mod_feedback.e_mail.value=='')) {
-                    themessage = themessage + " - <?=$this->multi['_TXT_CHECK_EMAIL'].'\n';?>";
-                }
-                if (document.forms.form_mod_feedback.tel.value=="") {
-                    themessage = themessage + " - <?=$this->multi['_TXT_CHECK_TEL'].'\n';?>";
-                }
-                if (document.forms.form_mod_feedback.question.value=="") {
-                    themessage = themessage + " - <?=$this->multi['MSG_EMPTY_QUESTION'].'\n';?>";
-                }
-
-                if (themessage == "<?=$this->multi['_TXT_CHECK'].'\n';?>")
-                {
-                    //save_order();
-                    return true;
-                }
-                else 
-                    alert(themessage);
-                return false;
-            }
-            
-            function verify2() {
-                var themessage = "<?=$this->multi['_TXT_CHECK'].'\n';?>";
-                if (document.forms.feedback.name.value=="") {
-                    themessage = themessage + " - <?=$this->multi['_TXT_CHECK_FIO'].'\n';?>";
-                }
-                if ((!emailCheck(document.forms.feedback.e_mail.value))||(document.forms.feedback.e_mail.value=='')) {
-                    themessage = themessage + " - <?=$this->multi['_TXT_CHECK_EMAIL'].'\n';?>";
-                }
-                if (document.forms.feedback.tel.value=="") {
-                    themessage = themessage + " - <?=$this->multi['_TXT_CHECK_TEL'].'\n';?>";
-                }
-                if (document.forms.feedback.question.value=="") {
-                    themessage = themessage + " - <?=$this->multi['MSG_EMPTY_QUESTION'].'\n';?>";
-                }
-                
-                if (themessage == "<?=$this->multi['_TXT_CHECK'].'\n';?>")
-                {
-                    save_order();
-                    return true;
-                }
-                else 
-                    alert(themessage);
-                return false;
-            }
-            
+	   
+            function check(){
+		   if($("#form_mod_feedback").validationEngine("validate"))
+		       save_order(); 
+	    }
+	    
             function save_order(){
             $.ajax({
                     type: "POST",
-                    data: $("#feedback").serialize() ,
+                    data: $("#form_mod_feedback").serialize() ,
                     url: "<?=_LINK;?>feedback_ajax/",
                     success: function(msg){
                     //alert(msg);
-                    $("#container_feedback").html( msg );
+		    $("#ajaxLoaderId").fadeOut('fast', function(){
+			$("#form_mod_feedback").validationEngine('showPrompt', msg, 'pass');
+		    });
                     },
                     beforeSend : function(){
                         //$("#sss").html("");
-                        $("#rez").html('<div style="text-align:center;"><img src="/images/style/ajax-load.gif" alt="" title="" /></div>');
+			$("#ajaxLoaderId").width($("#idFeedbackFormBox").width()+15).height($("#idFeedbackFormBox").height()-26).fadeTo("fast",0.6);
                     }  
                     });
             }
@@ -233,79 +185,6 @@ class FeedbackLayout extends Feedback {
         return $this->Err;
     } //end of fuinction CheckFields()         
     
-    /**
-    * Class method print_all
-    * print all contact.
-    * @return none
-    * @author Bogdan Iglinsky <bi@seotm.com>
-    * @version 1.0, 9.4.2012
-    */
-    function print_all($id_del){
-        $data=explode(';', trim($id_del));
-        //print_r($data);
-        $array=$this->GetContentFoId_del($data);
-        
-        ?>
-        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
-        <head>
-        
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv='Content-Type' content="application/x-javascript; charset=utf-8" /> 
-        <meta http-equiv="Content-Language" content="ru" />
-        <title>Заказ обратного звонка</title>
-        <meta name="Description" content="Заказ обратного звонка" />
-        <meta name="Keywords" content="Заказ обратного звонка" />       
-                
-        <link rel="icon" type="image/vnd.microsoft.icon"  href="/images/design/favicon.ico" />
-        <link rel="SHORTCUT ICON" href="/images/design/favicon.ico" />
-        
-        <link href="/include/css/compare.css" type="text/css" rel="stylesheet" />
-        </head>
-        <body style="background:white;">
-            <div style="overflow: hidden;">
-             <div style="float:left;width: 251px;height: 99px;padding-right: 10px;"><img src="/images/design/logo.png"></div>
-             <div style="padding: 50px 10px 50px 275px; font-size:18px;">
-              Заказ обратного звонка
-             </div>
-            </div>
-
-             <div style="width:600px;">
-                 <table border="1" cellspacing="0" cellpadding="5" width="100%">
-                  <tbody>
-                  <tr align="center" style="font-weight:bold;"> 
-                   <td align="cetter">Имя</td>
-                   <td align="center">Телефон</td>
-                   <td align="center">Коментарий</td>
-                   <td align="center">Дата</td>
-                  </tr>
-                  <?$count=count($array);
-                  for($i=0;$i<$count;$i++){
-                    $arr=$array[$i];
-                    ?>
-                    <tr align="center">
-                    <td align="center"><?=$arr['f_name']?></td>
-                    <td align="center"><?=$arr['tel']?></td>
-                    <td align="center"><?=$arr['message']?></td>
-                    <td align="center"><?=$arr['date']?></td>
-                    </tr> 
-                    <?
-                  }?> 
-                  
-                 </tbody>
-                 </table>
-             </div>
-             <br />
-              <div align="center" style="margin-top: 15px;width: 600px;"> 
-                 <div style="width:200px;" align="center" onclick="this.style.visibility='hidden';">
-                    <input type="submit" name="submit" value="Распечатать" onclick="this.style.visibility='hidden'; window.print();" />
-                 </div>
-             </div>
-        
-        
-        </body></html>
-        <?
-    }
-
 
     /**
     * Class method send_form
@@ -352,8 +231,7 @@ class FeedbackLayout extends Feedback {
         </style>
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr><td width="100">'.$this->multi['_TXT_NAME'].':</td><td>'.stripslashes($this->name).'</td></tr>
-        <tr><td>'.$this->multi['_TXT_TEL'].':</td><td>'.stripslashes($this->tel).'</td></tr>
-        <tr><td>'.$this->multi['COMPANY'].':</td><td>'.stripslashes($this->fax).'</td></tr> 
+        <tr><td width="100">'.$this->multi['_TXT_TEL'].':</td><td>'.stripslashes($this->tel).'</td></tr>
         <tr><td>'.$this->multi['_TXT_E_MAIL'].':</td><td><a href="mailto:'.stripslashes($this->e_mail).'">'.stripslashes($this->e_mail).'</a></td></tr>
         <tr><td colspan="2" align="left">'.$this->multi['_TXT_MESSAGE'].':</td></tr>
         <tr><td colspan="2">'.$question.'</td></tr>';
@@ -390,75 +268,6 @@ class FeedbackLayout extends Feedback {
     } //end of function send_form()
        
    
-    /**
-    * Class method show_form_left
-    * show form for quick feedback
-    * @author Igor Trokhymchuk  <ihor@seotm.com>
-    * @version 1.1, 24.12.2010
-    */     
-    function show_form_left()
-    {
-        $this->show_JS();
-        ?> 
-        <div class="box rb2" style="overflow: hidden">
-         <ins class="center top"></ins>
-         <h2><?=$this->multi['QUICK_FEEDBACK'];?></h2>
-         <div class="container" id="container_feedback">
-          <div id="rez"><?$this->ShowErrLeft();?></div> 
-          <form method="post" name="feedback" id="feedback" action="#">
-           <input type="hidden" name="quick_form" value="1" />
-           <input type="hidden" name="task" value="send" />
-           <ul class="request">
-            <li>
-             <div class="form-label"><label for="request1"><?=$this->multi['_TXT_NAME'];?>:</label>&nbsp;<span class="asterics">*</span></div>
-             <div class="form-input"><input type="text" onfocus="sh_kcaptcha();" class="request_text" id="request1" value="<?=stripslashes($this->name);?>" name="name" /></div>                 
-            </li>
-            <li>
-             <div class="form-label"><label for="request2"><?=$this->multi['COMPANY']?></label></div>
-             <div class="form-input"><input type="text" class="request_text" id="request2" value="<?=stripslashes($this->fax);?>" name="fax" /></div>
-            </li>
-            <li>
-             <div class="form-label"><label for="request3"><?=$this->multi['_TXT_E_MAIL']?></label>&nbsp;<span class="asterics">*</span></div>
-             <div class="form-input"><input type="text" class="request_text" id="request3" value="<?=stripslashes($this->e_mail);?>" name="e_mail" /></div>
-            </li>                                                 
-            <li>
-             <div class="form-label"><label for="request4"><?=$this->multi['_TXT_TEL']?></label>&nbsp;<span class="asterics">*</span></div>
-             <div class="form-input"><input type="text" class="request_text" id="request4" value="<?=stripslashes($this->tel);?>" name="tel" /></div>
-            </li>
-            <li>
-             <label for="request5"><?=$this->multi['_TXT_MESSAGE']?></label>&nbsp;<span class="asterics">*</span>
-            </li>                                
-            <li>
-             <textarea id="request5" name="question" class="textarea_small"><?=stripslashes($this->question);?></textarea>
-            </li>
-            <?
-            /*
-            if( empty($this->Err) ) $disp="none";
-            else $disp="block";
-            ?>
-            <li id="seokcaptcha" style="display:<?=$disp;?>;">
-             <?include_once(SITE_PATH.'/include/kcaptcha/kcaptcha.php');?>
-             <div style="float:left" id="sss"><img src="/include/kcaptcha/index.php?<?=session_name();?>=fqrpcicbqfg7se785e72j36ukdco6lm1"></div>
-             <div style="padding: 20px 0px 5px 85px; float:none;"><input type="text" name="captchacodestr" size="10" /></div>
-             <div style="font-size:10px; float:none; height:18px;"><?=$multis['_TXT_CAPTCHA'];?></div>
-            </li>
-            */?>        
-            <li>
-             <input type="submit" value="<?=$this->multi['_TXT_SEND']?>" class="button21"  onclick="verify2(); return false;" />
-            </li>                
-           </ul> 
-           <div class="clear"></div>
-          </form>
-         </div>
-         <ins class="center bottom"></ins>
-         <ins class="round tl"></ins>
-         <ins class="round tr"></ins>
-         <ins class="round bl"></ins>
-         <ins class="round br"></ins>
-        </div> 
-        
-        <?
-    } //end of fucntion show_form_left()
     
     
     /**

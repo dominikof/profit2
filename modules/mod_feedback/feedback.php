@@ -45,7 +45,8 @@ else $FeedbackLayout->refpage = $FeedbackLayout->Form->GetRequestTxtData($_COOKI
 
 if(!isset($_COOKIE['serfing'])) $FeedbackLayout->cookie_serfing = NULL;
 else $FeedbackLayout->cookie_serfing = $_COOKIE['serfing'];
-?><h1><?=$FeedbackLayout->multi['_TXT_FORM_NAME'];?></h1><?
+
+$FeedbackLayout->pageTxt=$Page->FrontendPages->page_txt;
 
 switch ($FeedbackLayout->task){
   case 'show_form':

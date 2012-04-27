@@ -347,7 +347,7 @@ class ArticleLayout extends Article{
 			$main_small=$this->ShowImage($main_img_data['path'], $value['id'], 'size_width=407', 85, NULL, "",true);
 		    ?>
 		    
-                    <a href="<?=$path;?>" class="fancybox" id="bigARticleImageId" title="<?=$name?>">
+                    <a href="<?=$path;?>" class="fancybox" id="bigARticleImageId"  rel="newsGall" title="<?=$name?>">
 			<img class="big-article-image" src="<?=$main_small?>" alt="<?=$name?>" title="<?=$name?>"/>
 			 <img src="/images/design/zoom.png" alt="zoom" title="zoom" class="zoom">
 		    </a>
@@ -367,6 +367,7 @@ class ArticleLayout extends Article{
                              if( !empty($row['path']) ) {
                                  ?>
 				 <img alt="<?=$name?>" title="<?=$name?>" src="<?=$thumb?>" onclick="$('#bigARticleImageId').attr('href','<?=$path?>').children('img.big-article-image').attr('src', '<?=$big?>');"/>
+				 <a href="<?=$path;?>" class="fancybox news-gall-link" rel="newsGall" title="<?=$name?>"></a>
 				 <?
                              } 
                             

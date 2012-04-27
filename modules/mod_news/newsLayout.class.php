@@ -325,7 +325,6 @@ class NewsLayout extends News{
             `".TblModNewsSprShrt."`.lang_id='".$this->lang_id."' and  
             `".TblModNewsSprSbj."`.`lang_id`='".$this->lang_id."' and 
             `".TblModNewsSprSbj."`.`name`!='' and
-            `".TblModNews."`.top = '0' and
             `".TblModNews."`.property = '0'
          ";
          if( $this->fltr!='' ) $q = $q.$this->fltr;
@@ -372,15 +371,15 @@ class NewsLayout extends News{
     function NewsShowFull()
     {
         $value = $this->GetNewsData($this->id);
+	$name=$value['sbj'];
         if( !isset($value['id']) ) return false;
         ?>
         <div class="subBody">
          <div class="news-date"><?=$this->ConvertDate($value['start_date'],false,false,true,' ');?></div>
+	 <h1 class="news-title-full"><?=$name?></h1>
          <?/* <a href="<?=$this->Link( $value['id_category']);?>"><?=stripslashes($value['category']);?></a><?*/
-         if ( isset($settings['img']) AND $settings['img']=='1' ){
-           
+	 
              $img_arr = $this->GetImagesToShow($value['id']);
-	       
              if (isset($img_arr[0])) {
 		 $main_img_data = $img_arr[0];
                 ?>
@@ -389,7 +388,7 @@ class NewsLayout extends News{
 			$main_small=$this->ShowImage($main_img_data['path'], $value['id'], 'size_width=407', 85, NULL, "",true);
 		    ?>
 		    
-                    <a href="<?=$path;?>" class="fancybox" id="bigARticleImageId" title="<?=$name?>">
+                    <a href="<?=$path;?>" class="fancybox" rel="newsGall" id="bigARticleImageId" title="<?=$name?>">
 			<img class="big-article-image" src="<?=$main_small?>" alt="<?=$name?>" title="<?=$name?>"/>
 			 <img src="/images/design/zoom.png" alt="zoom" title="zoom" class="zoom">
 		    </a>
@@ -403,12 +402,14 @@ class NewsLayout extends News{
 			<?
                         for($i=1;$i<count($img_arr);$i++){
 			    $row=$img_arr[$i];
-                            $path = ArticleImg_Path.'/'.$value['id'].'/'.$row['path'];
+                            $path = '/images/mod_news/'.$value['id'].'/'.$row['path'];
                            $thumb=$this->ShowImage($row['path'], $value['id'], 'size_width=120', 85, NULL, "",true);
 			   $big=$this->ShowImage($row['path'], $value['id'], 'size_width=407', 85, NULL, "",true);
                              if( !empty($row['path']) ) {
                                  ?>
+				 
 				 <img alt="<?=$name?>" title="<?=$name?>" src="<?=$thumb?>" onclick="$('#bigARticleImageId').attr('href','<?=$path?>').children('img.big-article-image').attr('src', '<?=$big?>');"/>
+				  <a href="<?=$path;?>" class="fancybox news-gall-link" rel="newsGall" title="<?=$name?>"></a>
 				 <?
                              } 
                             
@@ -417,12 +418,11 @@ class NewsLayout extends News{
                     }
 		}
                  
-             } // end if img
          if ( isset($this->settings['full_descr']) AND $this->settings['full_descr']=='1' ) { 
              $full_news = stripslashes($value['full_news']);
              ?><div><?=$full_news;?></div><?
          }  
-         ?><div><a href="javascript:history.back()">←<?=$this->multi['TXT_FRONT_GO_BACK'];?></a></div><?
+         ?><a href="javascript:history.back()" class="back-to-devel"><?=$this->multi['TXT_FRONT_GO_BACK_NEWS'];?></a><?
          if( $this->is_tags==1 ){
            if (empty($this->Tags))      
                 $this->Tags = Singleton::getInstance('FrontTags');

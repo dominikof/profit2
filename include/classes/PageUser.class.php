@@ -308,6 +308,9 @@ class PageUser extends Page {
         <script type="text/javascript" src="/include/js/jquery.carouFredSel-5.5.2-packed.js"></script> 
 	<script type="text/javascript" src="/include/js/fancybox2.0.6/jquery.fancybox.pack.js"></script> 
 	<link href="/include/js/fancybox2.0.6/jquery.fancybox.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="/include/js/validator/jquery.validationEngine.js"></script> 
+	<script type="text/javascript" src="/include/js/validator/jquery.validationEngine-ru.js"></script> 
+	<link href="/include/js/validator/validationEngine.jquery.css" type="text/css" rel="stylesheet" />
         <?/*<script type="text/javascript" src='http://<?=NAME_SERVER."/sys/js/jQuery/jquery.js";?>'></script>*/?>
     
         
@@ -371,8 +374,10 @@ class PageUser extends Page {
 		if($this->FrontendPages->page==$this->FrontendPages->main_page){
 			$this->getSprDataContactsMain();
 		}
-		
-		$this->Gallery->ShowGalleryLast(1);
+		if($this->FrontendPages->page==PAGE_GALLERY)
+		    $this->FrontendPages->showSideBarContacts();
+		else
+		    $this->Gallery->ShowGalleryLast(1);
 		$this->FrontendPages->showSideBarSertificats();
 		?>
 		

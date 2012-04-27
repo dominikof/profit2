@@ -25,7 +25,7 @@ else $News->sort=$News->Form->GetRequestTxtData($_REQUEST['sort'], 1);
 if(!isset($_REQUEST['start'])) $News->start=0;
 else $News->start=$News->Form->GetRequestTxtData($_REQUEST['start'], 1);
 
-if(!isset($_REQUEST['display'])) $News->display=4;
+if(!isset($_REQUEST['display'])) $News->display=6;
 else $News->display=$News->Form->GetRequestTxtData($_REQUEST['display'], 1);
 
 if(!isset($_REQUEST['page'])) $News->page=1;
