@@ -1,4 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/C:/WebServers/home/profit2/www/modules/mod_news/newsLayout.class.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/modules/mod_article/articleLayout.class.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/modules/mod_news/newsCtrl.class.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/modules/mod_news/news.class.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/modules/mod_news/news.backend.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/include/css/style.css</file>
+        <file>file:/C:/WebServers/home/profit2/www/modules/mod_news/news.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/contacts.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/modules/mod_pages/pagesLayout.class.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/include/classes/FrontForm.class.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/modules/mod_feedback/feedbackLayout.class.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/modules/mod_feedback/feedback.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/include/classes/PageUser.class.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/index.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/modules/mod_feedback/feedback.class.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/include/defines.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/modules/mod_gallery/galleryLayout.class.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/modules/mod_gallery/gallery.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/sys/classes/sysDatabase.single.class.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/modules/mod_gallery/galleryCtrl.class.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/sys/classes/upload/uploadImage.class.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/sys/classes/upload/upload.model.php</file>
+        <file>file:/C:/WebServers/home/profit2/www/include/js/lib.js</file>
+        <file>file:/C:/WebServers/home/profit2/www/include/css/main.css</file>
+        <file>file:/C:/WebServers/home/profit2/www/include/css/browsers/ie8.css</file>
+        <file>file:/C:/WebServers/home/profit2/www/include/css/browsers/ie7.css</file>
+        <file>file:/C:/WebServers/home/profit2/www/ie.css</file>
+    </open-files>
 </project-private>

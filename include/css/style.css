@@ -285,6 +285,9 @@ a.news-title{
 .side-bar-contacy-text h2{
     margin-bottom: 5px;
 }
+a.fancybox{
+    text-decoration: none;
+}
 .mapBox{
     width: 396px;
     display: inline-block;
@@ -337,4 +340,18 @@ a.news-title{
     display: inline-block;
     width: 230px;
     margin-left: 10px;
+}
+.gallery-fotos{
+    display: inline-block;
+    margin-top: 10px;
+}
+.gallery-fotos img{
+    margin-right: 24px;
+    margin-bottom: 10px;
+}
+.no-gallery-image-margin{
+    margin-right: 0px !important;
+}
+.sertificat-item{
+    display: inline-block;
 }

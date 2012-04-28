@@ -7,17 +7,17 @@
 // Licensed To:
 // Igor  Trokhymchuk  ihoru@mail.ru
 // Yaroslav Gyryn    las_zt@mail.ru
-//  
+//
 // Purpose : Class definition for all actions with Layout of Gallery on the Front-End
 //
 // ================================================================================================
 include_once( SITE_PATH.'/modules/mod_gallery/gallery.defines.php' );
 
 class GalleryLayout extends Gallery{
-       
+
     var $id = NULL;
     var $title = NULL;
-       
+
     // ================================================================================================
     //    Function          : GalleryLayout (Constructor)
     //    Version           : 1.0.0
@@ -30,7 +30,7 @@ class GalleryLayout extends Gallery{
     //    Description       : Opens and selects a dabase
     // ================================================================================================
     function GalleryLayout($user_id = NULL, $module=NULL, $display=NULL, $sort=NULL, $start=NULL) {
-        
+
         //Check if Constants are overrulled
         ( $user_id   !="" ? $this->user_id = $user_id  : $this->user_id = NULL );
         ( $module   !="" ? $this->module  = $module   : $this->module  = NULL );
@@ -39,22 +39,24 @@ class GalleryLayout extends Gallery{
         ( $start    !="" ? $this->start   = $start    : $this->start   = 0    );
 
         if(defined("_LANG_ID")) $this->lang_id = _LANG_ID;
-        
+
         $this->db =  DBs::getInstance();
         $this->Right =  &check_init('RightsGalleryLayout', 'Rights',"'".$this->user_id."','".$this->module."'");
-        $this->Form = &check_init('FormGallery', 'FrontForm', "'form_gallery'");        
+        $this->Form = &check_init('FormGallery', 'FrontForm', "'form_gallery'");
         if(empty($this->multi)) $this->multi = &check_init_txt('TblFrontMulti', TblFrontMulti);
         if(empty($this->Spr)) $this->Spr = &check_init('SysSpr', 'SysSpr');
         if (empty($this->Crypt)) $this->Crypt = &check_init('Crypt', 'Crypt');
+	$this->ln_sys = &check_init('SysLang', 'SysLang');
+        $this->ln_arr = $this->ln_sys->LangArray( $this->lang_id );
 	 $this->UploadImages = new UploadImage(149, null, $this->settings['img_path'],'mod_gallery_img',NULL,NULL,$this->ln_arr, 800, 1024);
         if(empty($this->settings)) $this->settings = $this->GetSettings();
         //if (empty($this->Msg))  $this->Msg = Singleton::getInstance('ShowMsg');
         //$this->Msg->SetShowTable(TblModGallerySprTxt);
         //if (empty($this->Spr))  $this->Spr = Singleton::getInstance('FrontSpr');
         if (empty($this->Form))  $this->Form = Singleton::getInstance('FrontForm','form_gallery');
-       
+
         $this->UploadImages = new UploadImage(149, null, $this->settings['img_path'],'mod_gallery_img');
-        
+
         ( defined("USE_TAGS")       ? $this->is_tags = USE_TAGS         : $this->is_tags=0      );
         ( defined("USE_COMMENTS")   ? $this->is_comments = USE_COMMENTS : $this->is_comments=0  );
     } // End of GalleryLayout Constructor
@@ -109,7 +111,7 @@ class GalleryLayout extends Gallery{
          $this->ShowGalleryCat();
          ?>
         </div>
-        <? 
+        <?
     }
 
     // ================================================================================================
@@ -123,7 +125,7 @@ class GalleryLayout extends Gallery{
     function ShowGalleryCat( $cat = NULL )
     {
         $db = new DB();
-        $q = "SELECT `".TblModGalleryCat."`.* 
+        $q = "SELECT `".TblModGalleryCat."`.*
               FROM `".TblModGalleryCat."`
               WHERE `lang_id`='".$this->lang_id."'
               AND `name`!=''
@@ -145,7 +147,7 @@ class GalleryLayout extends Gallery{
             <?
         }
         else {
-            ?><div class="err" align="center"><?            
+            ?><div class="err" align="center"><?
                 echo $this->multi['TXT_NO_DATA'];
             ?></div><?
         }
@@ -162,7 +164,7 @@ class GalleryLayout extends Gallery{
     // ================================================================================================
     function ShowGalleryNavigation() {
         $db = new DB();
-        $q = "SELECT `".TblModGalleryCat."`.* 
+        $q = "SELECT `".TblModGalleryCat."`.*
               FROM `".TblModGalleryCat."`
               WHERE `lang_id`='".$this->lang_id."'
               AND `name`!=''
@@ -174,7 +176,7 @@ class GalleryLayout extends Gallery{
         <div class="leftMenu">
             <div class="leftBlockHead"><?=$this->multi['TXT_NOVIGATE'];?></div>
             <ul>
-            <?            
+            <?
             for( $i = 0; $i < $rows; $i++ ){
                 $row = $db->db_FetchAssoc();
                 $name = $row['name'];
@@ -183,7 +185,7 @@ class GalleryLayout extends Gallery{
             } // end for
             ?>
             </ul>
-        </div>        
+        </div>
         <?
         }
     }
@@ -201,7 +203,7 @@ class GalleryLayout extends Gallery{
             return;
 
     $q = "
-        SELECT 
+        SELECT
              `".TblModGallery."`.id,
              `".TblModGallery."`.dttm as start_date,
              `".TblModGallery."`.category as id_category,
@@ -212,10 +214,10 @@ class GalleryLayout extends Gallery{
              `".TblModGalleryCat."`.translit as cat_translit,
              `".TblModGallery."`.position
         FROM `".TblModGallery."`, `".TblModGalleryTxt."`, `".TblModGalleryCat."`
-        WHERE  `".TblModGallery."`.category = `".TblModGalleryCat."`.cod 
-              AND `".TblModGallery."`.id = `".TblModGalleryTxt."`.cod  
+        WHERE  `".TblModGallery."`.category = `".TblModGalleryCat."`.cod
+              AND `".TblModGallery."`.id = `".TblModGalleryTxt."`.cod
               AND `".TblModGalleryTxt."`.lang_id='".$this->lang_id."'
-              AND `".TblModGalleryCat."`.lang_id='".$this->lang_id."' 
+              AND `".TblModGalleryCat."`.lang_id='".$this->lang_id."'
               AND `".TblModGalleryTxt."`.name!=''
               AND  `".TblModGallery."`.id  IN (".$idNews.")
               ";
@@ -225,20 +227,20 @@ class GalleryLayout extends Gallery{
         $res = $this->db->db_Query( $q );
         $rows = $this->db->db_GetNumRows();
         //echo "<br>".$q."<br/> res=".$res." rows=".$rows;
-         
+
         if($rows==0)
              return;
-             
+
          $array = array();
          for( $i = 0; $i <$rows; $i++ ){
              $row = $this->db->db_FetchAssoc();
              $array[$row['id']] = $row;
              $array[$row['id']]['module'] = $idModule;
          }
-         
+
          return $array;
     }
-                    
+
 // ================================================================================================
 // Function : ShowGallerysByPages()
 // Parms :
@@ -247,29 +249,49 @@ class GalleryLayout extends Gallery{
 // Programmer : Yaroslav Gyryn
 // Date : 06.01.2010
 // ================================================================================================
+
 function ShowGallerysByPages()
 {
-    $items = $this->UploadImages->GetPictureInArrayExSize($pageId, $this->lang_id,NULL,175,135,true,true,85);
-     $q="SELECT `mod_gallery_img`.*,`mod_gallery_img_spr`.* 
-	    FROM `mod_gallery_img`
-		    LEFT JOIN (`mod_gallery_img_spr`) ON (`mod_gallery_img`.`id`=`mod_gallery_img_spr`.`cod` AND `mod_gallery_img_spr`.`$this->lang_id`)
-	    WHERE '1'  
-	 ";
-     $res=$this->db->db_Query($q);
-     if(!$res) return false;
-     $rows=$this->db->db_GetNumRows();
-     for($i = 0; $i < $rows; $i++)
-     {
-	 $row=$this->db->db_FetchAssoc();
-	 if(!empty($row['name']))
-	    $alt=$row['name'];
-	 else $alt=$this->multi['TXT_GALLERY_TITLE'];
-	 if(!empty($row['text']))
-	    $title=$row['text'];
-	 else $title=$this->multi['TXT_GALLERY_TITLE'];
-	 $img=
-	 ?><img src="" alt="<?php echo $alt;?>" title="<?php echo $title;?>"/><?
-     }
+
+    $items = $this->UploadImages->GetPictureInArrayExSize(-1, $this->lang_id,NULL, 197, 139, true, true, 85);
+//     $q="SELECT `mod_gallery_img`.*,`mod_gallery_img_spr`.*
+//	    FROM `mod_gallery_img`
+//		    LEFT JOIN (`mod_gallery_img_spr`) ON (`mod_gallery_img`.`id`=`mod_gallery_img_spr`.`cod` AND `mod_gallery_img_spr`.`$this->lang_id`)
+//	    WHERE '1'
+//	 ";
+//     $res=$this->db->db_Query($q);
+//     if(!$res) return false;
+//     $rows=$this->db->db_GetNumRows();
+
+	$keys=  array_keys($items);
+	$count = count($keys);
+	$rowCounter=0;
+	for($i = 0; $i < $count; $i++)
+	{
+	    $row = $items[$keys[$i]];
+	    $path_origin = $row['path_original'];
+	    $path=$row['path'];
+	    if(!empty($row['name'][$this->lang_id]))
+		$alt = $row['name'][$this->lang_id];
+	    else
+		$alt = $this->multi['TXT_GALLERY_TITLE'];
+	    if(!empty($row['text'][$this->lang_id]))
+		$title = $row['text'][$this->lang_id];
+	    else
+		$title = $this->multi['TXT_GALLERY_TITLE'];
+
+	    $rowCounter++;
+
+	    ?>
+	    <a href="<?= $path_origin ?>" alt="<?php echo $alt; ?>" title="<?php echo $title; ?>" class="fancybox-gallery gallery-fotos" rel="photo-galley">
+		<img src="<?php echo $path;?>" alt="<?php echo $alt; ?>" title="<?php echo $title; ?>" class="<?if($rowCounter==3){
+		    echo "no-gallery-image-margin";
+		    $rowCounter=0;
+		}
+		?>"/>
+	    </a>
+	    <?
+	}
 } // end of function ShowGallerysByPages
 
 
@@ -284,7 +306,7 @@ function ShowGallerysByPages()
     function GetGallerysRows($limit='limit')
     {
         $q = "
-        SELECT 
+        SELECT
              `".TblModGallery."`.id,
              `".TblModGallery."`.dttm as start_date,
              `".TblModGallery."`.category as id_category,
@@ -295,13 +317,13 @@ function ShowGallerysByPages()
              `".TblModGalleryCat."`.translit as cat_translit,
              `".TblModGallery."`.position
         FROM `".TblModGallery."`, `".TblModGalleryTxt."`, `".TblModGalleryCat."`
-        WHERE  `".TblModGallery."`.category = `".TblModGalleryCat."`.cod 
-              AND `".TblModGallery."`.id = `".TblModGalleryTxt."`.cod  
+        WHERE  `".TblModGallery."`.category = `".TblModGalleryCat."`.cod
+              AND `".TblModGallery."`.id = `".TblModGalleryTxt."`.cod
               AND `".TblModGalleryTxt."`.lang_id='".$this->lang_id."'
-              AND `".TblModGalleryCat."`.lang_id='".$this->lang_id."' 
+              AND `".TblModGalleryCat."`.lang_id='".$this->lang_id."'
               AND `".TblModGalleryTxt."`.name!=''";
         if( $this->fltr!='' ) $q = $q.$this->fltr;
-         
+
         $q = $q." ORDER BY `".TblModGallery."`.position DESC";
         if($limit=='limit') $q = $q." LIMIT ".$this->start.",".$this->display."";
 
@@ -315,7 +337,7 @@ function ShowGallerysByPages()
             $res = $tmp_db->db_Query( $q );
             $rows = $tmp_db->db_GetNumRows();*/
         //}
-        //echo "<br>q=".$q." res=".$res." rows=".$rows;        
+        //echo "<br>q=".$q." res=".$res." rows=".$rows;
         return $rows;
     } // end of  GetGallerysRows()
 
@@ -328,17 +350,17 @@ function ShowGallerysByPages()
     // ================================================================================================
     function ShowGalleryFull()
     {
-        $rows = $this->GetGalleryData($this->id);     
-        if($rows==0) 
+        $rows = $this->GetGalleryData($this->id);
+        if($rows==0)
             return false;
         $value = $this->db->db_FetchAssoc();
         //print_r($value );
         $name = stripslashes($value['sbj']);
         $title = $name;
         $linkCat= $this->Link( $value['cat_translit']);
-        
+
         ?><div class="backContainer">
-            <a class="btnBack right" href="javascript:window.history.go(-1);">← <?=$this->multi['MOD_NEWS_BACK'];?></a> 
+            <a class="btnBack right" href="javascript:window.history.go(-1);">← <?=$this->multi['MOD_NEWS_BACK'];?></a>
         </div>
          <?
         $items = $this->UploadImages->GetPictureInArrayExSize($this->id, $this->lang_id,NULL,110,75,true,true,85,NULL,644,439);
@@ -357,15 +379,15 @@ function ShowGallerysByPages()
                 <div id="carouselBlock">
                     <ul id="carousel" class="vhidden jcarousel-skin-portfolio"><?
                     //$responce ='';
-                    for($j=0; $j<$items_count; $j++){   
+                    for($j=0; $j<$items_count; $j++){
                         $alt= stripslashes(htmlspecialchars($items[$items_keys[$j]]['name'][$this->lang_id]));  // Заголовок
-                        $title= stripslashes(htmlspecialchars($items[$items_keys[$j]]['text'][$this->lang_id]));  // Описание 
+                        $title= stripslashes(htmlspecialchars($items[$items_keys[$j]]['text'][$this->lang_id]));  // Описание
                         $path = $items[$items_keys[$j]]['path'];                    // Путь уменьшенной копии
                         $path2 = $items[$items_keys[$j]]['path2'];                 // Путь большой копии
                         $path_org = $items[$items_keys[$j]]['path_original'];   // Путь оригинального изображения
 
                         $link="javascript:showImage('".$path2."', '".$path_org."', '".$alt."',  '".$title."')";
-                        ?><li>                            
+                        ?><li>
                                 <a href="<?=$link;?>">
                                     <img src="<?=$path;?>" alt="<?=$alt?>" title="<?=$title;?>"/>
                                  </a>
@@ -373,7 +395,7 @@ function ShowGallerysByPages()
                                     <img src="<?=$path;?>" alt="<?=$alt?>" title="<?=$title;?>">
                                  </a>
                                  <div class="highslide-caption"><?=$title;?></div>*/?>
-                         </li><?                
+                         </li><?
                        /* $responce .= '<li>
                                   <a href="'.$path_org.'" class="highslide"  title="'.$title .'" onclick="return hs.expand(this);" ><img src="'.$path.'" alt="'.$alt.'" title="'.$title.'"></a>
                                     <div class="highslide-caption">'.$title.'</div>
@@ -393,7 +415,7 @@ function ShowGallerysByPages()
            if (empty($this->Tags))  $this->Tags = Singleton::getInstance('FrontTags');
            $this->Tags->ShowUsingTags($this->module, $this->id);
          }
-         
+
          if(!isset($this->Comments))
             $this->Comments = new FrontComments($this->module, $this->id);
          $this->Comments->ShowCommentsCountLink();*/
@@ -428,8 +450,8 @@ function ShowGallerysByPages()
               //$short = strip_tags(stripslashes($row['shrt']));
               /*$link = $this->Link($row['category'], $row['id']);
               $link_cat = $this->Link( $value['cat_translit']);*/
-              $link = $this->Link( $row['cat_translit'], $row['translit']);             
-            
+              $link = $this->Link( $row['cat_translit'], $row['translit']);
+
               ?>
               <div class="lastVideos left">
                   <div class="time left"><?=$this->ConvertDate($row['dttm'], true);?></div>
@@ -444,7 +466,7 @@ function ShowGallerysByPages()
          </div><?
          }
     } // end of function GalleryCatLast()
-    
+
 
     // ================================================================================================
     // Function : GalleryLast()
@@ -459,7 +481,7 @@ function ShowGallerysByPages()
             return;
         $name = strip_tags(stripslashes($row['name']));
         $short = $this->Crypt->TruncateStr(strip_tags(stripslashes($row['short'])),300);
-        $link = $this->Link( $row['cat_translit'], $row['translit']);             
+        $link = $this->Link( $row['cat_translit'], $row['translit']);
         ?>
         <div class="captionChapter"><span><?=$this->multi['TXT_GALLERY_TITLE'];?></span><span class="icoGallery">&nbsp;</span></div>
          <div class="imageLast">
@@ -471,12 +493,12 @@ function ShowGallerysByPages()
              $items_count = count($items);
              if($items_count>0) {
                 $items_count =1; // Ограничение для видео не более 1 картинки
-                for($j=0; $j<$items_count; $j++){   
+                for($j=0; $j<$items_count; $j++){
                     $alt= $items[$items_keys[$j]]['name'][$this->lang_id];      // Заголовок
-                    $titleImg= $items[$items_keys[$j]]['text'][$this->lang_id]; // Описание 
+                    $titleImg= $items[$items_keys[$j]]['text'][$this->lang_id]; // Описание
                     $path = $items[$items_keys[$j]]['path'];                    // Путь уменьшенной копии
                     //$path2 = $items[$items_keys[$j]]['path2'];                 // Путь большой копии
-                    //$path_org = $items[$items_keys[$j]]['path_original'];   // Путь оригинального изображения                                
+                    //$path_org = $items[$items_keys[$j]]['path_original'];   // Путь оригинального изображения
                     ?><a class="image" href="<?=$link;?>" title="<?=$title;?>" ><img src="<?=$path;?>" alt="<?=$alt?>" title="<?=$titleImg;?>"/></a><?
                 }
              }
@@ -488,8 +510,8 @@ function ShowGallerysByPages()
         </div>
          <?
     } // end of function GalleryLast()
-        
-    
+
+
 // ================================================================================================
 // Function : GetMap()
 // Date : 01.07.2010
@@ -524,16 +546,16 @@ function GetMap() {
             `".TblModGalleryTxt."`.translit
           FROM `".TblModGallery."` ,`".TblModGalleryTxt."`
           WHERE
-            `".TblModGallery."`.category ='".$row['cod']."' 
+            `".TblModGallery."`.category ='".$row['cod']."'
           AND
-            `".TblModGallery."`.id = `".TblModGalleryTxt."`.cod             
-          AND 
-            `".TblModGalleryTxt."`.lang_id = '".$this->lang_id."' 
+            `".TblModGallery."`.id = `".TblModGalleryTxt."`.cod
           AND
-           `".TblModGallery."`.status='a' 
+            `".TblModGalleryTxt."`.lang_id = '".$this->lang_id."'
+          AND
+           `".TblModGallery."`.status='a'
            AND
            `".TblModGalleryTxt."`.name != ''
-          ORDER BY 
+          ORDER BY
             `".TblModGallery."`.dttm DESC
    ";
    $res1 = $db1->db_Query( $q1 );
@@ -564,9 +586,9 @@ function ShowGalleryLast($cnt=5,$id=23){
 	<div class="side-title foto-gallery-side-title"><?=$this->multi['TXT_PHOTO_GALLERY'];?></div>
 		<div class="devider"></div>
 	<?
-    for($j=0; $j<$items_count; $j++){   
+    for($j=0; $j<$items_count; $j++){
 	$alt= $items[$items_keys[$j]]['name'][$this->lang_id];  // Заголовок
-	$title= $items[$items_keys[$j]]['text'][$this->lang_id]; // Описание 
+	$title= $items[$items_keys[$j]]['text'][$this->lang_id]; // Описание
 	$path = $items[$items_keys[$j]]['path'];                 // Путь уменьшенной копии
 	$path_org = $items[$items_keys[$j]]['path_original'];    // Путь оригинального изображения
 
@@ -581,7 +603,7 @@ function ShowGalleryLast($cnt=5,$id=23){
 	<?
     }
 
-}  //   
+}  //
 
 
 
@@ -610,7 +632,7 @@ function ShowGalleryLast($cnt=5,$id=23){
        <?
      }
    } //end of fuinction ShowErr()
-   
+
    // ================================================================================================
    // Function : ShowTextMessages
    // Version : 1.0.0
@@ -629,8 +651,8 @@ function ShowGalleryLast($cnt=5,$id=23){
    {
      echo "<H3 align=center class='msg'>$text</H3>";
    } //end of function ShowTextMessages()
-   
-   
+
+
     // ================================================================================================
    // Function : ShowNavigation
    // Version : 1.0.0
@@ -652,11 +674,11 @@ function ShowGalleryLast($cnt=5,$id=23){
      <? if(empty($this->id) and empty($this->category)){ ?>
      Статьи
      <?} else { ?>
-     <a href="/gallery/">Статьи</a> 
+     <a href="/gallery/">Статьи</a>
      <? } ?>
       <? if(!empty($this->category) and empty($this->id)){ ?>
       » <?=$this->Spr->GetNameByCod( TblModGalleryCat, $this->category );?>
-      <? } else { 
+      <? } else {
          if(!empty($this->category)) {
          ?>
          » <a href="<?=$this->Link($this->category);?>"><?=$this->Spr->GetNameByCod( TblModGalleryCat, $this->category );?></a>
@@ -689,7 +711,7 @@ function ShowSearchResult($array)
     }
     ?></ul><?
 }// end of function ShowSearchForm
-       
+
 
    // ================================================================================================
    // Function : GetCategoryIdByTranslit()
@@ -707,16 +729,16 @@ function ShowSearchResult($array)
       $q="select cod from `".TblModGalleryCat."` where  BINARY `translit`= BINARY '".$translit."'";
       $res = $db->db_query( $q);
 //     echo $q;
-     if( !$db->result )                  
+     if( !$db->result )
             return false;
      $rows = $db->db_GetNumRows();
      if($rows ==0)
         return false;
-     
+
      $row = $db->db_FetchAssoc();
      return $row['cod'];
-     
-   } //end of function  GetCategoryIdByTranslit()       
+
+   } //end of function  GetCategoryIdByTranslit()
 
 
    // ================================================================================================
@@ -736,17 +758,17 @@ function ShowSearchResult($array)
       $q="select translit from `".TblModGalleryCat."` where  `cod`= '".$cod."' AND `lang_id`= '".$lang."' ";
       $res = $db->db_query( $q);
 //     echo $q;
-     if( !$db->result )                  
+     if( !$db->result )
             return false;
      $rows = $db->db_GetNumRows();
      if($rows ==0)
         return false;
-     
+
      $row = $db->db_FetchAssoc();
      return $row['translit'];
-     
-   } //end of function  GetCategoryTranslitByCod()    
-      
+
+   } //end of function  GetCategoryTranslitByCod()
+
    // ================================================================================================
    // Function : GetPositionIdByTranslit()
    // Version : 1.0.0
@@ -761,31 +783,31 @@ function ShowSearchResult($array)
    {
     $db= new DB();
     $lang_id = _LANG_ID;
-    $q = "SELECT 
-                    `".TblModGallery."` .id as id_prop 
-            FROM `".TblModGalleryTxt."` ,`".TblModGallery."` 
-            WHERE 
+    $q = "SELECT
+                    `".TblModGallery."` .id as id_prop
+            FROM `".TblModGalleryTxt."` ,`".TblModGallery."`
+            WHERE
                 BINARY `translit` = BINARY '".$position."'
                 AND
                     `".TblModGallery."`.id = `".TblModGalleryTxt."`.cod
                 ";
-    if( !empty($lang_id) ) 
+    if( !empty($lang_id) )
             $q = $q." AND `".TblModGalleryTxt."`.lang_id='".$lang_id."'";
-    if( $cat!=NULL ) 
+    if( $cat!=NULL )
             $q = $q." AND `".TblModGallery."`.category='".$cat."'";
-                    
+
       $res = $db->db_query( $q);
 //     echo $q;
-     if( !$db->result )                  
+     if( !$db->result )
             return false;
      $rows = $db->db_GetNumRows();
      if($rows ==0)
         return false;
-     
+
      $row = $db->db_FetchAssoc();
      return $row['id_prop'];
-     
-   } //end of function  GetPositionIdByTranslit()       
+
+   } //end of function  GetPositionIdByTranslit()
 // ================================================================================================
    // Function : GetIdTranslitByCod()
    // Version : 1.0.0
@@ -800,42 +822,42 @@ function ShowSearchResult($array)
    {
     $db= new DB();
     $lang_id = _LANG_ID;
-    $q = "SELECT 
-                    `".TblModGalleryTxt."` .translit 
-            FROM `".TblModGalleryTxt."` ,`".TblModGallery."` 
-            WHERE 
+    $q = "SELECT
+                    `".TblModGalleryTxt."` .translit
+            FROM `".TblModGalleryTxt."` ,`".TblModGallery."`
+            WHERE
                 BINARY `translit` = BINARY '".$position."'
                 AND
                     `".TblModGallery."`.id = `".TblModGalleryTxt."`.cod
                 ";
-    if( !empty($lang_id) ) 
+    if( !empty($lang_id) )
             $q = $q." AND `".TblModGalleryTxt."`.lang_id='".$lang_id."'";
-    if( $id_cat!=NULL ) 
+    if( $id_cat!=NULL )
             $q = $q." AND `".TblModGallery."`.category='".$cat."'";
-                    
+
       $res = $db->db_query( $q);
 //     echo $q;
-     if( !$db->result )                  
+     if( !$db->result )
             return false;
      $rows = $db->db_GetNumRows();
      if($rows ==0)
         return false;
-     
+
      $row = $db->db_FetchAssoc();
      return $row['translit'];
-     
-   } //end of function  GetIdTranslitByCod()       
+
+   } //end of function  GetIdTranslitByCod()
 
 
      // ================================================================================================
     // Function : ShowGalleryLink()
     // Version : 1.0.0
     // Date : 01.07.2010
-    // Parms : 
+    // Parms :
     // Returns : true,false / Void
     // Description : Show Link to Gallery Chapter
     // Programmer : Yaroslav Gyryn
-    // ================================================================================================         
+    // ================================================================================================
     function ShowGalleryLink()
     {
        ?><div class="leftBlockHead"><?=$this->multi['TXT_GALLERY_TITLE'];?></div>
@@ -850,11 +872,11 @@ function ShowSearchResult($array)
                         $path = $items[$items_keys[0]]['path'];                    // Путь уменьшенной копии
                         //$path_org = $items[$items_keys['path_original'];   // Путь оригинального изображения
                         ?><a href="<?=$link;?>" title="<?=$this->multi['TXT_GALLERY_TITLE'];?>" alt="<?=$this->multi['TXT_GALLERY_TITLE'];?>"><img src="<?=$path;?>" alt="<?=$this->multi['TXT_GALLERY_TITLE'];?>" title="<?=$this->multi['TXT_GALLERY_TITLE'];;?>"></a><?
-              }                        
+              }
             /*?>
             <a href="<?=$link?>" title="<?=$this->multi['TXT_GALLERY_TITLE'];?>"><img src="/images/design/videoSmall.jpg"></a>*/?>
          </div><?
-     } 
-    
-   } //end of class galleryLayout   
+     }
+
+   } //end of class galleryLayout
 ?>
