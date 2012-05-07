@@ -7,22 +7,22 @@
 // Licensed To:
 // Igor  Trokhymchuk  ihoru@mail.ru
 // Andriy Lykhodid    las_zt@mail.ru
-//  
+//
 // Purpose : Class definition for all actions with Layout of Article on the Front-End
 //
 // ================================================================================================
 include_once( SITE_PATH.'/modules/mod_article/article.defines.php' );
 
 class ArticleLayout extends Article{
-       
+
     var $id = NULL;
     var $title = NULL;
     var $fltr = NULL;
-       
+
     // ================================================================================================
     //    Function          : ArticleLayout (Constructor)
     //    Version           : 1.0.0
-    //    Date              : 4.06.2007 
+    //    Date              : 4.06.2007
     //    Parms             : sort      / field by whith data will be sorted
     //                        display   / count of records for show
     //                        start     / first records for show
@@ -31,7 +31,7 @@ class ArticleLayout extends Article{
     //    Description       : Opens and selects a dabase
     // ================================================================================================
     function ArticleLayout($user_id = NULL, $module=NULL, $display=NULL, $sort=NULL, $start=NULL) {
-        
+
         //Check if Constants are overrulled
         ( $user_id   !="" ? $this->user_id = $user_id  : $this->user_id = NULL );
         ( $module   !="" ? $this->module  = $module   : $this->module  = NULL );
@@ -49,10 +49,10 @@ class ArticleLayout extends Article{
 	    if (empty($this->Form)) $this->Form = new FrontForm('form_art');*/
         //$this->db =  DBs::getInstance();
 	    if (empty($this->db)) $this->db =  DBs::getInstance();
-	    
+
 	    ( defined("USE_TAGS")       ? $this->is_tags = USE_TAGS         : $this->is_tags=0      );
         ( defined("USE_COMMENTS")   ? $this->is_comments = USE_COMMENTS : $this->is_comments=0  );
-        
+
         if(empty($this->multi)) $this->multi = &check_init_txt('TblFrontMulti', TblFrontMulti);
         $this->is_tags=1;
     } // End of ArticleLayout Constructor
@@ -112,7 +112,7 @@ class ArticleLayout extends Article{
          $this->ShowArticleCat();
          ?>
         </div>
-        <? 
+        <?
     }
 
     // ================================================================================================
@@ -134,7 +134,7 @@ class ArticleLayout extends Article{
         $db1 = new DB();
         $settings = $this->GetSettings();
 
-        $q = "SELECT `".TblModArticleCat."`.* 
+        $q = "SELECT `".TblModArticleCat."`.*
               FROM `".TblModArticleCat."`
               WHERE 1 AND `lang_id`='".$this->lang_id."'
               AND `name`!=''
@@ -153,14 +153,14 @@ class ArticleLayout extends Article{
                 $res1 = $db1->db_Query( $q1 );
                 $rows1 = $db1->db_GetNumRows();
 
-                if( $rows1 ) { 
+                if( $rows1 ) {
                     $link =  $this->Link($row['cod'], NULL);
                     ?>
                     <li>
                     <a href="<?=$link;?>"><?=$name;?></a>
                     </li>
                     <?
-                } // end if 
+                } // end if
             } // end for
             ?>
             </ul>
@@ -191,7 +191,7 @@ class ArticleLayout extends Article{
         }
         $arr = array();
         for( $i = 0; $i <$rows; $i++ )
-            $arr[] = $this->db->db_FetchAssoc(); 
+            $arr[] = $this->db->db_FetchAssoc();
         for( $i = 0; $i <$rows; $i++ ){
             $row = $arr[$i];
             $name = strip_tags(stripslashes($row['name']));
@@ -201,7 +201,7 @@ class ArticleLayout extends Article{
             $linkCat = _LINK.'articles/'.$row['cat_translit'].'/';
             $imagePath ='';
             //$imagePath =  $row['path'];
-    
+
              /*$link = $this->Link( $value['id_category'], $value['id']);*/
              $main_img_data = $this->GetMainImageData($row['id'], 'front');
              if ( isset($main_img_data['path']) AND !empty($main_img_data['path'])) {
@@ -210,15 +210,15 @@ class ArticleLayout extends Article{
              } // end if
              ?>
              <div class="article-item">
-         
+
                     <?
                     if ( isset($imagePath) AND !empty($imagePath )) {
                         $imagePath =   ArticleImg_Path.'/'.$row['id'].'/'.$imagePath;
                         ?><a href="<?=$link;?>"><?=$this->ShowImage( $imagePath, $row['id'], 'size_width=174', 85, NULL, " alt='".$name."' title='".$name."'  class='image_article'");?></a><?
                     }
-                    
+
                     ?>
-			
+
                     <a class="article-name" href="<?=$link;?>"><?=$name;?></a>
                     <div class="article-short"><?=$short;?></div>
         	</div>
@@ -230,7 +230,12 @@ class ArticleLayout extends Article{
                  $link = $this->Link( $this->category, NULL );
                  $this->Form->WriteLinkPagesStatic( $link, $n_rows, $this->display, $this->start, $this->sort, $this->page );
              ?></div><?
-        }         
+        }
+	if(!empty($this->pagesTxt['content'])){
+	    ?><div class="article-page-txt"><?
+	    echo $this->pagesTxt['content'];
+	    ?></div><?
+	}
     } // end of functtion ShowArticlesByPages
 
 
@@ -251,18 +256,18 @@ class ArticleLayout extends Article{
          /*  $q = "select distinct
         `".TblModArticle."`.*,
         `".TblModArticleTxt."`.name,
-        `".TblModArticleTxt."`.short, 
+        `".TblModArticleTxt."`.short,
         `".TblModArticleCat."`.name as cat,
-        `".TblModArticleImg."`.path, 
-        `".TblModArticleImgSpr."`.name as img_name, 
+        `".TblModArticleImg."`.path,
+        `".TblModArticleImgSpr."`.name as img_name,
         `".TblModArticleImgSpr."`.name as img_descr,
         `".TblModArticleLinks."`.link as art_link,
         `".TblModArticleCat."`.translit as cat_translit
-        from    `".TblModArticle."`  LEFT JOIN `".TblModArticleImg."` 
+        from    `".TblModArticle."`  LEFT JOIN `".TblModArticleImg."`
                 ON ( `".TblModArticle."`.id = `".TblModArticleImg."`.id_art AND `".TblModArticleImg."`.show = '1') LEFT JOIN  `".TblModArticleImgSpr."`
                 ON ( `".TblModArticleImg."`.id = `".TblModArticleImgSpr."`.cod AND `".TblModArticleImgSpr."`.lang_id = '".$this->lang_id."'),
                 `".TblModArticleTxt."`,`".TblModArticleCat."`,`".TblModArticleLinks."`
-       where `".TblModArticle."`.status='a' 
+       where `".TblModArticle."`.status='a'
        AND `".TblModArticle."`.id = `".TblModArticleTxt."`.cod
        AND `".TblModArticleTxt."`.lang_id='".$this->lang_id."'
        AND `".TblModArticle."`.category = `".TblModArticleCat."`.cod
@@ -270,9 +275,9 @@ class ArticleLayout extends Article{
        AND `".TblModArticle."`.id = `".TblModArticleLinks."`.cod
        order by position desc limit ".$cnt;
        */
-        
+
         $q = "
-        SELECT 
+        SELECT
              `".TblModArticle."`.id,
              `".TblModArticle."`.dttm,
              `".TblModArticle."`.category as id_category,
@@ -283,15 +288,15 @@ class ArticleLayout extends Article{
              `".TblModArticle."`.position,
              `".TblModArticleLinks."`.link as art_link
         FROM `".TblModArticle."`, `".TblModArticleTxt."`, `".TblModArticleCat."`,`".TblModArticleLinks."`
-        WHERE  `".TblModArticle."`.category = `".TblModArticleCat."`.cod 
-              AND `".TblModArticle."`.id = `".TblModArticleTxt."`.cod  
+        WHERE  `".TblModArticle."`.category = `".TblModArticleCat."`.cod
+              AND `".TblModArticle."`.id = `".TblModArticleTxt."`.cod
               AND `".TblModArticleTxt."`.lang_id='".$this->lang_id."'
-              AND `".TblModArticleCat."`.lang_id='".$this->lang_id."' 
+              AND `".TblModArticleCat."`.lang_id='".$this->lang_id."'
               AND `".TblModArticleTxt."`.name!=''
               AND `".TblModArticle."`.id = `".TblModArticleLinks."`.cod
               ";
         if( $this->fltr!='' ) $q = $q.$this->fltr;
-         
+
         $q = $q." ORDER BY `".TblModArticle."`.position DESC";
         if($limit=='limit') $q = $q." LIMIT ".$this->start.",".$this->display."";
 
@@ -304,7 +309,7 @@ class ArticleLayout extends Article{
             $res = $tmp_db->db_Query( $q );
             $rows =$tmp_db->db_GetNumRows();
         }
-        //echo "<br>q=".$q." res=".$res." rows=".$rows;        
+        //echo "<br>q=".$q." res=".$res." rows=".$rows;
         return $rows;
     } // end of  GetArticlesRows()
 
@@ -327,16 +332,16 @@ class ArticleLayout extends Article{
         $full_news = stripslashes($value['full_art']);
         $id_department = stripslashes($value['id_department']);
         ?>
-       
+
          <h2 class="article-name article-full-name"><?=$name;?></h2>
          <?
          if ( isset($settings['img']) AND $settings['img']=='1' ){
              $main_img_data = $this->GetMainImageData($value['id'], 'front');
-             /*$mainImage = $this->GetMainImage($value['id'], 'front');   
+             /*$mainImage = $this->GetMainImage($value['id'], 'front');
              $main_img_data["img_path"] = $this->GetImgPath( $mainImage, $value['id'] );
-             $main_img_data["full_img_path"] = $this->GetImgFullPath( $mainImage, $value['id'] ); 
-             //-------- get all photos start --------- 
-             
+             $main_img_data["full_img_path"] = $this->GetImgFullPath( $mainImage, $value['id'] );
+             //-------- get all photos start ---------
+
              //print_r($img_arr);*/
              //-------- get all photos end ---------
              $img_arr = $this->GetImagesToShow($value['id']);
@@ -346,12 +351,12 @@ class ArticleLayout extends Article{
                     <?$path = ArticleImg_Path.'/'.$value['id'].'/'.$main_img_data['path'];
 			$main_small=$this->ShowImage($main_img_data['path'], $value['id'], 'size_width=407', 85, NULL, "",true);
 		    ?>
-		    
+
                     <a href="<?=$path;?>" class="fancybox" id="bigARticleImageId"  rel="newsGall" title="<?=$name?>">
 			<img class="big-article-image" src="<?=$main_small?>" alt="<?=$name?>" title="<?=$name?>"/>
 			 <img src="/images/design/zoom.png" alt="zoom" title="zoom" class="zoom">
 		    </a>
-		   
+
 		</div>
                  <?
                     if(count($img_arr)>1) {
@@ -359,44 +364,46 @@ class ArticleLayout extends Article{
 			?>
 			<div class="thumb">
 			<?
-                        for($i=1;$i<count($img_arr);$i++){
+                        for($i=0;$i<count($img_arr);$i++){
 			    $row=$img_arr[$i];
                             $path = ArticleImg_Path.'/'.$value['id'].'/'.$row['path'];
                            $thumb=$this->ShowImage($row['path'], $value['id'], 'size_width=120', 85, NULL, "",true);
 			   $big=$this->ShowImage($row['path'], $value['id'], 'size_width=407', 85, NULL, "",true);
                              if( !empty($row['path']) ) {
                                  ?>
-				 <img alt="<?=$name?>" title="<?=$name?>" src="<?=$thumb?>" onclick="$('#bigARticleImageId').attr('href','<?=$path?>').children('img.big-article-image').attr('src', '<?=$big?>');"/>
-				 <a href="<?=$path;?>" class="fancybox news-gall-link" rel="newsGall" title="<?=$name?>"></a>
+				 <img alt="<?=$name?>" title="<?=$name?>" src="<?=$thumb?>" onclick="$('#content .fancybox').attr('rel','newsGall');$(this).next('a').attr('rel','');$('#bigARticleImageId').attr('href','<?=$path?>').children('img.big-article-image').attr('src', '<?=$big?>');"/>
+				 <a href="<?=$path;?>" class="fancybox news-gall-link" rel="<?if($i!=0) echo 'newsGall';?>" title="<?=$name?>"></a>
 				 <?
-                             } 
-                            
+                             }
+
                         }//end for
 			 ?></div><?
                     }
 		}
-                 
-             } // end if img 
-         ?><div class="text"><?=$full_news;?></div><?
-         
-         
-         
+
+             } // end if img
+	     if($this->page==1):
+		?><div class="text"><?=$full_news;?></div><?
+	    endif;
+
+
+
          /*if( $this->is_comments==1){
              $Comments = new FrontComments($this->module, $this->id);
              $Comments->ShowCommentsByModuleAndItem();
-         }  
+         }
 
          if( $this->is_tags==1 ){
              $Tags = new FrontTags();
              if( count($Tags->GetSimilarItems($this->module, $this->id))>0){
                  ?>
                  <div>
-                  <? 
+                  <?
                   $Tags->ShowSimilarItems($this->module, $this->id);
                   ?>
                  </div>
                  <?
-             } 
+             }
          }*/
 } // end of function ShowArticleFull()
 
@@ -415,7 +422,7 @@ function GetMap() {
  $arr = array();
  for( $i = 0; $i < $rows; $i++ )
    $arr[] = $this->db->db_FetchAssoc();
- 
+
 ?><ul><?
  for( $i = 0; $i < $rows; $i++ )
  {
@@ -430,21 +437,21 @@ function GetMap() {
             `".TblModArticleLinks."`.link
           FROM `".TblModArticle."` ,`".TblModArticleTxt."`, `".TblModArticleLinks."`
           WHERE
-            `".TblModArticle."`.category ='".$row['cod']."' 
+            `".TblModArticle."`.category ='".$row['cod']."'
           AND
-            `".TblModArticle."`.id = `".TblModArticleTxt."`.cod             
-          AND 
-            `".TblModArticleTxt."`.lang_id = '".$this->lang_id."' 
+            `".TblModArticle."`.id = `".TblModArticleTxt."`.cod
           AND
-           `".TblModArticle."`.status='a' 
+            `".TblModArticleTxt."`.lang_id = '".$this->lang_id."'
+          AND
+           `".TblModArticle."`.status='a'
            AND
            `".TblModArticleTxt."`.name !=''
           AND
-            `".TblModArticle."`.id = `".TblModArticleLinks."`.cod  
-          ORDER BY 
+            `".TblModArticle."`.id = `".TblModArticleLinks."`.cod
+          ORDER BY
             `".TblModArticle."`.dttm DESC
    ";
-      
+
    $res1 = $this->db->db_Query( $q1 );
    //echo '<br/>'.$q1;
    $rows1 = $this->db->db_GetNumRows();
@@ -468,7 +475,7 @@ function GetMap() {
 
 /**
  * ArticleLayout::ShowArticleLast()
- * 
+ *
  * @param integer $cnt
  * @return void
  */
@@ -476,18 +483,18 @@ function ShowArticleLast($cnt=5){
    $q = "select distinct
         `".TblModArticle."`.*,
         `".TblModArticleTxt."`.name,
-        `".TblModArticleTxt."`.short, 
+        `".TblModArticleTxt."`.short,
         `".TblModArticleCat."`.name as cat,
-        `".TblModArticleImg."`.path, 
-        `".TblModArticleImgSpr."`.name as img_name, 
+        `".TblModArticleImg."`.path,
+        `".TblModArticleImgSpr."`.name as img_name,
         `".TblModArticleImgSpr."`.name as img_descr,
         `".TblModArticleLinks."`.link as art_link,
         `".TblModArticleCat."`.translit as cat_translit
-        from    `".TblModArticle."`  LEFT JOIN `".TblModArticleImg."` 
+        from    `".TblModArticle."`  LEFT JOIN `".TblModArticleImg."`
                 ON ( `".TblModArticle."`.id = `".TblModArticleImg."`.id_art AND `".TblModArticleImg."`.show = '1') LEFT JOIN  `".TblModArticleImgSpr."`
                 ON ( `".TblModArticleImg."`.id = `".TblModArticleImgSpr."`.cod AND `".TblModArticleImgSpr."`.lang_id = '".$this->lang_id."'),
                 `".TblModArticleTxt."`,`".TblModArticleCat."`,`".TblModArticleLinks."`
-       where `".TblModArticle."`.status='a' 
+       where `".TblModArticle."`.status='a'
        AND `".TblModArticle."`.id = `".TblModArticleTxt."`.cod
        AND `".TblModArticleTxt."`.lang_id='".$this->lang_id."'
        AND `".TblModArticle."`.category = `".TblModArticleCat."`.cod
@@ -495,7 +502,7 @@ function ShowArticleLast($cnt=5){
        AND `".TblModArticle."`.id = `".TblModArticleLinks."`.cod
        order by position desc limit ".$cnt;
 
-    /*$q = "SELECT 
+    /*$q = "SELECT
                `".TblModArticle."`.id,
                `".TblModArticle."`.dttm,
                `".TblModArticle."`.category,
@@ -510,13 +517,13 @@ function ShowArticleLast($cnt=5){
             AND
                 `".TblModArticleImg."`.show = 1
             )
-           WHERE `".TblModArticle."`.status='a' 
+           WHERE `".TblModArticle."`.status='a'
                AND `".TblModArticle."`.id = `".TblModArticleTxt."`.cod
-               AND `".TblModArticle."`.id = `".TblModArticleLinks."`.cod 
+               AND `".TblModArticle."`.id = `".TblModArticleLinks."`.cod
                AND `".TblModArticleTxt."`.lang_id='".$this->lang_id."'
-           ORDER BY 
+           ORDER BY
                 position DESC limit ".$cnt;*/
-   
+
    $res = $this->db->db_Query( $q);
    $rows = $this->db->db_GetNumRows();
    //echo '<br>'.$q.'<br/> res='.$res;
@@ -538,10 +545,10 @@ function ShowArticleLast($cnt=5){
         $link = '/articles/'.$row['cat_translit'].'/'.$row['art_link'].'.html';
         $linkCat = '/articles/'.$row['cat_translit'].'/';
         $imagePath =  $row['path'];
-        
-        /*if(!empty($row['img_name'])) 
+
+        /*if(!empty($row['img_name']))
             $img_tit = $row['img_name'];
-        else 
+        else
             $img_tit = $name;*/
         //$main_img_data =  $this->GetMainImageData($row['id'], 'front');
         ///echo '$main_img_data=';print_r($main_img_data);
@@ -567,12 +574,12 @@ function ShowArticleLast($cnt=5){
     	}
     }
     ?></div><?
-}  //   
+}  //
 
-   
+
        /**
         * ArticleLayout::ShowErr()
-        * 
+        *
         * @return void
         */
        function ShowErr()
@@ -585,7 +592,7 @@ function ShowArticleLast($cnt=5){
            <?
          }
        } //end of fuinction ShowErr()
-       
+
        // ================================================================================================
        // Function : ShowTextMessages
        // Version : 1.0.0
@@ -604,8 +611,8 @@ function ShowArticleLast($cnt=5){
        {
          echo "<H3 align=center class='msg'>$text</H3>";
        } //end of function ShowTextMessages()
-       
-       
+
+
         // ================================================================================================
        // Function : ShowNavigation
        // Version : 1.0.0
@@ -627,11 +634,11 @@ function ShowArticleLast($cnt=5){
          <? if(empty($this->id) and empty($this->category)){ ?>
          Статьи
          <?} else { ?>
-         <a href="/article/">Статьи</a> 
+         <a href="/article/">Статьи</a>
          <? } ?>
           <? if(!empty($this->category) and empty($this->id)){ ?>
           » <?=$this->Spr->GetNameByCod( TblModArticleCat, $this->category );?>
-          <? } else { 
+          <? } else {
              if(!empty($this->category)) {
              ?>
              » <a href="<?=$this->Link($this->category);?>"><?=$this->Spr->GetNameByCod( TblModArticleCat, $this->category );?></a>
@@ -678,8 +685,8 @@ function ShowSearchResult($rows)
         echo $this->multi['SEARCH_NO_RES'];
            }
 }// end of function ShowSearchForm
-       
-       
+
+
  /**
   * ArticleLayout::ShowArticlesLinksForDepartment()
   * Show Articles links for department
@@ -688,8 +695,8 @@ function ShowSearchResult($rows)
   */
  function ShowArticlesLinksForDepartment($id_department = null) {
         if(!$id_department) return false;
-        
-        $q = "SELECT 
+
+        $q = "SELECT
              `".TblModArticle."`.id,
              `".TblModArticleTxt."`.name,
              `".TblModArticleCat."`.name as cat,
@@ -697,17 +704,17 @@ function ShowSearchResult($rows)
              `".TblModArticle."`.position,
              `".TblModArticleLinks."`.link as art_link
         FROM `".TblModArticle."`, `".TblModArticleTxt."`, `".TblModArticleCat."`,`".TblModArticleLinks."`
-        WHERE  `".TblModArticle."`.category = `".TblModArticleCat."`.cod 
-              AND `".TblModArticle."`.id = `".TblModArticleTxt."`.cod  
+        WHERE  `".TblModArticle."`.category = `".TblModArticleCat."`.cod
+              AND `".TblModArticle."`.id = `".TblModArticleTxt."`.cod
               AND `".TblModArticleTxt."`.lang_id='".$this->lang_id."'
-              AND `".TblModArticleCat."`.lang_id='".$this->lang_id."' 
+              AND `".TblModArticleCat."`.lang_id='".$this->lang_id."'
               AND `".TblModArticleTxt."`.name!=''
               AND `".TblModArticle."`.id = `".TblModArticleLinks."`.cod
               AND `".TblModArticle."`.id_department = '".$id_department."'
               ";
-              
+
         $res = $this->db->db_Query( $q );
-        //echo '<br>'.$q.' $res='.$res.' $this->db->result='.$this->db->result; 
+        //echo '<br>'.$q.' $res='.$res.' $this->db->result='.$this->db->result;
         if ( !$res OR !$this->db->result ) return false;
         $rows = $this->db->db_GetNumRows();
         if($rows>0) {
@@ -715,7 +722,7 @@ function ShowSearchResult($rows)
             $arr = array();
             for( $i = 0; $i <$rows; $i++ )
                 $arr[] = $this->db->db_FetchAssoc();
-            ?><ul><? 
+            ?><ul><?
             for( $i = 0; $i <$rows; $i++ ){
                 $row = $arr[$i];
                 //$catName = stripslashes($row['cat']);
@@ -726,8 +733,8 @@ function ShowSearchResult($rows)
             }
             ?></ul><?
         }
-        return true;  
+        return true;
  }
-       
-   } //end of class articleLayout   
+
+   } //end of class articleLayout
 ?>

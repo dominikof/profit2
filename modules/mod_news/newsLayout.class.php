@@ -3,7 +3,7 @@
 // System : CMS
 // Module : newsLayout.class.php
 // Date : 01.03.2011
-// Licensed To:  Yaroslav Gyryn 
+// Licensed To:  Yaroslav Gyryn
 // Purpose : Class definition for all actions with Layout of News on the Front-End
 // ================================================================================================
 include_once( SITE_PATH.'/modules/mod_news/news.defines.php' );
@@ -15,12 +15,12 @@ include_once( SITE_PATH.'/modules/mod_news/news.defines.php' );
 * @property Right $Right
 * @property FrontendPages $FrontendPages
 * @property UserAuthorize $Logon
-* @property FrontForm $Form 
-* @property db $db     
+* @property FrontForm $Form
+* @property db $db
 * @property TblFrontMulti $multi
-*/  
+*/
 class NewsLayout extends News{
-  
+
    var $id = NULL;
    var $is_tags = NULL;
    var $module = NULL;
@@ -29,9 +29,9 @@ class NewsLayout extends News{
    var $db = NULL;
    var $Form = NULL;
    var $Right = NULL;
-   
+
    //static $instance = NULL;
-   
+
     // ================================================================================================
     //    Function          : NewsLayout (Constructor)
     //    Date              : 01.03.2011
@@ -52,18 +52,18 @@ class NewsLayout extends News{
 
         $this->db =  DBs::getInstance();
         $this->Right =  &check_init('RightsNewsLayout', 'Rights',"'".$this->user_id."','".$this->module."'");
-        $this->Form = &check_init('FormNews', 'FrontForm', "'form_news'");        
+        $this->Form = &check_init('FormNews', 'FrontForm', "'form_news'");
         if(empty($this->multi)) $this->multi = &check_init_txt('TblFrontMulti', TblFrontMulti);
         if(empty($this->Spr)) $this->Spr = &check_init('SysSpr', 'SysSpr');
         if (empty($this->Crypt)) $this->Crypt = &check_init('Crypt', 'Crypt');
         if(empty($this->settings)) $this->settings = $this->GetSettings();
-        
+
         //$this->CheckStatus();
         ( defined("USE_TAGS")       ? $this->is_tags = USE_TAGS         : $this->is_tags=0      );
-        ( defined("USE_COMMENTS")   ? $this->is_comments = USE_COMMENTS : $this->is_comments=0  );       
+        ( defined("USE_COMMENTS")   ? $this->is_comments = USE_COMMENTS : $this->is_comments=0  );
     } // End of NewsLayout Constructor
 
-           
+
      // ================================================================================================
     // Function : ShowNewsLinks()
     // Date : 01.03.2011
@@ -75,10 +75,10 @@ class NewsLayout extends News{
     {
         if(empty($this->settings))
             $this->settings = $this->GetSettings();
-        
-        $q = "select * from `".TblModNews."`, `".TblModNewsSprSbj."` 
-              where `".TblModNews."`.id = `".TblModNewsSprSbj."`.cod  
-              and `".TblModNewsSprSbj."`.lang_id='".$this->lang_id."' 
+
+        $q = "select * from `".TblModNews."`, `".TblModNewsSprSbj."`
+              where `".TblModNews."`.id = `".TblModNewsSprSbj."`.cod
+              and `".TblModNewsSprSbj."`.lang_id='".$this->lang_id."'
               and  `".TblModNewsSprSbj."`.name != ''
               and status='a'";
         $res = $this->db->db_Query( $q );
@@ -99,9 +99,9 @@ class NewsLayout extends News{
                   ?><br/><span class="inacive_txt"><?=$this->multi['MOD_NEWS_LATEST'];?></span><?
               }
 
-              $q = "select * from `".TblModNews."`, `".TblModNewsSprSbj."` 
-                    where `".TblModNews."`.id = `".TblModNewsSprSbj."`.cod  
-                    and `".TblModNewsSprSbj."`.lang_id='".$this->lang_id."' 
+              $q = "select * from `".TblModNews."`, `".TblModNewsSprSbj."`
+                    where `".TblModNews."`.id = `".TblModNewsSprSbj."`.cod
+                    and `".TblModNewsSprSbj."`.lang_id='".$this->lang_id."'
                     and  `".TblModNewsSprSbj."`.name != ''
                     and status='e'";
               $res = mysql_query( $q );
@@ -110,10 +110,10 @@ class NewsLayout extends News{
               if($rows>0){?><br/><a href="<?=_LINK;?>news/arch/" class="t_link"><?=$this->multi['MOD_NEWS_ARCH'];?>&nbsp;→</a>&nbsp;<span class="inacive_txt"><?=$rows;?></span><?}
               else{?><br/><span class="inacive_txt"><?=$this->multi['MOD_NEWS_ARCH'];?></span><?}
 
-              $q = "select * from `".TblModNews."`, `".TblModNewsSprSbj."` 
-                    where `".TblModNews."`.id = `".TblModNewsSprSbj."`.cod  
-                    and `".TblModNewsSprSbj."`.lang_id='".$this->lang_id."' 
-                    and  `".TblModNewsSprSbj."`.name != '' 
+              $q = "select * from `".TblModNews."`, `".TblModNewsSprSbj."`
+                    where `".TblModNews."`.id = `".TblModNewsSprSbj."`.cod
+                    and `".TblModNewsSprSbj."`.lang_id='".$this->lang_id."'
+                    and  `".TblModNewsSprSbj."`.name != ''
                     and status!='i'";
               $res = mysql_query( $q );
               $rows = mysql_num_rows( $res );
@@ -124,20 +124,20 @@ class NewsLayout extends News{
           </div>
           <?
           $this->NewsCategory();
-         
-          if ( isset($this->settings['subscr']) AND $this->settings['subscr']=='1' ) {  
+
+          if ( isset($this->settings['subscr']) AND $this->settings['subscr']=='1' ) {
             ?>
             <div class="newsLinksBlock" align="left">
              <div class="m_title">
                 <a href="<?=_LINK;?>news/subscribe/"><?=$this->multi['TXT_SUBSCRIBE'];?></a>
-              </div>            
+              </div>
              </div>
             <?
           }
         ?>
         </div>
     </div>
-    <?  
+    <?
     } // end of function ShowNewsLinks
 
 
@@ -152,7 +152,7 @@ class NewsLayout extends News{
     {
         $this->db = new DB();
 
-        $q = "SELECT `".TblModNewsCat."`.* 
+        $q = "SELECT `".TblModNewsCat."`.*
               FROM `".TblModNewsCat."`
               WHERE `lang_id`='"._LANG_ID."'
               ORDER BY `move` ASC ";
@@ -165,7 +165,7 @@ class NewsLayout extends News{
             <div class="newsLinksBlock" align="left">
              <div class="m_title">
                 <?=$this->multi["_FLD_NEWS_CATEGORY"];?>:
-              </div>            
+              </div>
             <?
             for( $i = 0; $i < $rows; $i++ ){
                 $row = $this->db->db_FetchAssoc();
@@ -174,10 +174,10 @@ class NewsLayout extends News{
                 $res1 = $this->db->db_Query( $q1 );
                 $rows1 = $this->db->db_GetNumRows();
 
-                if( $rows1 ) { 
+                if( $rows1 ) {
                     $link =  $this->Link($row['cod'], NULL);
                     ?><br/><a class="t_link" href="<?=$link;?>"><?=$name;?>&nbsp;→</a>&nbsp;<span class="inacive_txt"><?=$rows1;?></span><?
-                } // end if 
+                } // end if
             } // end for
             ?>
             </div>
@@ -197,7 +197,7 @@ class NewsLayout extends News{
         if($idNews== null)
             return;
         $q = "
-        SELECT 
+        SELECT
              `".TblModNews."`.id,
              `".TblModNews."`.start_date,
              `".TblModNews."`.id_category,
@@ -206,15 +206,15 @@ class NewsLayout extends News{
              `".TblModNewsCat."`.name as category,
              `".TblModNews."`.display,
              `".TblModNewsLinks."`.link
-        FROM `".TblModNews."`, `".TblModNewsSprSbj."`, `".TblModNewsCat."`, `".TblModNewsSprShrt."` , `".TblModNewsLinks."` 
-        WHERE 
-                     `".TblModNews."`.id = `".TblModNewsSprSbj."`.cod 
-              AND `".TblModNews."`.id_category = `".TblModNewsCat."`.cod 
-              AND `".TblModNews."`.id = `".TblModNewsSprShrt."`.cod  
-              AND `".TblModNews."`.id = `".TblModNewsLinks."`.cod  
+        FROM `".TblModNews."`, `".TblModNewsSprSbj."`, `".TblModNewsCat."`, `".TblModNewsSprShrt."` , `".TblModNewsLinks."`
+        WHERE
+                     `".TblModNews."`.id = `".TblModNewsSprSbj."`.cod
+              AND `".TblModNews."`.id_category = `".TblModNewsCat."`.cod
+              AND `".TblModNews."`.id = `".TblModNewsSprShrt."`.cod
+              AND `".TblModNews."`.id = `".TblModNewsLinks."`.cod
               AND `".TblModNewsSprSbj."`.lang_id='".$this->lang_id."'
-              AND `".TblModNewsSprShrt."`.lang_id='".$this->lang_id."' 
-              AND `".TblModNewsCat."`.lang_id='".$this->lang_id."' 
+              AND `".TblModNewsSprShrt."`.lang_id='".$this->lang_id."'
+              AND `".TblModNewsCat."`.lang_id='".$this->lang_id."'
               AND `".TblModNewsSprSbj."`.name!=''
               AND  `".TblModNews."`.id  IN (".$idNews.")
               ";
@@ -226,7 +226,7 @@ class NewsLayout extends News{
          //echo "<br><br>".$q."<br/> res=".$res." rows=".$rows;
          if($rows==0)
              return;
-             
+
          $array = array();
          for( $i = 0; $i <$rows; $i++ ){
              $row = $this->db->db_FetchAssoc();
@@ -235,7 +235,7 @@ class NewsLayout extends News{
              //$array[$row['id']] = $i;
          }
          return $array;
-         
+
     }
 
     /**
@@ -255,7 +255,7 @@ class NewsLayout extends News{
          $oldCat = '';
          $oldCatId = '';
          for( $i = 0; $i <$rows; $i++ ){
-             $value = $array[$i]; 
+             $value = $array[$i];
              $name = stripslashes($value['name']);
              $date = $this->ConvertDate($value['start_date'],false,false,true,' ');
              //$short = stripslashes($value['shrt']);
@@ -270,13 +270,13 @@ class NewsLayout extends News{
              $oldCatId = $value['id_category'];
              //$link = $this->Link( $value['id_category'], $value['id']);
              $link = $linkCat.$value['link'].'.html';
-	     
-              ?>      
+
+              ?>
             <div class="news-single-by-pages">
-                <div class="news-date"><?=$date?></div> 
+                <div class="news-date"><?=$date?></div>
                 <a class="news-title" href="<?=$link;?>" title="<?=$name;?>"><?=$name;?></a>
-               
-                 
+
+
                 <div class="newsShort">
                     <?=$short;?><br/>
                 </div>
@@ -295,7 +295,7 @@ class NewsLayout extends News{
          ?></div>
          <div class="clear">&nbsp;</div>
          <?
-         }    
+         }
     } // end of functtion ShowNewsByPages
 
 
@@ -308,7 +308,7 @@ class NewsLayout extends News{
     // ================================================================================================
     function GetNRows($limit=false)
     {
-        $q = "SELECT 
+        $q = "SELECT
             `".TblModNews."`.id,
             `".TblModNews."`.start_date,
             `".TblModNews."`.id_category,
@@ -316,14 +316,14 @@ class NewsLayout extends News{
             `".TblModNewsSprSbj."`.name,
             `".TblModNewsSprShrt."`.name as shrt,
             `".TblModNewsLinks."`.link
-        FROM 
+        FROM
             `".TblModNews."`, `".TblModNewsSprSbj."`, `".TblModNewsSprShrt."`, `".TblModNewsLinks."`
         WHERE
             `".TblModNews."`.id = `".TblModNewsSprSbj."`.cod and
             `".TblModNews."`.id = `".TblModNewsSprShrt."`.cod and
             `".TblModNews."`.id = `".TblModNewsLinks."`.cod and
-            `".TblModNewsSprShrt."`.lang_id='".$this->lang_id."' and  
-            `".TblModNewsSprSbj."`.`lang_id`='".$this->lang_id."' and 
+            `".TblModNewsSprShrt."`.lang_id='".$this->lang_id."' and
+            `".TblModNewsSprSbj."`.`lang_id`='".$this->lang_id."' and
             `".TblModNewsSprSbj."`.`name`!='' and
             `".TblModNews."`.property = '0'
          ";
@@ -378,7 +378,7 @@ class NewsLayout extends News{
          <div class="news-date"><?=$this->ConvertDate($value['start_date'],false,false,true,' ');?></div>
 	 <h1 class="news-title-full"><?=$name?></h1>
          <?/* <a href="<?=$this->Link( $value['id_category']);?>"><?=stripslashes($value['category']);?></a><?*/
-	 
+
              $img_arr = $this->GetImagesToShow($value['id']);
              if (isset($img_arr[0])) {
 		 $main_img_data = $img_arr[0];
@@ -387,12 +387,12 @@ class NewsLayout extends News{
                     <?$path = '/images/mod_news/'.$value['id'].'/'.$main_img_data['path'];
 			$main_small=$this->ShowImage($main_img_data['path'], $value['id'], 'size_width=407', 85, NULL, "",true);
 		    ?>
-		    
+
                     <a href="<?=$path;?>" class="fancybox" rel="newsGall" id="bigARticleImageId" title="<?=$name?>">
 			<img class="big-article-image" src="<?=$main_small?>" alt="<?=$name?>" title="<?=$name?>"/>
 			 <img src="/images/design/zoom.png" alt="zoom" title="zoom" class="zoom">
 		    </a>
-		   
+
 		</div>
                  <?
                     if(count($img_arr)>1) {
@@ -400,33 +400,33 @@ class NewsLayout extends News{
 			?>
 			<div class="thumb">
 			<?
-                        for($i=1;$i<count($img_arr);$i++){
+                        for($i=0;$i<count($img_arr);$i++){
 			    $row=$img_arr[$i];
                             $path = '/images/mod_news/'.$value['id'].'/'.$row['path'];
                            $thumb=$this->ShowImage($row['path'], $value['id'], 'size_width=120', 85, NULL, "",true);
 			   $big=$this->ShowImage($row['path'], $value['id'], 'size_width=407', 85, NULL, "",true);
                              if( !empty($row['path']) ) {
                                  ?>
-				 
-				 <img alt="<?=$name?>" title="<?=$name?>" src="<?=$thumb?>" onclick="$('#bigARticleImageId').attr('href','<?=$path?>').children('img.big-article-image').attr('src', '<?=$big?>');"/>
-				  <a href="<?=$path;?>" class="fancybox news-gall-link" rel="newsGall" title="<?=$name?>"></a>
+
+				  <img alt="<?=$name?>" title="<?=$name?>" src="<?=$thumb?>" onclick="$('#content .fancybox').attr('rel','newsGall');$(this).next('a').attr('rel','');$('#bigARticleImageId').attr('href','<?=$path?>').children('img.big-article-image').attr('src', '<?=$big?>');"/>
+				 <a href="<?=$path;?>" class="fancybox news-gall-link" rel="<?if($i!=0) echo 'newsGall';?>" title="<?=$name?>"></a>
 				 <?
-                             } 
-                            
+                             }
+
                         }//end for
 			 ?></div><?
                     }
 		}
-                 
-         if ( isset($this->settings['full_descr']) AND $this->settings['full_descr']=='1' ) { 
+
+         if ( isset($this->settings['full_descr']) AND $this->settings['full_descr']=='1' ) {
              $full_news = stripslashes($value['full_news']);
              ?><div><?=$full_news;?></div><?
-         }  
+         }
          ?><a href="javascript:history.back()" class="back-to-devel"><?=$this->multi['TXT_FRONT_GO_BACK_NEWS'];?></a><?
          if( $this->is_tags==1 ){
-           if (empty($this->Tags))      
+           if (empty($this->Tags))
                 $this->Tags = Singleton::getInstance('FrontTags');
-           
+
            $this->Tags->ShowUsingTags($this->module, $this->id);
         }
          ?></div><?
@@ -435,7 +435,7 @@ class NewsLayout extends News{
              $this->Comments->ShowCommentsCountLink();
              $this->Comments->ShowCommentsByModuleAndItem();
          }
-         
+
          /*?>
          <div align="left"><a href="javascript:window.history.go(-1);">← <?=$this->Msg->show_text('MOD_NEWS_BACK');?></a></div>
         <?*/
@@ -469,7 +469,7 @@ class NewsLayout extends News{
 
 
   // ================================================================================================
-  // Function : ShowSearchResult 
+  // Function : ShowSearchResult
   // Date : 01.03.2011
   // Parms :   $rows
   // Returns : true/false
@@ -502,12 +502,12 @@ class NewsLayout extends News{
 // Function : NewsLast()
 // Date : 01.03.2011
 // Parms :   $limit - limit of show
-// Description : Show last news 
+// Description : Show last news
 // Programmer : Yaroslav Gyryn
 // ================================================================================================
 function NewsLast($limit = 10)
 {
-    $q = "SELECT 
+    $q = "SELECT
             `".TblModNews."`.id,
             `".TblModNews."`.start_date,
             `".TblModNews."`.id_category,
@@ -515,15 +515,15 @@ function NewsLast($limit = 10)
             `".TblModNewsSprSbj."`.name,
             `".TblModNewsSprShrt."`.name as shrt,
             `".TblModNewsLinks."`.link
-        FROM 
+        FROM
             `".TblModNews."`, `".TblModNewsSprSbj."`, `".TblModNewsSprShrt."`, `".TblModNewsLinks."`
         WHERE
             `".TblModNews."`.id = `".TblModNewsSprSbj."`.cod and
             `".TblModNews."`.id = `".TblModNewsSprShrt."`.cod and
             `".TblModNews."`.id = `".TblModNewsLinks."`.cod and
-            `".TblModNewsSprShrt."`.lang_id='".$this->lang_id."' and  
-            `".TblModNews."`.status='a' and 
-            `".TblModNewsSprSbj."`.`lang_id`='".$this->lang_id."' and 
+            `".TblModNewsSprShrt."`.lang_id='".$this->lang_id."' and
+            `".TblModNews."`.status='a' and
+            `".TblModNewsSprSbj."`.`lang_id`='".$this->lang_id."' and
             `".TblModNewsSprSbj."`.`name`!='' and
             `".TblModNews."`.top = '0' and
             `".TblModNews."`.property = '0'
@@ -571,21 +571,21 @@ function NewsLast($limit = 10)
 // ================================================================================================
 function NewsLastColumn($limit = 10, $str = null)
 {
-    $q = "SELECT 
+    $q = "SELECT
             `".TblModNews."`.id,
             `".TblModNews."`.start_date,
             `".TblModNews."`.id_category,
             `".TblModNewsSprSbj."`.lang_id,
             `".TblModNewsSprSbj."`.name,
-            `".TblModNewsSprShrt."`.name as shrt       
-        FROM 
-            `".TblModNews."`, `".TblModNewsSprSbj."`, `".TblModNewsSprShrt."` 
+            `".TblModNewsSprShrt."`.name as shrt
+        FROM
+            `".TblModNews."`, `".TblModNewsSprSbj."`, `".TblModNewsSprShrt."`
         WHERE
             `".TblModNews."`.id = `".TblModNewsSprSbj."`.cod and
             `".TblModNews."`.id = `".TblModNewsSprShrt."`.cod and
-            `".TblModNewsSprShrt."`.lang_id='".$this->lang_id."' and  
-            `".TblModNews."`.status='a' and 
-            `".TblModNewsSprSbj."`.`lang_id`='".$this->lang_id."' and 
+            `".TblModNewsSprShrt."`.lang_id='".$this->lang_id."' and
+            `".TblModNews."`.status='a' and
+            `".TblModNewsSprSbj."`.`lang_id`='".$this->lang_id."' and
             `".TblModNewsSprSbj."`.`name`!=''";
         if(!empty($str))
             $q .= " and `".TblModNews."`.id  IN (".$str.") ";
@@ -603,7 +603,7 @@ function NewsLastColumn($limit = 10, $str = null)
       $row = $this->db->db_FetchAssoc($res);
       $arr[$row['id']] = $row;
     }
-    
+
     $keys = array_keys($arr);
     $title = 'Останні новини';
     if(!empty($str)) {
@@ -613,10 +613,10 @@ function NewsLastColumn($limit = 10, $str = null)
        for( $i=0; $i<$rows; $i++ ) {
             $arr2[$sortedKeys[$i]] = $arr[$sortedKeys[$i]];
        }
-    }    
-    
+    }
+
     ?><div class="column">
-        <div class="columnTitle"><?=$title;?></div> 
+        <div class="columnTitle"><?=$title;?></div>
     <?
     for( $i=0; $i<$rows; $i++ )
     {
@@ -624,7 +624,7 @@ function NewsLastColumn($limit = 10, $str = null)
         $row = $arr2[$sortedKeys[$i]];
       else
         $row = $arr[$keys[$i]];
-        
+
       $link = $this->Link($row['id_category'], $row['id']);
       $short = strip_tags(stripslashes($row['shrt']));
         ?>
@@ -634,7 +634,7 @@ function NewsLastColumn($limit = 10, $str = null)
         </div>
         <?
     }
-    
+
     if($str==null) {?>
         <a class="btnMore" href="/news/"></a>
     <?}?>
@@ -646,12 +646,12 @@ function NewsLastColumn($limit = 10, $str = null)
 // Function : NewsPropertyLast()
 // Date : 01.03.2011
 // Parms :   $limit - limit of show
-// Description : Show last news 
+// Description : Show last news
 // Programmer : Yaroslav Gyryn
 // ================================================================================================
 function NewsPropertyLast($limit = 10, $property = 1)
 {
-    $q = "SELECT 
+    $q = "SELECT
             `".TblModNews."`.id,
             `".TblModNews."`.start_date,
             `".TblModNews."`.id_category,
@@ -659,15 +659,15 @@ function NewsPropertyLast($limit = 10, $property = 1)
             `".TblModNewsSprSbj."`.name,
             `".TblModNewsSprShrt."`.name as shrt,
             `".TblModNewsLinks."`.link
-        FROM 
+        FROM
             `".TblModNews."`, `".TblModNewsSprSbj."`, `".TblModNewsSprShrt."`, `".TblModNewsLinks."`
         WHERE
             `".TblModNews."`.id = `".TblModNewsSprSbj."`.cod and
             `".TblModNews."`.id = `".TblModNewsSprShrt."`.cod and
             `".TblModNews."`.id = `".TblModNewsLinks."`.cod and
-            `".TblModNewsSprShrt."`.lang_id='".$this->lang_id."' and  
-            `".TblModNews."`.status='a' and 
-            `".TblModNewsSprSbj."`.`lang_id`='".$this->lang_id."' and 
+            `".TblModNewsSprShrt."`.lang_id='".$this->lang_id."' and
+            `".TblModNews."`.status='a' and
+            `".TblModNewsSprSbj."`.`lang_id`='".$this->lang_id."' and
             `".TblModNewsSprSbj."`.`name`!='' and
             `".TblModNews."`.top = '0' and
             `".TblModNews."`.property = ".$property."
@@ -684,7 +684,7 @@ function NewsPropertyLast($limit = 10, $property = 1)
       $arr[] = $this->db->db_FetchAssoc($res);
     }
     ?><div class="news_colum1_2">
-        <div class="news_colum1_2_title">Новини України</div> 
+        <div class="news_colum1_2_title">Новини України</div>
     <?
     for( $i=0; $i<$rows; $i++ )
     {
@@ -709,12 +709,12 @@ function NewsPropertyLast($limit = 10, $property = 1)
 // Function : NewsLine()
 // Date : 01.03.2011
 // Parms :   $limit - limit of show
-// Description : Show news Line 
+// Description : Show news Line
 // Programmer : Yaroslav Gyryn
 // ================================================================================================
 function NewsLine($limit = 5)
 {
-    $q = "SELECT 
+    $q = "SELECT
             `".TblModNews."`.id,
             `".TblModNews."`.start_date as start_date,
             `".TblModNews."`.id_category as id_category,
@@ -722,18 +722,18 @@ function NewsLine($limit = 5)
             `".TblModNewsSprSbj."`.name as name,
             `".TblModNewsSprShrt."`.name as shrt,
             `".TblModNewsLinks."`.link
-        FROM 
-            `".TblModNews."`, `".TblModNewsSprSbj."`, `".TblModNewsSprShrt."`, `".TblModNewsLinks."` 
+        FROM
+            `".TblModNews."`, `".TblModNewsSprSbj."`, `".TblModNewsSprShrt."`, `".TblModNewsLinks."`
         WHERE
             `".TblModNews."`.id = `".TblModNewsSprSbj."`.cod and
             `".TblModNews."`.id = `".TblModNewsSprShrt."`.cod and
             `".TblModNews."`.id = `".TblModNewsLinks."`.cod and
-            `".TblModNewsSprShrt."`.lang_id='".$this->lang_id."' and  
-            `".TblModNews."`.status='a' and 
-            `".TblModNews."`.line='1' and 
-            `".TblModNewsSprSbj."`.`lang_id`='".$this->lang_id."' and 
-            `".TblModNewsSprSbj."`.`name`!='' 
-        ORDER BY 
+            `".TblModNewsSprShrt."`.lang_id='".$this->lang_id."' and
+            `".TblModNews."`.status='a' and
+            `".TblModNews."`.line='1' and
+            `".TblModNewsSprSbj."`.`lang_id`='".$this->lang_id."' and
+            `".TblModNewsSprSbj."`.`name`!=''
+        ORDER BY
             `display` desc LIMIT ".$limit;
 
     $res = $this->db->db_Query($q);
@@ -764,16 +764,16 @@ function NewsLine($limit = 5)
             break;
         case 2:
             echo "<script>setText('".$rows."', '". $str[0]."','". $str[1]."');</script>";
-            break;            
+            break;
         case 3:
             echo "<script>setText('".$rows."', '". $str[0]."','". $str[1]."','". $str[2]."');</script>";
-            break;            
+            break;
         case 4:
             echo "<script>setText('".$rows."', '". $str[0]."','". $str[1]."','". $str[2]."','". $str[3]."');</script>";
-            break;            
+            break;
         case 5:
             echo "<script>setText('".$rows."', '". $str[0]."','". $str[1]."','". $str[2]."','". $str[3]."','". $str[4]."');</script>";
-            break;            
+            break;
     }
     if(!empty($str))
         return $str[$rows-1];
@@ -785,7 +785,7 @@ function NewsLine($limit = 5)
 // ================================================================================================
 // Function : NewsTop()
 // Date : 01.03.2011
-// Description : Show top news 
+// Description : Show top news
 // Programmer : Yaroslav Gyryn
 // ================================================================================================
 function NewsTop()
@@ -795,17 +795,17 @@ function NewsTop()
     // Масив ТОП-новин
     $arrTopNews = $this->GetTopNews();
     $rowsNews = count($arrTopNews);
-    
+
     // Масив ТОП-статей
     $arrTopArticles = $this->Article->GetTopArticles();
     $rowsArticles = count($arrTopArticles);
-    
+
     // Об'єднаний масив ТОП-новин і ТОП-статей
     $arrMergedNews = array();
     $arrMergedNews = array_merge($arrTopNews, $arrTopArticles);
     $rowsArrMergedNews = count($arrMergedNews);
     $keys = array_keys($arrMergedNews);
-    
+
     // Формування і сортування масиву по даті зі збереженням індекса
     $topNews = null;
     for($i=0; $i<$rowsArrMergedNews; $i++) {
@@ -815,26 +815,26 @@ function NewsTop()
          $this->date[$i]['index'] = $keys[$i];
     }
     rsort($this->date);
-    
+
     //Масив із 5 елементів для вивода на сайті
     $arrNews = array();
     if($topNews!=null)
         $arrNews[0] = $arrMergedNews[$topNews]; // Головна Топ новина або Топ стаття
-        
+
     for($i=0, $n=0; $i<$rowsArrMergedNews; $i++) {
         if($topNews != $arrMergedNews[$this->date[$i]['index']])  {
             $arrNews[] = $arrMergedNews[$this->date[$i]['index']]; // Інші новини
             $n++;
         }
         if($topNews!=null) {
-            if($n==4)         
+            if($n==4)
                 break;
         }
         else {
-            if($n==5)         
+            if($n==5)
                 break;
         }
-        
+
     }
     $rows = count($arrNews);
     //print_r($arrNews);
@@ -856,30 +856,30 @@ function NewsTop()
       $row = $arrNews[$i];
       $id[$i] =$row['id'];
       $link[$i] = $row['link'];
-      
+
       $name[$i] = strip_tags(stripslashes($row['name']));
       $name[$i] = str_replace("'", "`", $name[$i]);
-      
+
       $short[$i] = strip_tags($row['short']);
       $short[$i] = str_replace("\n", "", $short[$i]);
       //$short[$i] = str_replace("'", "\'", $short[$i]);
       $short[$i] = str_replace("'", "`", $short[$i]);
       $short[$i] = str_replace("", "\'", $short[$i]);
-      $short[$i] = str_replace("\r", "", $short[$i]);       
-      
+      $short[$i] = str_replace("\r", "", $short[$i]);
+
       $image[$i]= stripslashes($row['image']);
       $type[$i] = $row['type'];
       if(empty($image[$i]))
           $pathImage[$i] = '/images/design/noTopImage.jpg';
       else {
-          if($type[$i]=='news')  
+          if($type[$i]=='news')
             $pathDir = NewsImg_Path;
           if($type[$i]=='articles')
             $pathDir = ArticleImg_Path;
           $pathImage[$i] =  $pathDir.$id[$i].'/'.$image[$i];
       }
-      
-      
+
+
       if($row['top_main']==1) {  // Якщо основна топ новина
           $topId = $id[$i];
           $topType = $type[$i];  // news or article
@@ -906,7 +906,7 @@ function NewsTop()
             <div id="gal_news_title"><a href="<?=$toplink;?>"><?=$topSubject;?></a></div>
             <div id="gal_news_text"><?=$topShort;?></div>
             <div class="but_full_ver"><a href="<?=$toplink;?>">Повна версія</a></div>
-        </div> 
+        </div>
         <div id="galery_img">
         <?
         if(!empty($topId)) {
@@ -931,19 +931,19 @@ function NewsTop()
                         ?><img  src="/images/design/no-image.jpg" width="121" height="82" alt="" /><?
                     }?>
                     </span>
-                    <div class="gal_sh_text" onclick="location.href='<?=$link[$i];?>'"><?/*<a title="" href="<?//=$link[$i];?>">*/?><?=$name[$i];?><?/*</a>*/?></div>  
+                    <div class="gal_sh_text" onclick="location.href='<?=$link[$i];?>'"><?/*<a title="" href="<?//=$link[$i];?>">*/?><?=$name[$i];?><?/*</a>*/?></div>
                  </div>
             <?
         }?>
-        </div>       
-    </div>    
+        </div>
+    </div>
     <?
     echo "<script>setTopShortText('".$rows."', '". $short[0]."','". $short[1]."','". $short[2]."','". $short[3]."','". $short[4]."');</script>";
     echo "<script>setTopHref('".$rows."', '". $link[0]."','". $link[1]."','". $link[2]."','". $link[3]."','". $link[4]."');</script>";
     echo "<script>setTopImage('".$rows."', '".$pathImage[0]."','".$pathImage[1]."','".$pathImage[2]."','".$pathImage[3]."','".$pathImage[4]."');</script>";
 }   //end of function NewsTop()
 
-    
+
     // ================================================================================================
     // Function : NewsCatLast()
     // Date :    02.03.2011
@@ -990,7 +990,7 @@ function NewsTop()
 
     /**
      * NewsLayout::GetMap()
-     * Show map of News 
+     * Show map of News
      * @return void
      */
     function GetMap()
@@ -1008,30 +1008,30 @@ function NewsTop()
      {
        $row = $arrCateg[$i];
        $name = $row['name'];
-       $q1 = "SELECT 
+       $q1 = "SELECT
                    `".TblModNews."`.id,
                    `".TblModNews."`.id_category,
                    `".TblModNewsSprSbj."`.name,
                    `".TblModNewsLinks."`.link
-               FROM 
-                    `".TblModNews."`, 
+               FROM
+                    `".TblModNews."`,
                     `".TblModNewsSprSbj."`,
                     `".TblModNewsLinks."`
-               WHERE 
-                    `".TblModNews."`.id_category='".$row['cod']."' 
+               WHERE
+                    `".TblModNews."`.id_category='".$row['cod']."'
                 AND
                     `".TblModNews."`.id=`".TblModNewsSprSbj."`.cod
-                AND 
+                AND
                     `".TblModNewsSprSbj."`.name !=''
                 AND
                     `".TblModNewsSprSbj."`.lang_id='"._LANG_ID."'
-                AND 
+                AND
                     `".TblModNews."`.status!='i'
                 AND
-                    `".TblModNews."`.id=`".TblModNewsLinks."`.cod 
-                ORDER BY 
-                        start_date DESC ";              
-   
+                    `".TblModNews."`.id=`".TblModNewsLinks."`.cod
+                ORDER BY
+                        start_date DESC ";
+
        $res1 = $this->db->db_Query( $q1 );
        $rows1 = $this->db->db_GetNumRows();
        //echo "<br> ".$q1." <br/>res=".$res1." rows=".$rows1;
@@ -1048,14 +1048,14 @@ function NewsTop()
             for( $j = 0; $j < $rows1; $j++ )
             {
               $row1 = $arrNews[$j];
-              $link = $catLink.$row1['link'].'.html'; 
+              $link = $catLink.$row1['link'].'.html';
               //$link = $this->Link($row1['id_category'], $row1['id'], $row1['link']);
               ?><li><a href="<?=$link;?>"><?=stripslashes($row1['name'])?></a></li><?
             }
             ?></ul><?
-           }   
+           }
        }
-     ?></ul><? 
+     ?></ul><?
     } // end of function GetMap
 
 
@@ -1071,11 +1071,11 @@ function NewsTop()
     function SubscrForm()
     {
         ?>
-        <form action="<?=_LINK?>news/" method=post>  
-        <input type=hidden name="task" value="save_reg_data">  
+        <form action="<?=_LINK?>news/" method=post>
+        <input type=hidden name="task" value="save_reg_data">
         <?=$this->ShowErr();?>
         <table border="0" cellspacing="3" cellpadding="0">
-         <tr>  
+         <tr>
            <td aling="right"><?=$this->Msg->show_text('_FLD_EMAIL', 'sys_spr_txt');?>:</td>
            <td><?=$this->Form->TextBox('subscriber', $this->subscriber, 15 );?></td>
          </tr>
@@ -1097,11 +1097,11 @@ function NewsTop()
     function SubscrRegForm()
     {
         ?>
-        <form action="<?=_LINK?>news/subscribe/add/" method=post>  
-        <input type=hidden name="task" value="save_reg_data">  
+        <form action="<?=_LINK?>news/subscribe/add/" method=post>
+        <input type=hidden name="task" value="save_reg_data">
         <?=$this->ShowErr();?>
         <table border="0" cellspacing="3" cellpadding="0">
-         <tr>  
+         <tr>
            <td aling="right"><?=$this->Msg->show_text('FLD_NEWS_SUBSCR_EMAIL');?>:</td>
            <td><?=$this->Form->TextBox('subscriber', $this->subscriber, 30 );?></td>
          </tr>
@@ -1130,13 +1130,13 @@ function NewsTop()
     // Function : CheckFields()
     // Date : 01.03.2011
     // Returns :      true,false / Void
-    // Description :  check fields 
+    // Description :  check fields
     // Programmer :  Yaroslav Gyryn
-    // ================================================================================================    
+    // ================================================================================================
     function CheckFields()
     {
          $this->Err=NULL;
-         
+
          if (empty( $this->subscriber )) $this->Err = $this->Err.$this->Msg->show_text('MSG_FLD_EMAIL_EMPTY').'<br>';
          else{
            // if ( $this->email!=$this->email2 ) $this->Err = $this->Err.$this->Msg->show_text('MSG_NOT_MATCH_REENTER_EMAIL').'<br>';
@@ -1144,14 +1144,14 @@ function NewsTop()
             else{
                 $q = "SELECT * FROM ".TblModNewsSubscr." WHERE `login`='".$this->subscriber."'";
                 $res = $this->db->db_Query( $q );
-                echo "<br>11 q=".$q." res=".$res;  
+                echo "<br>11 q=".$q." res=".$res;
                 if( !$res ) return false;
                 $rows = $this->db->db_GetNumRows();
-                if( $rows>0 ) $this->Err = $this->Err.$this->Msg->show_text('MSG_EMAIL_ALREADY_EXIST').'<br/>';                
+                if( $rows>0 ) $this->Err = $this->Err.$this->Msg->show_text('MSG_EMAIL_ALREADY_EXIST').'<br/>';
             }
-         } 
+         }
          return $this->Err;
-    } //end of function CheckFields() 
+    } //end of function CheckFields()
     //====================================== SubSribe END =============================================
 
 
@@ -1173,7 +1173,7 @@ function NewsTop()
         <?
         }
     } //end of function ShowErr()
-           
+
     // ================================================================================================
     // Function : ShowTextMessages
     // Date : 01.03.2011
@@ -1199,8 +1199,8 @@ function NewsTop()
         <a href="<?=_LINK;?>"><?=$this->multi['TXT_HOME_PAGE'];?></a> → <a href="<?=_LINK;?>news/"><?=$this->multi["_TXT_NEWS_TITLE"];?></a>
         <?
          switch( $this->task ){
-            case 'showall': 
-                    if(!empty($this->category)) 
+            case 'showall':
+                    if(!empty($this->category))
                         echo ' → '.$this->Spr->GetNameByCod( TblModNewsCat, $this->category);
                     else
                         echo ' → '.$this->multi['MOD_NEWS_ALL'];
@@ -1222,6 +1222,6 @@ function NewsTop()
          }
     ?></div><?
  }//end of function ShowNewsPath()
-     
-} //end of class NewsLayout   
+
+} //end of class NewsLayout
 ?>

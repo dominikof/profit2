@@ -355,3 +355,12 @@ a.fancybox{
 .sertificat-item{
     display: inline-block;
 }
+.article-page-txt{
+    margin-top: 10px;
+    width: 100%;
+}
+.pageNaviClass{
+    width: 100%;
+    height: auto;
+    display: inline-block;
+}

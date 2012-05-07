@@ -24,8 +24,8 @@ class News {
     var $Msg;
     var $Spr;
     var $db;
-    
-    var $page;  
+
+    var $page;
     var $display;
     var $sort;
     var $start;
@@ -43,14 +43,14 @@ class News {
     var $script = NULL;
     var $title = NULL;
     var $source;
-     
+
     var $keywords = NULL;
     var $description = NULL;
     var $lang_id = NULL;
-     
+
     var $str_cat = NULL;
     var $str_news = NULL;
-     
+
     var $subscriber = NULL;
     var $subscr_pass = NULL;
     var $categories = NULL;
@@ -63,7 +63,7 @@ class News {
     var $task = NULL;
     var $rss = NULL;
     var $rss_impor = NULL;
-     
+
     // ================================================================================================
     //    Function          : News (Constructor)
     //    Date              : 04.02.2005
@@ -81,7 +81,7 @@ class News {
      //if (empty($this->Category))  $this->Category = Singleton::getInstance('Category');
      $this->width = '750';
      if( defined("_LANG_ID") ) $this->lang_id = _LANG_ID;
-     
+
      $this->CheckStatus();
     }
 
@@ -118,7 +118,7 @@ class News {
         {
           $arr[] = $this->db->db_FetchAssoc();
         }
-        
+
         for( $i = 0; $i < $rows; $i++ )
         {
           $tmp = $arr[$i];
@@ -205,7 +205,7 @@ class News {
            $tmp2 = explode( ':', $tmp1[1] );
            $end_date = $tmp[0].$tmp[1].$tmp1[0].$tmp2[0].$tmp2[1].$tmp2[2];
            return $end_date;
-    } // end of function GetEndDate 
+    } // end of function GetEndDate
 
     // ===========================================================================================================
     // Function    : GetCurrentDate()
@@ -216,13 +216,13 @@ class News {
     // ===========================================================================================================
     function GetCurrentDate()
     {
-           $date = date('Y-m-d H:i:s'); 
+           $date = date('Y-m-d H:i:s');
            $tmp = explode( '-', $date );
            $tmp1 = explode( ' ', $tmp[2] );
            $tmp2 = explode( ':', $tmp1[1] );
            $date = $tmp[0].$tmp[1].$tmp1[0].$tmp2[0].$tmp2[1].$tmp2[2];
            return $date;
-    } // end of function GetCurrentDate 
+    } // end of function GetCurrentDate
 
     // ================================================================================================
     // Function : CheckImages
@@ -256,7 +256,7 @@ class News {
                     continue;
                 }
                 if (!in_array($ext, $valid_types)) {
-                    $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_FILE_TYPE', TblSysTxt).' ('.$_FILES['image']['name']["$i"].')<br>';  
+                    $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_FILE_TYPE', TblSysTxt).' ('.$_FILES['image']['name']["$i"].')<br>';
                 }
                 else {
                   $size = GetImageSize($filename);
@@ -265,18 +265,18 @@ class News {
                      //$alias = $this->Spr->GetNameByCod( TblModCatalogPropSprName, $this->id );
                   }
                   else {
-                     $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_FILE_PROPERTIES', TblSysTxt).' ['.$max_image_width.'x'.$max_image_height.'] ('.$_FILES['image']['name']["$i"].')<br>'; 
+                     $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_FILE_PROPERTIES', TblSysTxt).' ['.$max_image_width.'x'.$max_image_height.'] ('.$_FILES['image']['name']["$i"].')<br>';
                   }
                 }
                }
                else $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_FILE', TblSysTxt).' ('.$_FILES['image']['name']["$i"].')<br>';
-             } 
+             }
              //echo '<br>$i='.$i;
          } // end for
          return $this->Err;
-    }  // end of function CheckImages() 
-     
-           
+    }  // end of function CheckImages()
+
+
     // ================================================================================================
     // Function : SavePicture
     // Date : 03.04.2006
@@ -293,8 +293,8 @@ class News {
          $max_image_size= NEWS_MAX_IMAGE_SIZE;
          $valid_types =  array("gif", "GIF", "jpg", "JPG", "png", "PNG", "jpeg", "JPEG");
         // print_r($_FILES["filename"]);
-         //echo $this->img; 
-         if (!isset($_FILES["filename"])) return false; 
+         //echo $this->img;
+         if (!isset($_FILES["filename"])) return false;
          $cols = count($_FILES["filename"]);
 
          //echo '<br><br>$cols='.$cols;
@@ -312,7 +312,7 @@ class News {
                     continue;
                 }
                 if (!in_array($ext, $valid_types)) {
-                    $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_FILE_TYPE').' ('.$_FILES['filename']['name']["$i"].')<br>';  
+                    $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_FILE_TYPE').' ('.$_FILES['filename']['name']["$i"].')<br>';
                 }
                 else {
                   $size = GetImageSize($filename);
@@ -322,13 +322,13 @@ class News {
                      $news_img_full_path = SITE_PATH.$this->settings['img_path'];
                      if ( !file_exists ($news_img_full_path) ) mkdir($news_img_full_path,0777);
                      $uploaddir = $news_img_full_path.'/'.$this->id;
-                     if ( !file_exists ($uploaddir) ) mkdir($uploaddir,0777); 
+                     if ( !file_exists ($uploaddir) ) mkdir($uploaddir,0777);
                      else @chmod($uploaddir,0777);
-                     
+
                      $Crypt = &check_init('Crypt', 'Crypt');
                      $uploaddir2 = $Crypt->GetTranslitStr($imgNameNoExt).'.'.$ext;
                      $uploaddir1 = $uploaddir."/".$uploaddir2;
-                  
+
                      //echo '<br>$filename='.$filename.'<br> $uploaddir='.$uploaddir.'<br> $uploaddir2='.$uploaddir2;
                      //if (@move_uploaded_file($filename, $uploaddir)) {
                      if ( copy($filename,$uploaddir1) ) {
@@ -342,8 +342,8 @@ class News {
                             if($maxx < $my['move'])
                             $maxx=$my['move'];
                          }
-                         $maxx=$maxx+1;                         
-                         
+                         $maxx=$maxx+1;
+
                          $q="INSERT into `".TblModNewsImg."` values(NULL,'".$this->id."','".$uploaddir2."','1', '$maxx', NULL)";
                          $res = $tmp_db->db_Query( $q );
                          if( !$res OR !$tmp_db->result ) $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_SAVE_FILE_TO_DB').' ('.$_FILES['image']['name']["$i"].')<br>';
@@ -356,17 +356,17 @@ class News {
                      @chmod($news_img_full_path,0755);
                   }
                   else {
-                     $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_FILE_PROPERTIES').' ['.$max_image_width.'x'.$max_image_height.'] ('.$_FILES['filename']['name']["$i"].')<br>'; 
+                     $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_FILE_PROPERTIES').' ['.$max_image_width.'x'.$max_image_height.'] ('.$_FILES['filename']['name']["$i"].')<br>';
                   }
                 }
                }
                else $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_FILE').' ('.$_FILES['filename']['name']["$i"].')<br>';
-             } 
+             }
              //echo '<br>$i='.$i;
          } // end for
          return $this->Err;
 
-    }  // end of function SavePicture() 
+    }  // end of function SavePicture()
 
 
     // ================================================================================================
@@ -384,9 +384,9 @@ class News {
          $max_image_height= NEWS_MAX_IMAGE_HEIGHT;
          $max_image_size= NEWS_MAX_IMAGE_SIZE;
          $valid_types =  array("gif", "GIF", "jpg", "JPG", "png", "PNG", "jpeg", "JPEG");
-         //$ln_arr = $ln_sys->LangArray( _LANG_ID ); 
+         //$ln_arr = $ln_sys->LangArray( _LANG_ID );
          //print_r($_FILES["topImage"]);
-         if (!isset($_FILES["topImage"])) return false; 
+         if (!isset($_FILES["topImage"])) return false;
          $cols = count($_FILES["topImage"]["name"]);
          for ($i=0; $i<$cols; $i++) {
              //echo '<br>$_FILES["topImage"]='.$_FILES["topImage"].' $_FILES["topImage"]["tmp_name"]["'.$i.'"]='.$_FILES["topImage"]["tmp_name"]["$i"].' $_FILES["topImage"]["size"]["'.$i.'"]='.$_FILES["topImage"]["size"]["$i"];
@@ -401,40 +401,40 @@ class News {
                     continue;
                 }
                 if (!in_array($ext, $valid_types)) {
-                    $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_FILE_TYPE', TblSysTxt).' ('.$_FILES['topImage']['name']["$i"].')<br>';  
+                    $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_FILE_TYPE', TblSysTxt).' ('.$_FILES['topImage']['name']["$i"].')<br>';
                 }
                 else {
                   $size = GetImageSize($filename);
                   //echo '<br>$size='.$size.'$size[0]='.$size[0].' $max_image_width='.$max_image_width.' $size[1]='.$size[1].' $max_image_height='.$max_image_height;
                   if (($size) && ($size[0] < $max_image_width) && ($size[1] < $max_image_height)) {
-                      
+
                       // Удаление предыдущего изображения для Топ Новости
-                      $res = $this->DelTopPicture($this->id); 
-                      
+                      $res = $this->DelTopPicture($this->id);
+
                      //$alias = $this->Spr->GetNameByCod( TblModCatalogPropSprName, $this->id );
                      if ( !file_exists (NewsImg_Full_Path) ) mkdir(NewsImg_Full_Path,0777);
                      $uploaddir = NewsImg_Full_Path.$this->id;
-                     if ( !file_exists ($uploaddir) ) mkdir($uploaddir,0777); 
+                     if ( !file_exists ($uploaddir) ) mkdir($uploaddir,0777);
                      else @chmod($uploaddir,0777);
-                    
+
                      $uploaddir2 = time().'_'.$i.'.'.$ext;
                      $uploaddir1 = $uploaddir."/".$uploaddir2;
-                  
+
                      //echo '<br>$filename='.$filename.'<br> $uploaddir='.$uploaddir.'<br> $uploaddir2='.$uploaddir2;
                      //if (@move_uploaded_file($filename, $uploaddir)) {
                      if ( copy($filename,$uploaddir1) ) {
                          //$q="INSERT into `".TblModNewsT."` values(NULL,'".$this->id."','".$uploaddir2."','1', '$maxx', NULL)";
-                         $q = "UPDATE 
-                                    `".TblModNewsTop."` 
+                         $q = "UPDATE
+                                    `".TblModNewsTop."`
                                 SET
                                     `image`='".$uploaddir2."'
-                                WHERE 
+                                WHERE
                                     cod ='".$this->id."'
-                                AND 
+                                AND
                                     lang_id ='2'
                          ";
                          $res = $tmp_db->db_Query( $q );
-                         if( !$res OR !$tmp_db->result ) 
+                         if( !$res OR !$tmp_db->result )
                             $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_SAVE_FILE_TO_DB', TblSysTxt).' ('.$_FILES['topImage']['name']["$i"].')<br>';
                          //echo '<br>q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;
                      }
@@ -445,18 +445,18 @@ class News {
                      @chmod(NewsImg_Full_Path,0755);
                   }
                   else {
-                     $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_FILE_PROPERTIES', TblSysTxt).' ['.$max_image_width.'x'.$max_image_height.'] ('.$_FILES['topImage']['name']["$i"].')<br>'; 
+                     $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_FILE_PROPERTIES', TblSysTxt).' ['.$max_image_width.'x'.$max_image_height.'] ('.$_FILES['topImage']['name']["$i"].')<br>';
                   }
                 }
                }
                else $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_FILE', TblSysTxt).' ('.$_FILES['topImage']['name']["$i"].')<br>';
-             } 
+             }
              //echo '<br>$i='.$i;
          } // end for       */
          return $this->Err;
-    }  // end of function SavePictureTop() 
-                
-            
+    }  // end of function SavePictureTop()
+
+
     // ================================================================================================
     // Function : UpdatePicture
     // Date : 28.11.2006
@@ -473,25 +473,25 @@ class News {
             //else $img_show = 0;
             $key = array_search($this->id_img[$i], $this->img_show);
             if ($key!==false) $img_show = 1;
-            else $img_show = 0; 
-            
+            else $img_show = 0;
+
             $q="update `".TblModNewsImg."` set `show`='".$img_show."' where `id`='".$this->id_img[$i]."'";
             $res = $this->Right->Query( $q, $this->user_id, $this->module );
-            //echo '<br>q='.$q.' res='.$res.' $this->Right->result='.$this->Right->result;  
+            //echo '<br>q='.$q.' res='.$res.' $this->Right->result='.$this->Right->result;
             if( !$this->Right->result ) $this->Err = $this->Err.$this->Msg->show_text('MSG_ERR_SAVE_FILE_TO_DB').'<br>';
-           
+
                $res=$this->Spr->SaveNameArr( $this->id_img[$i], $this->img_title[$this->id_img[$i]], TblModNewsImgSprName );
                 //echo "<br>res1=".$res;
                 if( !$res ) return false;
-            
+
                 $res=$this->Spr->SaveNameArr( $this->id_img[$i], $this->img_descr[$this->id_img[$i]], TblModNewsImgSprDescr );
                 //echo " <br>res2=".$res;
                 if( !$res ) return false;
-          
+
          }
          return $this->Err;
     }  // end of function UpdatePicture()
-    
+
 
     /**
     * Class method DelPicture
@@ -510,10 +510,10 @@ class News {
          $path='';
          for($i=0; $i<count($id_img_del); $i++){
            $u=$id_img_del[$i];
-           
+
            $q="SELECT * FROM `".TblModNewsImg."` WHERE `id`='".$u."'";
            $res = $tmp_db->db_Query( $q );
-           //echo '<br>q='.$q.' res='.$res.' $this->Right->result='.$this->Right->result;  
+           //echo '<br>q='.$q.' res='.$res.' $this->Right->result='.$this->Right->result;
            if( !$res OR !$tmp_db->result ) return false;
            $row = $tmp_db->db_FetchAssoc();
            $path = $this->GetImgFullPath($row['path'], $row['id_news']);
@@ -522,23 +522,23 @@ class News {
               $res = unlink ($path);
               if( !$res ) return false;
            }
-           
+
            $q="DELETE FROM `".TblModNewsImg."` WHERE `id`='".$u."'";
            $res = $tmp_db->db_Query( $q );
-           //echo '<br>2q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;  
-           if( !$res) return false; 
+           //echo '<br>2q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;
+           if( !$res) return false;
            if( !$tmp_db->result ) return false;
-           $res = $this->Spr->DelFromSpr( TblModNewsImgSprName, $u ); 
-           if( !$res )return false;           
-           $res = $this->Spr->DelFromSpr( TblModNewsImgSprDescr, $u ); 
+           $res = $this->Spr->DelFromSpr( TblModNewsImgSprName, $u );
+           if( !$res )return false;
+           $res = $this->Spr->DelFromSpr( TblModNewsImgSprDescr, $u );
            if( !$res )return false;
            $del=$del+1;
-         
+
            $path = SITE_PATH.$this->settings['img_path'].'/'.$row['id_news'];
            //echo '<br> $path='.$path;
            if( is_dir($path) ){
                $handle = @opendir($path);
-               //echo '<br> $handle='.$handle; 
+               //echo '<br> $handle='.$handle;
                $cols_files = 0;
                while ( ($file = readdir($handle)) !==false ) {
                    //echo '<br> $file='.$file;
@@ -558,7 +558,7 @@ class News {
          }
          $n = $this->GetImagesCount($id_news);
          if( $n==0 AND is_dir($path) ) $this->full_rmdir($path);
-         
+
          return $del;
     } // end of function DelPicture()
 
@@ -576,8 +576,8 @@ class News {
     $db = new DB();
     $q = "SELECT image  FROM `".TblModNewsTop."` WHERE cod= '".$id."' ";
     $res = $db->db_Query( $q );
-    //echo '<br>q='.$q.' res='.$res.' $this->Right->result='.$this->Right->result;  
-    if( !$res) return false; 
+    //echo '<br>q='.$q.' res='.$res.' $this->Right->result='.$this->Right->result;
+    if( !$res) return false;
     if( !$db->result ) return false;
     $rows = $db->db_GetNumRows();
     $arr = array();
@@ -598,7 +598,7 @@ class News {
         $path = NewsImg_Full_Path.$id;
         if( is_dir($path) ){
         $handle = @opendir($path);
-        //echo '<br> $handle='.$handle; 
+        //echo '<br> $handle='.$handle;
         $cols_files = 0;
         while ( ($file = readdir($handle)) !==false ) {
            //echo '<br> $file='.$file;
@@ -617,11 +617,11 @@ class News {
      }
      $n = $this->GetImagesCount($id);
      if( $n==0 AND is_dir($path) ) $this->full_rmdir($path);
-     
+
      return $del;
     } // end of function DelTopPicture()
-         
-     
+
+
      // ================================================================================================
      // Function : full_rmdir
      // Date : 07.04.2011
@@ -629,7 +629,7 @@ class News {
      // Returns : $res / Void
      // Description : Full remove directory from disk (all files and subdirectory)
      // Programmer : Yaroslav Gyryn
-     // ================================================================================================     
+     // ================================================================================================
      function full_rmdir($dirname)
      {
         if ($dirHandle = opendir($dirname)){
@@ -667,28 +667,28 @@ class News {
     {
         $image = NULL;
         $tmp_db = new DB();
-        
+
         $q = "SELECT * FROM `".TblModNewsImg."` WHERE 1 AND `id_news`='$id_news' order by `move`";
         $res = $tmp_db->db_Query($q);
         //echo '<br>q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;
         if ( !$res or !$tmp_db->result ) return false;
         $rows = $tmp_db->db_GetNumRows();
-        return $rows;           
-    } //end of function GetImagesCount()       
+        return $rows;
+    } //end of function GetImagesCount()
 
     // ================================================================================================
     // Function : GetImages
     // Date : 13.10.2006
     // Parms : $id_news  / id of the user
     // Returns : return $image for current value with cod=$cod
-    // Description : return image for current value with cod=$cod, if it is exist 
+    // Description : return image for current value with cod=$cod, if it is exist
     // Programmer : Igor Trokhymchuk
     // ================================================================================================
     function GetImages($id_news)
     {
         $image = NULL;
         $tmp_db = new DB();
-        
+
         $q = "SELECT * FROM `".TblModNewsImg."` WHERE 1 AND `id_news`='$id_news' order by `move`";
         $res = $tmp_db->db_Query($q);
         //echo '<br>q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;
@@ -699,9 +699,9 @@ class News {
         for($i=0; $i<$rows; $i++){
         $row = $tmp_db->db_FetchAssoc();
         //echo '<br>$row[id_val]'.$row['id_val'];
-        $arr[$i] = $row['path']; 
+        $arr[$i] = $row['path'];
         }
-        return $arr;           
+        return $arr;
     } //end of function GetImages()
 
 
@@ -709,50 +709,39 @@ class News {
     // Function : GetImagesToShow
     // Date : 01.04.2011
     // Parms : $id_news  / id of the news
-    // Returns : return all image data 
-    // Description : return image for current value 
+    // Returns : return all image data
+    // Description : return image for current value
     // Programmer : Yaroslav Gyryn
     // ================================================================================================
     function GetImagesToShow($id_news)
     {
         $image = NULL;
-        $tmp_db = new DB();
-        
-        $q = "SELECT 
+
+        $q = "SELECT
                     `".TblModNewsImg."`.`id`,
                     `".TblModNewsImg."`.`path`,
                     `".TblModNewsImg."`.`show`,
                     `".TblModNewsImg."`.`move`,
-                    `".TblModNewsImg."`.`path`,
                     `".TblModNewsImgSprName."`.name,
                     `".TblModNewsImgSprDescr."`.name as descr
-                    FROM `".TblModNewsImg."` 
-                    LEFT JOIN (`".TblModNewsImgSprName."`, `".TblModNewsImgSprDescr."`)    
-                    ON                 
-                     (
-                     `".TblModNewsImg."`.`id`=`".TblModNewsImgSprName."`.`cod` 
-                        AND 
-                     `".TblModNewsImg."`.`id`=`".TblModNewsImgSprDescr."`.`cod` 
-                        AND
-                        `".TblModNewsImgSprDescr."`.`lang_id` ='".$this->lang_id."' 
-                        AND
-                        `".TblModNewsImgSprName."`.`lang_id` ='".$this->lang_id."' 
-                     )
-                WHERE 
-                    `".TblModNewsImg."`.`id_news`='".$id_news."' AND `show`=1 
-                ORDER BY 
+                    FROM `".TblModNewsImg."`
+                    LEFT JOIN (`".TblModNewsImgSprName."`) ON (`".TblModNewsImg."`.`id`=`".TblModNewsImgSprName."`.`cod` AND `".TblModNewsImgSprName."`.`lang_id` ='".$this->lang_id."')
+		    LEFT JOIN (`".TblModNewsImgSprDescr."`) ON (`".TblModNewsImgSprDescr."`.`lang_id` ='".$this->lang_id."' AND `".TblModNewsImg."`.`id`=`".TblModNewsImgSprDescr."`.`cod`)
+                WHERE
+                    `".TblModNewsImg."`.`id_news`='".$id_news."' AND `show`=1
+                ORDER BY
                 `".TblModNewsImg."`.`move`";
-                              
-        $res = $tmp_db->db_Query($q);
-        //echo '<br>'.$q.'<br/> res='.$res.' $tmp_db->result='.$tmp_db->result;
-        if ( !$res or !$tmp_db->result ) return false;
-        $rows = $tmp_db->db_GetNumRows();
+
+        $res = $this->db->db_Query($q);
+//       echo '<br>'.$q.'<br/> res='.$res.' $tmp_db->result='.$tmp_db->result;
+        if ( !$res or !$this->db->result ) return false;
+        $rows = $this->db->db_GetNumRows();
         $arr = NULL;
         for($i=0; $i<$rows; $i++){
-            $row = $tmp_db->db_FetchAssoc();
+            $row = $this->db->db_FetchAssoc();
             $arr[$i] = $row;
         }
-        return $arr;           
+        return $arr;
     } //end of function GetImagesToShow()
 
     // ================================================================================================
@@ -761,14 +750,14 @@ class News {
     // Parms :   $id_news    / id of the user
     //           $part       /  for front-end or for back-end
     // Returns : return $image for current value with cod=$cod
-    // Description : return image for current value with cod=$cod, if it is exist 
+    // Description : return image for current value with cod=$cod, if it is exist
     // Programmer : Igor Trokhymchuk
     // ================================================================================================
     function GetMainImage($id_news, $part = 'front')
     {
         $image = NULL;
         $tmp_db = new DB();
-        
+
         $q = "SELECT * FROM `".TblModNewsImg."` WHERE 1 AND `id_news`='".$id_news."'";
         if ($part=='front') $q = $q." AND `show`=1";
         $q = $q." order by `move`";
@@ -778,7 +767,7 @@ class News {
         $rows = $tmp_db->db_GetNumRows();
         //echo '<br>$rows='.$rows;
         $row = $tmp_db->db_FetchAssoc();
-        return $row['path'];           
+        return $row['path'];
     } //end of function GetMainImage()
 
 
@@ -787,7 +776,7 @@ class News {
     // Date : 13.10.2006
     // Parms :   $id_news    / id of the user
     // Returns : return $image for current value with cod=$cod
-    // Description : return image for current value with cod=$cod, if it is exist 
+    // Description : return image for current value with cod=$cod, if it is exist
     // Programmer : Igor Trokhymchuk
     // ================================================================================================
     function GetTopImage($id_news)
@@ -800,22 +789,22 @@ class News {
         $rows = $tmp_db->db_GetNumRows();
         //echo '<br>$rows='.$rows;
         $row = $tmp_db->db_FetchAssoc();
-        return $row['image'];           
-    } //end of function GetTopImage()           
+        return $row['image'];
+    } //end of function GetTopImage()
     // ================================================================================================
     // Function : GetMainImageData
     // Date : 13.10.2006
     // Parms :   $id_news    / id of the user
     //           $part       /  for front-end or for back-end
     // Returns : return $image for current value with cod=$cod
-    // Description : return image for current value with cod=$cod, if it is exist 
+    // Description : return image for current value with cod=$cod, if it is exist
     // Programmer : Igor Trokhymchuk
     // ================================================================================================
     function GetMainImageData($id_news, $part = 'front')
     {
         $image = NULL;
         $tmp_db = new DB();
-        
+
         $q = "SELECT * FROM `".TblModNewsImg."` WHERE 1 AND `id_news`='".$id_news."'";
         if ($part=='front') $q = $q." AND `show`=1";
         $q = $q." order by `move`";
@@ -825,8 +814,8 @@ class News {
         $rows = $tmp_db->db_GetNumRows();
         //echo '<br>$rows='.$rows;
         $row = $tmp_db->db_FetchAssoc();
-        return $row;           
-    } //end of function GetMainImageData()       
+        return $row;
+    } //end of function GetMainImageData()
 
 
     /**
@@ -851,7 +840,7 @@ class News {
         $title = NULL;
         $settings_img_path = $this->settings['img_path'];
         //echo "<br>img=".$img;
-        
+
         if( !strstr($img, '.') AND !strstr($img, '/') ){
             $img_data = $this->GetPictureData($img);
             if(!isset($img_data['id_news'])) {return false;}
@@ -867,11 +856,11 @@ class News {
                 $settings_img_path = substr($img, 0, $rpos);
                 $img_name = substr($img, $rpos+1, strlen($img)-$rpos );
                 $img_with_path = $img;
-            }                                                                                    
+            }
             else{
                 if(!$id_news) return false;
                 $settings_img_path = $this->settings['img_path'].'/'.$id_news; // like /uploads/45
-                $img_name = $img; 
+                $img_name = $img;
                 $img_with_path = $settings_img_path.'/'.$img;
             }
             $alt ='';
@@ -879,8 +868,8 @@ class News {
         }
         //echo '<br>$img_name='.$img_name.'<br>$img_with_path='.$img_with_path;
         $mas_img_name=explode(".",$img_with_path);
-        
-        if ( strstr($size,'size_width') ){ 
+
+        if ( strstr($size,'size_width') ){
             $size_width = substr( $size, strrpos($size,'=')+1, strlen($size) );
             $img_name_new = $mas_img_name[0].NEWS_ADDITIONAL_FILES_TEXT.'width_'.$size_width.'.'.$mas_img_name[1];
         }
@@ -894,7 +883,7 @@ class News {
         }
         elseif(empty($size)) $img_name_new = $mas_img_name[0].'.'.$mas_img_name[1];
         //echo '$img_name_new='.$img_name_new;
-        $img_full_path_new = SITE_PATH.$img_name_new; 
+        $img_full_path_new = SITE_PATH.$img_name_new;
         //if exist local small version of the image then use it
         if( file_exists($img_full_path_new)){
             //echo 'exist';
@@ -902,12 +891,12 @@ class News {
             if ( !strstr($parameters, 'alt') ) $alt = $this->GetPictureAlt($img);
             if ( !strstr($parameters, 'title') ) $title = $this->GetPictureTitle($img);
             if ( !strstr($parameters, 'alt') )  $parameters = $parameters.' alt="'.$alt.'"';
-            if ( !strstr($parameters, 'title') ) $parameters = $parameters.' title=" '.$title.' "';        
+            if ( !strstr($parameters, 'title') ) $parameters = $parameters.' title=" '.$title.' "';
             if($return_src) $str = $img_name_new;
             else $str = '<img src="'.$img_name_new.'" '.$parameters.' />';
-        }                 
+        }
         //else use original image on the server SITE_PATH and make small version on local server
-        else {         
+        else {
             //echo 'Not  exist';
             $img_full_path = SITE_PATH.$img_with_path; // like z:/home/speakers/www/uploads/45/R1800TII_big.jpg
             //echo '<br> $img_full_path='.$img_full_path;
@@ -919,10 +908,10 @@ class News {
             $src_y = $thumb->img['y_thumb'];
             if ( !empty($size_width ) and empty($size_height) ) $thumb->size_width($size_width);
             if ( !empty($size_height) and empty($size_width) ) $thumb->size_height($size_height);
-            if ( !empty($size_width) and !empty($size_height) ) $thumb->size($size_width,$size_height); 
+            if ( !empty($size_width) and !empty($size_height) ) $thumb->size($size_width,$size_height);
             if ( !$size_width and !$size_height and $size_auto ) $thumb->size_auto($size_auto); // [OPTIONAL] set the biggest width and height for thumbnail
             //echo '<br>$thumb->img[x_thumb]='.$thumb->img['x_thumb'].' $thumb->img[y_thumb]='.$thumb->img['y_thumb'];
-            
+
             //if original image smaller than thumbnail then use original image and don't create thumbnail
             if($thumb->img['x_thumb']>=$src_x OR $thumb->img['y_thumb']>=$src_y){
                 $img_full_path = $settings_img_path.'/'.$img_name;
@@ -930,12 +919,12 @@ class News {
                 if ( !strstr($parameters, 'alt') ) $alt = $this->GetPictureAlt($img);
                 if ( !strstr($parameters, 'title') ) $title = $this->GetPictureTitle($img);
                 if ( !strstr($parameters, 'alt') )  $parameters = $parameters.' alt="'.$alt.'"';
-                if ( !strstr($parameters, 'title') ) $parameters = $parameters.' title=" '.$title.' "';        
+                if ( !strstr($parameters, 'title') ) $parameters = $parameters.' title=" '.$title.' "';
                 if($return_src) $str = $img_with_path;
                 else $str = '<img src="'.$img_with_path.'" '.$parameters.' />';
             }
             else{
-                $thumb->quality=$quality;                  //default 75 , only for JPG format  
+                $thumb->quality=$quality;                  //default 75 , only for JPG format
                 //echo '<br>$wtm='.$wtm;
                 if ( $wtm == 'img' ) {
                     $thumb->img_watermark = NULL; //SITE_PATH.'/images/design/m01.png';        // [OPTIONAL] set watermark source file, only PNG format [RECOMENDED ONLY WITH GD 2 ]
@@ -950,17 +939,17 @@ class News {
                     $thumb->txt_watermark_Valing='TOP';           // [OPTIONAL] set watermark text vertical position, TOP | CENTER | BOTTOM
                     $thumb->txt_watermark_Haling='LEFT';       // [OPTIONAL] set watermark text horizonatal position, LEFT | CENTER | RIGHT
                     $thumb->txt_watermark_Hmargin=10;          // [OPTIONAL] set watermark text horizonatal margin in pixels
-                    $thumb->txt_watermark_Vmargin=10;           // [OPTIONAL] set watermark text vertical margin in pixels     
+                    $thumb->txt_watermark_Vmargin=10;           // [OPTIONAL] set watermark text vertical margin in pixels
                 }
 
-                if( !strstr($img, '.') AND !strstr($img, '/') ){   
+                if( !strstr($img, '.') AND !strstr($img, '/') ){
                     $mas_img_name=explode(".",$img_name);
                     //$img_name_new = $mas_img_name[0].NEWS_NEWS_ADDITIONAL_FILES_TEXT.intval($thumb->img['x_thumb']).'x'.intval($thumb->img['y_thumb']).'.'.$mas_img_name[1];
-                    if(!empty($size_width )) 
+                    if(!empty($size_width ))
                         $img_name_new = $mas_img_name[0].NEWS_ADDITIONAL_FILES_TEXT.'width_'.$size_width.'.'.$mas_img_name[1];
-                    elseif(!empty($size_auto )) 
+                    elseif(!empty($size_auto ))
                         $img_name_new = $mas_img_name[0].NEWS_ADDITIONAL_FILES_TEXT.'auto_'.$size_auto.'.'.$mas_img_name[1];
-                    elseif(!empty($size_height )) 
+                    elseif(!empty($size_height ))
                         $img_name_new = $mas_img_name[0].NEWS_ADDITIONAL_FILES_TEXT.'height_'.$size_height.'.'.$mas_img_name[1];
                     $img_full_path_new = SITE_PATH.$settings_img_path.'/'.$img_name_new;
                     $img_src = $settings_img_path.'/'.$img_name_new;
@@ -969,48 +958,48 @@ class News {
                 else {
                     $mas_img_name=explode(".",$img_with_path);
                     //$img_name_new = $mas_img_name[0].NEWS_NEWS_ADDITIONAL_FILES_TEXT.intval($thumb->img['x_thumb']).'x'.intval($thumb->img['y_thumb']).'.'.$mas_img_name[1];
-                    if(!empty($size_width )) 
+                    if(!empty($size_width ))
                         $img_name_new = $mas_img_name[0].NEWS_ADDITIONAL_FILES_TEXT.'width_'.$size_width.'.'.$mas_img_name[1];
-                    elseif(!empty($size_auto )) 
+                    elseif(!empty($size_auto ))
                         $img_name_new = $mas_img_name[0].NEWS_ADDITIONAL_FILES_TEXT.'auto_'.$size_auto.'.'.$mas_img_name[1];
-                    elseif(!empty($size_height )) 
+                    elseif(!empty($size_height ))
                         $img_name_new = $mas_img_name[0].NEWS_ADDITIONAL_FILES_TEXT.'height_'.$size_height.'.'.$mas_img_name[1];
-                    $img_full_path_new = SITE_PATH.$img_name_new; 
+                    $img_full_path_new = SITE_PATH.$img_name_new;
                     $img_src = $img_name_new;
                     $rpos = strrpos($img_with_path,'/');
                     //echo '<br />$img_with_path='.$img_with_path.' $rpos='.$rpos;
                     if($rpos>0){
                         $uploaddir = SITE_PATH.substr($img_with_path, 0, $rpos);
                     }
-                    else $uploaddir = SITE_PATH.$settings_img_path;  
+                    else $uploaddir = SITE_PATH.$settings_img_path;
                 }
                 if ( !strstr($parameters, 'alt') ) $alt = $this->GetPictureAlt($img);
                 if ( !strstr($parameters, 'title') ) $title = $this->GetPictureTitle($img);
-                
-                //echo '<br>$img_name_new='.$img_name_new;  
+
+                //echo '<br>$img_name_new='.$img_name_new;
                 //echo '<br>$img_full_path_new='.$img_full_path_new;
                 //echo '<br>$img_src='.$img_src;
                 //echo '<br>$uploaddir='.$uploaddir;
-                
+
                 if ( !strstr($parameters, 'alt') )  $parameters = $parameters.' alt="'.htmlspecialchars($alt).'"';
                 if ( !strstr($parameters, 'title') ) $parameters = $parameters.' title=" '.htmlspecialchars($title).' "';
 
-                //echo '<br>$uploaddir='.$uploaddir; 
+                //echo '<br>$uploaddir='.$uploaddir;
                 if ( !file_exists($img_full_path_new) ) {
                     if( !file_exists ($uploaddir) ) mkdir($uploaddir,0777);
                     if( file_exists($uploaddir) ) @chmod($uploaddir,0777);
-                    $thumb->process();       // generate image  
-                    //make new image like R1800TII_big.jpg -> R1800TII_big_autozoom_100x84.jpg 
+                    $thumb->process();       // generate image
+                    //make new image like R1800TII_big.jpg -> R1800TII_big_autozoom_100x84.jpg
                     $thumb->save($img_full_path_new);
                     @chmod($uploaddir,0755);
                     $params = "img=".$img."&".$size;
                 }
                 if($return_src) $str = $img_src;
                 else $str = '<img src="'.$img_src.'" '.$parameters.' />';
-            }//end else  
-        }//end else  
+            }//end else
+        }//end else
         return $str;
-    } // end of function ShowImage()   
+    } // end of function ShowImage()
 
     // ================================================================================================
     // Function : ShowImageSquare
@@ -1027,12 +1016,12 @@ class News {
     // ================================================================================================
     function ShowImageSquare($img = NULL, $id_news,  $plain=true, $size_width = 90, $quality = 85, $parameters = NULL)
     {
-     $return_value='';   
+     $return_value='';
      $alt = NULL;
      $title = NULL;
      $settings_img_path = NewsImg_Path;
      //echo "<br>img=".$img;
-     
+
      if ( !strstr($img, '.') ) {
          if(!isset($img_data['id_news'])) {return false;}
          $settings_img_path = NewsImg_Full_Path.'/'.$id_news.'/'; // like /uploads/45
@@ -1040,9 +1029,9 @@ class News {
          $img_with_path = $settings_img_path.'/'.$img_name; // like /uploads/45/R1800TII_big.jpg
      }
      else {
-         $img_with_path = $this->GetImgPath($img, $id_news);  
+         $img_with_path = $this->GetImgPath($img, $id_news);
          $img_name = $img;
-     }   
+     }
      $img_full_path = SITE_PATH.$img_with_path; // like z:/home/speakers/www/uploads/45/R1800TII_big.jpg
 
      if ( !file_exists($img_full_path) ) return false;
@@ -1061,46 +1050,46 @@ class News {
                 $src = imagecreatefrompng($img_full_path);
                 break;
         }
-        $w_src = imagesx($src); 
+        $w_src = imagesx($src);
         $h_src = imagesy($src);
         //echo '<br> $img_full_path='.$img_full_path.'<br>';
         $mas_img_name=explode(".",$img_name);
         $img_name_new = $mas_img_name[0].'_'.intval($size_width).'x'.intval($size_width).'.'.$mas_img_name[1];
-        $settings_img_path=$settings_img_path.$id_news;  
+        $settings_img_path=$settings_img_path.$id_news;
         $img_full_path_new = SITE_PATH.$settings_img_path.'/'.$img_name_new;
         $img_src = $settings_img_path.'/'.$img_name_new;
         $uploaddir = SITE_PATH.$settings_img_path;
-        
+
        //header("Content-type: image/jpeg");
-       $dest = @imagecreatetruecolor($size_width,$size_width); 
+       $dest = @imagecreatetruecolor($size_width,$size_width);
 
        if ($w_src>$h_src)
-       if ($plain){ 
+       if ($plain){
             imagecopyresampled($dest, $src, 0, 0,
             round((max($w_src,$h_src)-min($w_src,$h_src))/2),
             0, $size_width, $size_width, min($w_src,$h_src), min($w_src,$h_src));
        }
-       else { 
+       else {
             imagecopyresized($dest, $src, 0, 0,
             round((max($w_src,$h_src)-min($w_src,$h_src))/2),
-            0, $size_width, $size_width, min($w_src,$h_src), min($w_src,$h_src)); 
+            0, $size_width, $size_width, min($w_src,$h_src), min($w_src,$h_src));
        }
        //echo $src;
        if ($w_src<$h_src)
-            if ($plain) 
+            if ($plain)
                 imagecopyresampled($dest, $src, 0, 0, 0, 0, $size_width, $size_width,
-                min($w_src,$h_src), 
-                min($w_src,$h_src)); 
+                min($w_src,$h_src),
+                min($w_src,$h_src));
             else
-                imagecopyresized($dest, $src, 0, 0, 0, 0, $size_width, $size_width,min($w_src,$h_src), min($w_src,$h_src)); 
+                imagecopyresized($dest, $src, 0, 0, 0, 0, $size_width, $size_width,min($w_src,$h_src), min($w_src,$h_src));
 
         if ($w_src==$h_src)
             if ($plain) imagecopyresampled($dest, $src, 0, 0, 0, 0, $size_width, $size_width, $w_src, $w_src);
-            else imagecopyresized($dest, $src, 0, 0, 0, 0, $size_width, $size_width, $w_src, $w_src); 
-            $uploaddir = substr($img_with_path, 0, strrpos($img_with_path,'/'));                      
+            else imagecopyresized($dest, $src, 0, 0, 0, 0, $size_width, $size_width, $w_src, $w_src);
+            $uploaddir = substr($img_with_path, 0, strrpos($img_with_path,'/'));
         if ( !strstr($parameters, 'alt') ) $alt = $this->GetPictureAlt($img);
         if ( !strstr($parameters, 'title') ) $title = $this->GetPictureTitle($img);
-        //echo '<br>$img_name_new='.$img_name_new;  
+        //echo '<br>$img_name_new='.$img_name_new;
         //echo '<br>$img_full_path_new='.$img_full_path_new;
         //echo '<br>$img_src='.$img_src;
         if ( !strstr($parameters, 'alt') )  $parameters = $parameters.' alt="'.htmlspecialchars($alt).'"';
@@ -1115,14 +1104,14 @@ class News {
                 case 'jpeg':
                     imagejpeg($dest,$img_full_path_new,$quality);
                     break;
-                case 'gif': 
+                case 'gif':
                     imagegif($dest,$img_full_path_new);
                     break;
                 case 'png':
                     imagepng($dest,$img_full_path_new);
                     break;
             }
-            imagedestroy($dest); 
+            imagedestroy($dest);
             imagedestroy($src);
             @chmod($uploaddir,0755);
             $params = "img=$img&$size_width";
@@ -1131,11 +1120,11 @@ class News {
             $str = '<img src="'.$img_src.'" '.$parameters.' />';
         }
         else {
-            $str = '<img src="'.$img_src.'" '.$parameters.' />'; 
+            $str = '<img src="'.$img_src.'" '.$parameters.' />';
         }
-        return $str;  
-    } // end of function ShowImageSquare()    
-   
+        return $str;
+    } // end of function ShowImageSquare()
+
     // ================================================================================================
     // Function : GetExtationOfFile
     // Date : 31.08.2009
@@ -1146,22 +1135,22 @@ class News {
     // ================================================================================================
     function GetExtationOfFile($filename)
     {
-        return $ext = substr($filename,1 + strrpos($filename, ".")); 
+        return $ext = substr($filename,1 + strrpos($filename, "."));
     }// end of function GetExtationOfFile()
-    
+
     // ================================================================================================
     // Function : GetImgFullPath
     // Date : 06.11.2006
     // Parms :  $img - name of the image
     //          $id_news - id of the user
     // Returns : $res / Void
-    // Description : return path to the image like /images/mod_user/120/1162648375_0.jpg 
+    // Description : return path to the image like /images/mod_user/120/1162648375_0.jpg
     // Programmer : Igor Trokhymchuk
     // ================================================================================================
     function GetImgFullPath($img = NULL, $id_news = NULL )
     {
         return SITE_PATH.$this->settings['img_path'].'/'.$id_news.'/'.$img;
-    } //end of function GetImgFullPath() 
+    } //end of function GetImgFullPath()
 
     // ================================================================================================
     // Function : GetImgPath
@@ -1169,13 +1158,13 @@ class News {
     // Parms :  $img - name of the image
     //          $id_news - id of the user
     // Returns : $res / Void
-    // Description : return path to the image like /images/mod_user/120/1162648375_0.jpg 
+    // Description : return path to the image like /images/mod_user/120/1162648375_0.jpg
     // Programmer : Igor Trokhymchuk
     // ================================================================================================
     function GetImgPath($img = NULL, $id_news = NULL )
     {
         return $this->settings['img_path'].'/'.$id_news.'/'.$img;
-    } //end of function GetImgPath()        
+    } //end of function GetImgPath()
 
 
 
@@ -1189,21 +1178,21 @@ class News {
     // ================================================================================================
     function GetPictureData($id_img)
     {
-        $tmp_db = DBs::getInstance();           
-       
+        $tmp_db = DBs::getInstance();
+
         $q="SELECT `".TblModNewsImg."`.*,
             `".TblModNewsImgSprName."`.`name`,
             `".TblModNewsImgSprDescr."`.`name` AS `descr`
             FROM `".TblModNewsImg."`
-            LEFT JOIN `".TblModNewsImgSprName."` ON (`".TblModNewsImg."`.`id`=`".TblModNewsImgSprName."`.`cod` AND `".TblModNewsImgSprName."`.`lang_id`='".$this->lang_id."') 
-            LEFT JOIN `".TblModNewsImgSprDescr."` ON (`".TblModNewsImg."`.`id`=`".TblModNewsImgSprDescr."`.`cod` AND `".TblModNewsImgSprDescr."`.`lang_id`='".$this->lang_id."') 
+            LEFT JOIN `".TblModNewsImgSprName."` ON (`".TblModNewsImg."`.`id`=`".TblModNewsImgSprName."`.`cod` AND `".TblModNewsImgSprName."`.`lang_id`='".$this->lang_id."')
+            LEFT JOIN `".TblModNewsImgSprDescr."` ON (`".TblModNewsImg."`.`id`=`".TblModNewsImgSprDescr."`.`cod` AND `".TblModNewsImgSprDescr."`.`lang_id`='".$this->lang_id."')
             WHERE `".TblModNewsImg."`.`id`='".$id_img."'";
         $res = $tmp_db->db_Query( $q );
-        //echo '<br>q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;  
+        //echo '<br>q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;
         if( !$res OR !$tmp_db->result ) return false;
         $row = $tmp_db->db_FetchAssoc();
-        return $row;                    
-        
+        return $row;
+
     } // end of function GetPictureData()
 
 
@@ -1217,35 +1206,35 @@ class News {
     // ================================================================================================
     function GetPictureAlt($img, $show_name = true)
     {
-        
-        if ( strstr($img, '.') ) {   
+
+        if ( strstr($img, '.') ) {
         $id_img = $this->GetImgIdByPath($img);
         } else {
         $id_img = $img;
         }
-        
+
         // echo "<br>id_img=".$id_img;
         $alt = $this->Spr->GetNameByCod(TblModNewsImgSprName, $id_img, $this->lang_id, 1);
         // echo '<br>$alt='.$alt;
         if ( empty($alt) and $show_name ) {
-        $tmp_db = new DB();           
+        $tmp_db = new DB();
         $q="SELECT `id_news` FROM `".TblModNewsImg."` WHERE `id`='".$id_img."'";
         $res = $tmp_db->db_Query( $q );
-        // echo '<br>q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;  
+        // echo '<br>q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;
         if( !$res OR !$tmp_db->result ) return false;
         $row = $tmp_db->db_FetchAssoc();
-        
+
         $alt = $this->Spr->GetNameByCod(TblModNewsSprSbj, $row['id_news'], $this->lang_id, 1);
         //$id_cat = $this->GetCategory($row['id_prop']);
-        //echo '<br>$id_cat='.$id_cat;                
+        //echo '<br>$id_cat='.$id_cat;
         //$name_ind = $this->Spr->GetNameByCod(TblModCatalogSprNameInd, $id_cat, $this->lang_id, 1 );
         // $alt = $name_ind.' '.$alt;
         }
-        
+
         //  echo '<br> $alt='.$alt;
-        return htmlspecialchars($alt);            
-        
-    } // end of function GetPictureAlt() 
+        return htmlspecialchars($alt);
+
+    } // end of function GetPictureAlt()
 
     // ================================================================================================
     // Function : GetPictureTitle
@@ -1257,33 +1246,33 @@ class News {
     // ================================================================================================
     function GetPictureTitle($img)
     {
-        if ( strstr($img, '.') ) {   
+        if ( strstr($img, '.') ) {
         $id_img = $this->GetImgIdByPath($img);
         } else {
         $id_img = $img;
         }
-        
+
         $alt = htmlspecialchars($this->Spr->GetNameByCod(TblModNewsImgSprDescr, $id_img, $this->lang_id, 1));
         //echo '<br>$alt='.$alt;
         if ( empty($alt) ) {
         $alt = $this->GetPictureAlt($id_img);
         }
         // echo '<br> $title='.$alt;
-        return $alt;            
-        
-    } // end of function GetPictureTitle() 
+        return $alt;
+
+    } // end of function GetPictureTitle()
     // ================================================================================================
     // Function : GetImgTitleByPath
     // Date : 06.11.2006
     // Parms :  $img - name of the picture
     // Returns : $res / Void
-    // Description : return title for image 
+    // Description : return title for image
     // Programmer : Igor Trokhymchuk
     // ================================================================================================
     function GetImgIdByPath( $img )
     {
         $tmp_db = new DB();
-        
+
         $q = "SELECT * FROM `".TblModNewsImg."` WHERE 1 AND `path`='$img'";
         $res = $tmp_db->db_Query($q);
         //echo '<br>q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;
@@ -1291,16 +1280,16 @@ class News {
         //$rows = $tmp_db->db_GetNumRows();
         // echo '<br>$rows='.$rows;
         $row = $tmp_db->db_FetchAssoc();
-        $id = $row['id']; 
-        return $id;            
-    } //end of function GetImgTitleByPath()     
+        $id = $row['id'];
+        return $id;
+    } //end of function GetImgTitleByPath()
 
     // ================================================================================================
     // Function : GetNewsIdByImgId
-    // Date : 22.06.2007 
+    // Date : 22.06.2007
     // Parms :  $img - name of the picture
     // Returns : $res / Void
-    // Description : return title for image 
+    // Description : return title for image
     // Programmer : Yaroslav Gyryn
     // ================================================================================================
     function GetNewsIdByImgId( $img )
@@ -1313,9 +1302,9 @@ class News {
         //$rows = $tmp_db->db_GetNumRows();
         // echo '<br>$rows='.$rows;
         $row = $tmp_db->db_FetchAssoc();
-        $id = $row['id_news']; 
-        return $id;            
-    } //end of function GetNewsIdByImgId()       
+        $id = $row['id_news'];
+        return $id;
+    } //end of function GetNewsIdByImgId()
 
 
     // ================================================================================================
@@ -1327,9 +1316,9 @@ class News {
     // ================================================================================================
     function upImg($table, $level_name = NULL, $level_val = NULL)
     {
-        $tmp_db = new DB(); 
+        $tmp_db = new DB();
         $q="select * from `$table` where `move`='$this->move'";
-        if ( !empty($level_name) ) $q = $q." AND `$level_name`='$level_val'"; 
+        if ( !empty($level_name) ) $q = $q." AND `$level_name`='$level_val'";
         $res = $tmp_db->db_Query( $q );
         //echo '<br>q='.$q.' res='.$res; // $this->Right->result='.$this->db->rest;
         if( !$res )return false;
@@ -1355,13 +1344,13 @@ class News {
         $q="update `$table` set
         `move`='$move_down' where id='$id_up'";
         $res = $tmp_db->db_Query( $q );
-        //echo '<br>q='.$q.' res='.$res.' $this->Right->result='.$this->Right->result; 
-        
+        //echo '<br>q='.$q.' res='.$res.' $this->Right->result='.$this->Right->result;
+
         $q="update `$table` set
         `move`='$move_up' where id='$id_down'";
         $res = $tmp_db->db_Query( $q );
-        //echo '<br>q='.$q.' res='.$res.' $this->Right->result='.$this->Right->result; 
-        
+        //echo '<br>q='.$q.' res='.$res.' $this->Right->result='.$this->Right->result;
+
         }
     } // end of function up()
 
@@ -1375,7 +1364,7 @@ class News {
     // ================================================================================================
     function downImg($table, $level_name = NULL, $level_val = NULL)
     {
-        $tmp_db = new DB();    
+        $tmp_db = new DB();
         $q="select * from `$table` where `move`='$this->move'";
         if ( !empty($level_name) ) $q = $q." AND `$level_name`='$level_val'";
         $res = $tmp_db->db_Query( $q );
@@ -1403,7 +1392,7 @@ class News {
         $q="update `$table` set
         `move`='$move_down' where id='$id_up'";
         $res = $tmp_db->db_Query( $q );
-        // echo '<br>q='.$q.' res='.$res;  
+        // echo '<br>q='.$q.' res='.$res;
         $q="update `$table` set
         `move`='$move_up' where id='$id_down'";
         $res = $tmp_db->db_Query( $q );
@@ -1421,8 +1410,8 @@ class News {
     // ================================================================================================
     function GetNewsData( $news_id = NULL )
     {
-        if(!$news_id) return true; 
-        $q = "SELECT `".TblModNews."`.*, `".TblModNewsCat."`.name AS `category`, `".TblModNewsSprSbj."`.name AS `sbj`, `".TblModNewsSprShrt."`.name AS `shrt_news`, `".TblModNewsSprFull."`.name AS `full_news` 
+        if(!$news_id) return true;
+        $q = "SELECT `".TblModNews."`.*, `".TblModNewsCat."`.name AS `category`, `".TblModNewsSprSbj."`.name AS `sbj`, `".TblModNewsSprShrt."`.name AS `shrt_news`, `".TblModNewsSprFull."`.name AS `full_news`
               FROM `".TblModNews."`, `".TblModNewsCat."`, `".TblModNewsSprSbj."`, `".TblModNewsSprShrt."`, `".TblModNewsSprFull."`
               WHERE `".TblModNews."`.id_category=`".TblModNewsCat."`.cod
               AND `".TblModNewsCat."`.lang_id='".$this->lang_id."'
@@ -1437,43 +1426,43 @@ class News {
             $q .= $this->fltr;
         }
         $res = $this->db->db_Query( $q );
-        //echo '<br>'.$q.' $res='.$res.' $this->db->result='.$this->db->result; 
+        //echo '<br>'.$q.' $res='.$res.' $this->db->result='.$this->db->result;
         if ( !$res OR !$this->db->result ) return false;
         //$rows = $this->db->db_GetNumRows();
         $row = $this->db->db_FetchAssoc();
         return $row;
-    } //end of fuinction GetNewsData()  
-           
+    } //end of fuinction GetNewsData()
+
 
     // ================================================================================================
     function GetNewsCatLast( $id_cat=1, $limit=3, $active=true)
     {
-        $q = "SELECT 
+        $q = "SELECT
              `".TblModNews."`.id,
             `".TblModNews."`.start_date,
             `".TblModNews."`.id_category,
             `".TblModNewsSprSbj."`.lang_id,
             `".TblModNewsSprSbj."`.name,
             `".TblModNewsSprShrt."`.name as shrt
-        FROM 
-            `".TblModNews."`, `".TblModNewsSprSbj."`, `".TblModNewsSprShrt."` 
-        WHERE 
+        FROM
+            `".TblModNews."`, `".TblModNewsSprSbj."`, `".TblModNewsSprShrt."`
+        WHERE
             `".TblModNews."`.id = `".TblModNewsSprSbj."`.cod and
             `".TblModNews."`.id = `".TblModNewsSprShrt."`.cod and
-            `".TblModNews."`.id_category ='".$id_cat."' and 
-            `".TblModNewsSprSbj."`.lang_id ='".$this->lang_id."' and 
-            `".TblModNewsSprSbj."`.name !=''  AND 
+            `".TblModNews."`.id_category ='".$id_cat."' and
+            `".TblModNewsSprSbj."`.lang_id ='".$this->lang_id."' and
+            `".TblModNewsSprSbj."`.name !=''  AND
             `".TblModNewsSprShrt."`.lang_id='".$this->lang_id."' ";
         if($active==true)
            $q .= " and `".TblModNews."`.status='a' ";
         if(isset($this->id))
             $q .= " and `".TblModNews."`.id!= '".$this->id."' ";
-        
-        $q .="ORDER BY 
+
+        $q .="ORDER BY
             `display` desc LIMIT ".$limit;
-            
+
         $res = $this->db->db_Query( $q );
-        //echo '<br>'.$q.' $res='.$res.' $this->db->result='.$this->db->result; 
+        //echo '<br>'.$q.' $res='.$res.' $this->db->result='.$this->db->result;
         if ( !$res OR !$this->db->result ) return false;
         $rows = $this->db->db_GetNumRows();
         $array = array();
@@ -1481,7 +1470,7 @@ class News {
             $array[$i] =  $this->db->db_FetchAssoc($res);
         }
         return $array;
-    } //end of function GetNewsCatLast()  
+    } //end of function GetNewsCatLast()
 
 
     // ================================================================================================
@@ -1494,21 +1483,21 @@ class News {
     function GetAllNewsIdCat( $id_cat=1, $idModule = null )
     {
         $q = "
-            SELECT 
+            SELECT
                 `".TblModNews."`.id,
                 `".TblModNews."`.start_date,
                 `".TblModNews."`.display
-            FROM 
+            FROM
                 `".TblModNews."`
-            WHERE 
-                `".TblModNews."`.id_category ='".$id_cat."' and 
-               `".TblModNews."`.status='a' 
-            ORDER BY 
+            WHERE
+                `".TblModNews."`.id_category ='".$id_cat."' and
+               `".TblModNews."`.status='a'
+            ORDER BY
                 `display` desc
         ";
-            
+
         $res = $this->db->db_Query( $q );
-        //echo '<br>'.$q.' <br/>$res='.$res.' $this->db->result='.$this->db->result; 
+        //echo '<br>'.$q.' <br/>$res='.$res.' $this->db->result='.$this->db->result;
         if ( !$res OR !$this->db->result ) return false;
         $rows = $this->db->db_GetNumRows();
         $array = array();
@@ -1520,7 +1509,7 @@ class News {
             $array[$dateId]['id_module'] = $idModule;
         }
         return $array;
-    } //end of function GetAllNewsIdCat()  
+    } //end of function GetAllNewsIdCat()
 
 
     // ================================================================================================
@@ -1533,22 +1522,22 @@ class News {
     function GetAllNewsIdRSS($idModule = null, $limit = 20 )
     {
         $q = "
-            SELECT 
+            SELECT
                 `".TblModNews."`.id,
                 `".TblModNews."`.start_date,
                 `".TblModNews."`.display
-            FROM 
+            FROM
                 `".TblModNews."`
-            WHERE 
-               `".TblModNews."`.status='a' 
-               AND 
-                `".TblModNews."`.property != 1 
-            ORDER BY 
+            WHERE
+               `".TblModNews."`.status='a'
+               AND
+                `".TblModNews."`.property != 1
+            ORDER BY
                 `display` desc
             LIMIT ".$limit."
         ";
         $res = $this->db->db_Query( $q );
-        //echo '<br>'.$q.' <br/>$res='.$res.' $this->db->result='.$this->db->result; 
+        //echo '<br>'.$q.' <br/>$res='.$res.' $this->db->result='.$this->db->result;
         if ( !$res OR !$this->db->result ) return false;
         $rows = $this->db->db_GetNumRows();
         $array = array();
@@ -1560,7 +1549,7 @@ class News {
         }
         return $array;
     } //end of function GetAllNewsIdRSS()
-    
+
     // ================================================================================================
     // Function : GetNewsIdByQuickSearch()
     // Date :    26.05.2011
@@ -1576,10 +1565,10 @@ class News {
         $filter_cr = ' OR ';
         $str_like = $this->build_str_like(TblModNewsSprSbj.'.name', $search_keywords);
         $str_like .= $filter_cr.$this->build_str_like(TblModNewsSprShrt.'.name', $search_keywords);
-        $str_like .= $filter_cr.$this->build_str_like(TblModNewsSprFull.'.name', $search_keywords); 
+        $str_like .= $filter_cr.$this->build_str_like(TblModNewsSprFull.'.name', $search_keywords);
         $sel_table = "`".TblModNews."`, `".TblModNewsCat."`, `".TblModNewsSprSbj."`, `".TblModNewsSprShrt."`, `".TblModNewsSprFull."` ";
-   
-        $q ="SELECT 
+
+        $q ="SELECT
                 `".TblModNews."`.id,
                 `".TblModNews."`.start_date,
                 `".TblModNews."`.display
@@ -1592,13 +1581,13 @@ class News {
              AND `".TblModNewsSprFull."`.lang_id = '".$this->lang_id."'
              AND `".TblModNews."`.id = `".TblModNewsSprFull."`.cod
              AND `".TblModNews."`.`id_category` = `".TblModNewsCat."`.`cod`
-             AND `".TblModNewsCat."`.lang_id = '".$this->lang_id."' 
-             AND `".TblModNews."`.status='a' 
+             AND `".TblModNewsCat."`.lang_id = '".$this->lang_id."'
+             AND `".TblModNews."`.status='a'
              ORDER BY `".TblModNews."`.`display` desc
             ";
-            
+
         $res = $this->db->db_Query( $q );
-        //echo '<br>'.$q.' <br/>$res='.$res.' $this->db->result='.$this->db->result; 
+        //echo '<br>'.$q.' <br/>$res='.$res.' $this->db->result='.$this->db->result;
         if ( !$res OR !$this->db->result ) return false;
         $rows = $this->db->db_GetNumRows();
         $array = array();
@@ -1611,8 +1600,8 @@ class News {
         }
         //print_r($array);
         return $array;
-    } //end of function GetNewsIdByQuickSearch() 
-                       
+    } //end of function GetNewsIdByQuickSearch()
+
     // ================================================================================================
     // Function : CotvertDataToOutputArray
     // Date : 19.05.2006
@@ -1630,88 +1619,88 @@ class News {
         // echo '<br> $sort='.$sort.' $rows='.$rows;
         $arr0 = NULL;
         if(!$rows) return true;
-        
-        $settings = $this->GetSettings(); 
-        
+
+        $settings = $this->GetSettings();
+
         for ($i=0;$i<$rows;$i++){
         $row = $this->db->db_FetchAssoc();
-        $main_img_data = $this->GetMainImageData($row['id'], 'front'); 
+        $main_img_data = $this->GetMainImageData($row['id'], 'front');
         switch($sort){
         case 'id':
             $index_sort = $row['id'];
             break;
         case 'display ':
             $index_sort = $row['display'];
-            break;                                                          
+            break;
         default:
             $str_to_eval = '$index_sort = "_".$row['."'".$sort."'".']."_".$row['."'id'".'];';
             //echo '<br> $str_to_eval='.$str_to_eval;
             eval($str_to_eval);
             break;
         }
-            
+
         $arr0[$index_sort]["id"] = $row['id'];
         $arr0[$index_sort]['id_category'] = $row['id_category'];
-        
+
         if ( isset($settings['img']) AND $settings['img']=='1' ) {
         $arr0[$index_sort]["img"]["id"] = $main_img_data['id'];
         $arr0[$index_sort]["img"]["descr"] = $main_img_data['descr'];
         $arr0[$index_sort]["img"]["path"] = $main_img_data['path'];//$this->GetMainImage($row['id'], 'front');
         $arr0[$index_sort]["img"]["img_path"] = $this->GetImgPath( $this->GetMainImage($row['id'], 'front'), $row['id'] );
-        $arr0[$index_sort]["img"]["full_img_path"] = $this->GetImgFullPath( $this->GetMainImage($row['id'], 'front'), $row['id'] ); 
+        $arr0[$index_sort]["img"]["full_img_path"] = $this->GetImgFullPath( $this->GetMainImage($row['id'], 'front'), $row['id'] );
         }
-        
-        $arr0[$index_sort]['start_date'] = $this->ConvertDate($row['start_date']); 
+
+        $arr0[$index_sort]['start_date'] = $this->ConvertDate($row['start_date']);
         $arr0[$index_sort]['category'] = $this->Spr->GetNameByCod( TblModNewsCat, $row['id_category'] );
-        
+
         $sbj = strip_tags($this->Spr->GetNameByCod( TblModNewsSprSbj, $row['id'], $this->lang_id, 0 ));
-        $sbj = str_replace ( '&amp;', '&', $sbj ); 
-        $sbj = str_replace ( '&#039;', '\'', $sbj ); 
-        $sbj = str_replace ( '&quot;', '\"', $sbj ); 
-        $arr0[$index_sort]["sbj"] = $sbj; 
-        
+        $sbj = str_replace ( '&amp;', '&', $sbj );
+        $sbj = str_replace ( '&#039;', '\'', $sbj );
+        $sbj = str_replace ( '&quot;', '\"', $sbj );
+        $arr0[$index_sort]["sbj"] = $sbj;
+
         $shrt_news = strip_tags(stripslashes( $this->Spr->GetNameByCod( TblModNewsSprShrt, $row['id'] ) ), "<p><br><strong><u><i><b><ul><li><table><tr><td>");
-        $shrt_news = str_replace ( '&amp;', '&', $shrt_news ); 
-        $shrt_news = str_replace ( '&#039;', '\'', $shrt_news ); 
+        $shrt_news = str_replace ( '&amp;', '&', $shrt_news );
+        $shrt_news = str_replace ( '&#039;', '\'', $shrt_news );
         $shrt_news = str_replace ( '&quot;', '\"', $shrt_news );
-        if($shrt_news=='') $shrt_news = $this->Msg->show_text('TXT_NEWS_EMPTY'); 
-        if ( isset($settings['short_descr']) AND $settings['short_descr']=='1' ) {  
+        if($shrt_news=='') $shrt_news = $this->Msg->show_text('TXT_NEWS_EMPTY');
+        if ( isset($settings['short_descr']) AND $settings['short_descr']=='1' ) {
         $arr0[$index_sort]["shrt_news"] = $shrt_news;
         }
-        if(empty($arr0[$index_sort]["shrt_news"])) $arr0[$index_sort]["shrt_news"] = $this->Msg->show_text('TXT_NEWS_EMPTY');   
-        
-        if( $data=='full' ){         
-        
-        if ( isset($settings['full_descr']) AND $settings['full_descr']=='1' ) { 
+        if(empty($arr0[$index_sort]["shrt_news"])) $arr0[$index_sort]["shrt_news"] = $this->Msg->show_text('TXT_NEWS_EMPTY');
+
+        if( $data=='full' ){
+
+        if ( isset($settings['full_descr']) AND $settings['full_descr']=='1' ) {
         $full_news = stripslashes($this->Spr->GetNameByCod( TblModNewsSprFull, $row['id'], $this->lang_id, 0 ));
-        $full_news = str_replace ( '&amp;', '&', $full_news ); 
-        $full_news = str_replace ( '&#039;', '\'', $full_news ); 
-        $full_news = str_replace ( '&quot;', '\"', $full_news ); 
-        $arr0[$index_sort]["full_news"] = $full_news; 
+        $full_news = str_replace ( '&amp;', '&', $full_news );
+        $full_news = str_replace ( '&#039;', '\'', $full_news );
+        $full_news = str_replace ( '&quot;', '\"', $full_news );
+        $arr0[$index_sort]["full_news"] = $full_news;
         }
         if(empty($full_news)) $arr0[$index_sort]["full_news"] = $shrt_news;
-        
+
         $arr0[$index_sort]["source"] = $row['source'];
-            
-        //-------- get all photos start --------- 
+
+        //-------- get all photos start ---------
         $img_arr = $this->GetImagesToShow($row['id']);
-        for ($ii=0;$ii<count($img_arr);$ii++){               
+        for ($ii=0;$ii<count($img_arr);$ii++){
             $arr0[$index_sort]["img_arr"][$ii] = $img_arr[$ii];
             //$arr0[$index_sort]["img_arr"][$ii]['descr'] = $img_arr[$ii];
         }
-        //-------- get all photos end ---------                 
-        }   
-            
+        //-------- get all photos end ---------
+        }
+
         }//end for
-        
+
         if (is_array($arr0)) {
         if ( $asc_desc == 'desc' ) krsort($arr0);
-        else ksort($arr0);  
+        else ksort($arr0);
         reset($arr0);
         }
         // echo '<br>Arr:<br>'; print_r($arr0); echo '<br><br>';
         return $arr0;
-    } //end of function CotvertDataToOutputArray()  
+    } //end of function CotvertDataToOutputArray()
 
 
 
@@ -1720,7 +1709,7 @@ class News {
     // Function : GetValueOfFieldByNewsId()
     // Date : 06.01.2006
     // Returns :      true,false / Void
-    // Description : 
+    // Description :
     // Programmer :  Igor Trokhymchuk
     // ================================================================================================
     function GetValueOfFieldByNewsId( $news_id = NULL, $field = NULL )
@@ -1730,14 +1719,14 @@ class News {
 
         $q = "select `".$field."` from ".TblModNews." where id='$news_id'";
         $res = $tmp_db->db_Query( $q );
-        //echo '<br>'.$q.' $res='.$res.' $tmp_db->result='.$tmp_db->result; 
+        //echo '<br>'.$q.' $res='.$res.' $tmp_db->result='.$tmp_db->result;
         if ( !$res OR !$tmp_db->result ) return false;
         $row = $tmp_db->db_FetchAssoc();
         $name = $row[$field];
         //echo '<br> $name='.$name;
         return $name;
     } //end of fuinction GetValueOfFieldByNewsId()
-     
+
 
        // ================================================================================================
        // Function : GetNewsNameByNewsId()
@@ -1752,18 +1741,18 @@ class News {
 
          $q = "select * from ".TblModNewsSprSbj." where `cod`='$news_id' and `lang_id`='".$this->lang_id."'";
          $res = $tmp_db->db_Query( $q );
-        // echo '<br>'.$q.' $res='.$res.' $tmp_db->result='.$tmp_db->result; 
+        // echo '<br>'.$q.' $res='.$res.' $tmp_db->result='.$tmp_db->result;
          if ( !$res OR !$tmp_db->result ) return false;
          $row = $tmp_db->db_FetchAssoc();
          $name = $row['name'];
         // echo '<br> name='.$name;
          return $name;
        } //end of fuinction GetUserNameByUserId()
-           
+
     // ================================================================================================
     // Function : Link()
     // Date : 12.01.2011
-    // Description : Return Link 
+    // Description : Return Link
     // Programmer : Yaroslav Gyryn
     // ================================================================================================
     function Link( $cat = NULL, $id = NULL, $str_news = NULL)
@@ -1771,7 +1760,7 @@ class News {
         if(empty($this->settings))
             $this->settings = $this->GetSettings();
 
-        /*if ( isset($this->settings['rewrite']) AND $this->settings['rewrite']=='0' ) { 
+        /*if ( isset($this->settings['rewrite']) AND $this->settings['rewrite']=='0' ) {
             if($cat!=NULL and $id==NULL) {
                 return '/newscat_'.$cat.'.html';
             }
@@ -1790,7 +1779,7 @@ class News {
                 define("_LINK", "/");
             }
         }
-        
+
         if( !empty($cat) ){
             //$str_cat =  $this->Category->GetCategoryTranslitById($cat);
             $str_cat = $this->Spr->GetTranslitByCod( TblModNewsCat, $cat, $this->lang_id );
@@ -1800,17 +1789,17 @@ class News {
             $str_cat =  $this->Spr->GetTranslitByCod( TblModNewsCat, $this->GetIdCatByIdNews($id), $this->lang_id );
         }
         else{
-            $str_cat = NULL; 
+            $str_cat = NULL;
         }
-    
+
         if(empty($str_news))
             $str_news = $this->GetLink($id);
-        
+
         if($id!=NULL and $str_news=='') {
             $str_news = $this->SetLink($id, true);
         }
-        
-     
+
+
         if($id==null){
             if(!empty($str_cat)) $link = _LINK.'news/'.$str_cat.'/';
             else{
@@ -1823,7 +1812,7 @@ class News {
         else  {
                 $link = _LINK.'news/'.$str_cat.'/'.$str_news.'.html';
         }
-        
+
         return $link;
     } // end of function Link
 
@@ -1831,21 +1820,21 @@ class News {
     // Function : SetLink()
     // Date : 12.01.2009
     // Parms : $link - str for link, $cod - id position
-    // Description : Set Link 
+    // Description : Set Link
     // Programmer : Yaroslav Gyryn
     // ================================================================================================
     function SetLink($cod, $ret=false){
      $Crypt = new Crypt();
      $this->db = new DB();
 
-    $cat_link = $this->Spr->GetNameByCod(TblModNewsSprSbj, $cod, 1, 1);   
-    if ($cat_link=="") { 
+    $cat_link = $this->Spr->GetNameByCod(TblModNewsSprSbj, $cod, 1, 1);
+    if ($cat_link=="") {
         $cat_link = $this->Spr->GetNameByCod(TblModNewsSprSbj, $cod, $this->lang_id, 1);
     }
-    
+
     $link = $Crypt->GetTranslitStr($cat_link).'-'.$cod;
-    
-    
+
+
 
     $q = "insert into `".TblModNewsLinks."` values(NULL,'".$cod."','$link')";
     $res = $this->db->db_Query( $q );
@@ -1866,7 +1855,7 @@ class News {
       $rows = $this->db->db_GetNumRows();
     //echo "<br> q=".$q." res=".$res." rows=".$rows;
       $row = $this->db->db_FetchAssoc();
-      return $row['link']; 
+      return $row['link'];
     } // end of function GetLink
 
 
@@ -1883,7 +1872,7 @@ class News {
       $rows = $tmp_db->db_GetNumRows();
     //echo "<br> q=".$q." res=".$res." rows=".$rows;
       $row = $tmp_db->db_FetchAssoc();
-    return $row['id_category']; 
+    return $row['id_category'];
     } // end of function GetIdCatByIdNews
 
 
@@ -1893,10 +1882,10 @@ class News {
     // Programmer : Yaroslav Gyryn
     // ================================================================================================
     function GetIdNewsByStrNews($str_news){
-      $tmp_db = new DB();  
+      $tmp_db = new DB();
       //$q = "select `cod` from ".TblModNewsLinks." where 1 and `link`='$str_news'";
-      $q = "SELECT `".TblModNewsLinks."`.`cod` 
-              FROM `".TblModNewsLinks."`, `".TblModNews."`, `".TblModNewsCat."`  
+      $q = "SELECT `".TblModNewsLinks."`.`cod`
+              FROM `".TblModNewsLinks."`, `".TblModNews."`, `".TblModNewsCat."`
               WHERE BINARY `".TblModNewsLinks."`.`link` = BINARY '".$str_news."'
               AND `".TblModNewsLinks."`.cod=`".TblModNews."`.`id`
               AND `".TblModNews."`.`id_category`=`".TblModNewsCat."`.`cod`
@@ -1907,7 +1896,7 @@ class News {
       $rows = $tmp_db->db_GetNumRows();
       //echo "<br>GetIdNewsByStrNews  q=".$q." res=".$res." rows=".$rows;
       $row = $tmp_db->db_FetchAssoc();
-      return $row['cod']; 
+      return $row['cod'];
     } // end of function GetIdNewsByStrNews
 
 
@@ -1924,20 +1913,20 @@ class News {
     {
         $q = "SELECT * FROM ".TblModNewsSubscr." WHERE `login`='".$this->subscriber."'";
         $res = $this->db->db_Query( $q );
-        //echo "<br>11 q=".$q." res=".$res;  
+        //echo "<br>11 q=".$q." res=".$res;
         if( !$res ) return false;
         $rows = $this->db->db_GetNumRows();
         $date = date("Y-m-d");
         if( $rows>0 )   //--- update
-        { 
-            $row = $this->db->db_FetchAssoc(); 
+        {
+            $row = $this->db->db_FetchAssoc();
             $q = "UPDATE `".TblModNewsSubscr."` SET
                   `login`='".$this->subscriber."',
                   `pass`='".$this->subscr_pass."'
                   WHERE `id`='".$row['id']."'
                  ";
             $id = $row['id'];
-            $res = $this->db->db_Query( $q ); 
+            $res = $this->db->db_Query( $q );
             if( !$res ) return false;
         }
         else          //--- insert
@@ -1949,21 +1938,21 @@ class News {
                   `is_send`='0',
                   `dt`='".$date."'
                  ";
-            $res = $this->db->db_Query( $q ); 
+            $res = $this->db->db_Query( $q );
             if( !$res ) return false;
         }
 
-        if ( empty($id)) $id = $this->db->db_GetInsertID(); 
+        if ( empty($id)) $id = $this->db->db_GetInsertID();
 
         $q="DELETE FROM `".TblModNewsSubscrCat."` WHERE `subscr_id`='".$id."'";
         $res = $this->db->db_Query($q);
         //echo '<br>q='.$q.' res='.$res.' $this->db->result='.$this->db->result;
         if (!$res OR !$this->db->result) return false;;
-        
-        if($this->categories=='all') $this->categories = $this->Spr->GetListName( TblModNewsCat, $this->lang_id, 'array', 'cod', 'asc', 'cod' ); 
+
+        if($this->categories=='all') $this->categories = $this->Spr->GetListName( TblModNewsCat, $this->lang_id, 'array', 'cod', 'asc', 'cod' );
         foreach($this->categories as $k=>$v){
             $q = "INSERT `".TblModNewsSubscrCat."` SET
-                  `subscr_id`='".$id."',   
+                  `subscr_id`='".$id."',
                   `cat_id`='".$v."'
                  ";
             $res = $this->db->db_Query( $q );
@@ -1982,7 +1971,7 @@ class News {
     function SubscrDel()
     {
         $tmp_db = new DB();
-        $q = "DELETE 
+        $q = "DELETE
                  FROM `".TblModNewsSubscr."`, `".TblModNewsSubscrCat."`
                  USING  `".TblModNewsSubscr."` INNER JOIN `".TblModNewsSubscrCat."`
                  WHERE `".TblModNewsSubscr."`.`login`='".$this->subscriber."'
@@ -2001,7 +1990,7 @@ class News {
     // Programmer : Igor Trokhymchuk
     // ================================================================================================
     function SaveManyValues( $table, $id_user, $arr_val )
-    {       
+    {
        $tmp_db = new DB();
        $q="DELETE FROM `".$table."` WHERE `cod`='$id_user'";
        $res = $tmp_db->db_Query($q);
@@ -2016,7 +2005,7 @@ class News {
            if (!$tmp_db->result) return false;
        }
        return true;
-    } //end of fuinction SaveManyValues()   
+    } //end of fuinction SaveManyValues()
 
     // ================================================================================================
     // Function : DelManyValues
@@ -2035,7 +2024,7 @@ class News {
         //echo '<br>q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;
         if (!$res OR !$tmp_db->result) return false;
         return true;
-    } // ed of function DelManyValues()   
+    } // ed of function DelManyValues()
 
     // ================================================================================================
     // Function : SendHTML
@@ -2054,7 +2043,7 @@ class News {
      <tr><td colspan=2 align=left><b>".$this->Msg->show_text('TXT_REG_HEADER')."</b>
      <tr><td>".$this->Msg->show_text('_FLD_EMAIL', 'sys_spr_txt')." :
          ".$this->subscriber."
-     <tr><td>".$this->Msg->show_text('TXT_ACTIVE_PAGE').": 
+     <tr><td>".$this->Msg->show_text('TXT_ACTIVE_PAGE').":
          <a href='http://".$_SERVER['SERVER_NAME']."/news/activate/".$this->subscriber."/'>http://".$_SERVER['SERVER_NAME']."/news/activate/</a></td>
      </tr>
      <tr><td colspan='2'>".$this->Msg->show_text('TXT_WRONG_ADDR')."</td>
@@ -2067,8 +2056,8 @@ class News {
      $body = $info;
    //echo $body;
      $arr_emails[0]=$this->subscriber;
-     $res = $this->SendSysEmail($subject, $body, $arr_emails);  
-     
+     $res = $this->SendSysEmail($subject, $body, $arr_emails);
+
      if( !$res ) {return false;}
      return true;
     } //end of function SendHTML()
@@ -2083,7 +2072,7 @@ class News {
     //           $arr_emails - array with emails whrere to send ($arr_emails[0]='iii@ii.i'
     //                                                           $arr_emails[1]='aaa@aa.a')
     // Returns : $res / Void
-    // Description : Function for send emails 
+    // Description : Function for send emails
     // Programmer : Igor Trokhymchuk
     // ================================================================================================
     function SendSysEmail($sbj=NULL, $body=NULL, $arr_emails=NULL, $headers=NULL)
@@ -2095,7 +2084,7 @@ class News {
         </p>
         ";
 
-        $mail = new Mail(); 
+        $mail = new Mail();
         for($i=0;$i<count($arr_emails);$i++){
          $mail->AddAddress($arr_emails[$i]);
         }
@@ -2105,13 +2094,13 @@ class News {
         $mail->Subject = $sbj;
         $mail->Body = $body;
 
-        $res = $mail->SendMail(); 
+        $res = $mail->SendMail();
         // if(mail($this->subscriber, $sbj, $body, $headers)) return true;
         if(!$res) return false;
         else return true;
-    } //End of function SendSysEmail() 
+    } //End of function SendSysEmail()
 
-    
+
     // ================================================================================================
     // Function : ActivateUser()
     // Date : 11.02.2011
@@ -2127,17 +2116,17 @@ class News {
         $res = $this->db->db_Query( $q );
         //echo '<br>$q='.$q.' $res='.$res.' $this->db->result='.$this->db->result;
         $rows = $this->db->db_GetNumRows();
-        if( !$rows or !$res) 
+        if( !$rows or !$res)
             $this->ShowTextMessages($this->multi['TXT_ACTIVE_FALSE']);
         else {
             $row = $this->db->db_FetchAssoc();
             if($row['user_status'] == 0) { // Еще не был активирован
-                $q = "UPDATE `".TblModNewsSubscr."` 
-                        SET `user_status`=1 
+                $q = "UPDATE `".TblModNewsSubscr."`
+                        SET `user_status`=1
                         WHERE `login` = '$activate_user'";
                 $res = $this->db->db_Query( $q );
                 //echo '<br>$q='.$q.' $res='.$res.' $this->db->result='.$this->db->result;
-                if( !$res) 
+                if( !$res)
                     $this->ShowTextMessages($this->multi['TXT_ACTIVE_FALSE']);
                 else
                     $this->ShowTextMessages($this->multi['TXT_ACTIVE_OK']);
@@ -2149,11 +2138,11 @@ class News {
         return true;
     } //end of function ActivateUser()
 
-    
+
     //======================================= SubSribe END ===================================================
 
 
-    
+
     //--------------------------------------------------------------------------------------------------------
     //---------------------------- FUNCTION FOR SETTINGS OF NEWS START ---------------------------------------
     //--------------------------------------------------------------------------------------------------------
@@ -2166,7 +2155,7 @@ class News {
     // Programmer : Igor Trokhymchuk
     // ================================================================================================
     function GetSettings($front = true )
-    {       
+    {
         $q = "SELECT * from `".TblModNewsSet."` where 1";
         //echo '$q ='.$q;
         $res = $this->db->db_Query( $q );
@@ -2177,15 +2166,15 @@ class News {
             $row['description'] = $this->Spr->GetNameByCod( TblModNewsSetSprDescription, 1, $this->lang_id, 1 );
             $row['keywords'] = $this->Spr->GetNameByCod( TblModNewsSetSprKeywords, 1, $this->lang_id, 1 );
         }
-        return $row;         
-    } // end of function GetSettings() 
+        return $row;
+    } // end of function GetSettings()
 
     // ================================================================================================
     // Function : SetMetaData()
     // Date : 23.05.2007
     // Parms :
     //           $this->id  - id of news
-    //           $this->category  - category of news 
+    //           $this->category  - category of news
     // Returns : true,false / Void
     // Description : set title, description and keywords for this module or for current news or category
     //               of news
@@ -2195,24 +2184,24 @@ class News {
     {
         // Установка через динамічні сторінки
         if(empty($this->id)) {
-            if(!isset ($this->FrontendPages)) 
+            if(!isset ($this->FrontendPages))
                 $this->FrontendPages = &check_init('FrontendPages', 'FrontendPages');
             $this->FrontendPages->page_txt = $this->FrontendPages->GetPageTxt($page);
-            
+
             $this->title = $this->FrontendPages->GetTitle();
             if(empty($this->title))
                 $this->title = $this->Spr->GetNameByCod( TblModNewsSetSprTitle, 1, $this->lang_id, 1 );
-            
+
             $this->description = $this->FrontendPages->GetDescription();
             if(empty($this->description))
                 $this->description = $this->Spr->GetNameByCod( TblModNewsSetSprDescription, 1, $this->lang_id, 1 );
-            
+
             $this->keywords = $this->FrontendPages->GetKeywords();
             if(empty($this->keywords))
                 $this->keywords = $this->Spr->GetNameByCod( TblModNewsSetSprKeywords, 1, $this->lang_id, 1 );
             return;
         }
-    
+
         $this->title = $this->Spr->GetNameByCod( TblModNewsSetSprTitle, 1, $this->lang_id, 1 );
         $this->description = $this->Spr->GetNameByCod( TblModNewsSetSprDescription, 1, $this->lang_id, 1 );
         $this->keywords = $this->Spr->GetNameByCod( TblModNewsSetSprKeywords, 1, $this->lang_id, 1 );
@@ -2245,8 +2234,8 @@ class News {
             if( !empty($this->title) ) $title = $title.' | '.$this->title;
         }
         $this->title = $title;
-        
-            
+
+
         if( $this->id ) {
             $descr = $this->Spr->GetNameByCod( TblModNewsSprDescription, $this->id, $this->lang_id, 1);
             if( !empty($descr) AND !empty($this->description) ) $this->description = $descr.'. '.$this->description;
@@ -2281,26 +2270,26 @@ class News {
                 else {
                     $keywrds = $this->Spr->GetNameByCod( TblModNewsCat, $this->category, $this->lang_id, 1);
                     if( !empty($keywrds) AND !empty($this->keywords) ) $this->keywords = $keywrds.', '.$this->keywords;
-                    elseif( !empty($keywrds) ) $this->keywords = $keywrds; 
+                    elseif( !empty($keywrds) ) $this->keywords = $keywrds;
                 }
             }
         }
 
         if( !empty($keywrds) ) $this->keywords = $keywrds.', '.$this->keywords;
-        //else $this->keywords = $title .', '.$this->keywords; 
+        //else $this->keywords = $title .', '.$this->keywords;
 
-    } //end of function  SetMetaData() 
+    } //end of function  SetMetaData()
 
     //------------------------------------------------------------------------------------------------------------
     //---------------------------- FUNCTION FOR SETTINGS OF NEWS  END --------------------------------------------
     //------------------------------------------------------------------------------------------------------------
-    
-    
-    
+
+
+
     //------------------------------------------------------------------------------------------------------------
     //----------------------------------- FUNCTION FOR RSS START -------------------------------------------------
     //------------------------------------------------------------------------------------------------------------
-    
+
     // ================================================================================================
     // Function : GetNewsForRSS()
     // Date :    17.06.2011
@@ -2310,14 +2299,14 @@ class News {
     // ================================================================================================
     function GetNewsForRSS( $idNews=null, $idModule = 83)
     {
-        $q = "SELECT 
+        $q = "SELECT
                 `".TblModNews."`.*,
                 `".TblModNewsSprSbj."`.name as sbj,
                 `".TblModNewsSprShrt."`.name as short,
                 `".TblModNewsSprFull."`.name as full
-            FROM                                             
+            FROM
                 `".TblModNews."`, `".TblModNewsSprSbj."`,`".TblModNewsSprShrt."`, `".TblModNewsSprFull."`
-            WHERE  
+            WHERE
                 `".TblModNews."`.status = 'a'
                 AND
                 `".TblModNews."`.id = `".TblModNewsSprSbj."`.cod
@@ -2331,9 +2320,9 @@ class News {
                 `".TblModNews."`.id = `".TblModNewsSprFull."`.cod
                 AND
                 `".TblModNewsSprFull."`.lang_id = '"._LANG_ID."'
-                AND  
+                AND
                 `".TblModNews."`.id  IN (".$idNews.")
-            ORDER BY 
+            ORDER BY
                 `".TblModNews."`.id desc
       ";
         $res = $this->db->db_Query($q);
@@ -2341,7 +2330,7 @@ class News {
         $array = array();
          for( $i = 0; $i <$rows; $i++ ){
              $row = $this->db->db_FetchAssoc();
-             $array[$row['id']] = $row;  
+             $array[$row['id']] = $row;
              $array[$row['id']]['module'] = $idModule;
              $array[$row['id']]['link'] = $this->Link($row['id_category'],$row['id']);
          }
@@ -2358,27 +2347,27 @@ class News {
     {
         if(empty($this->Crypt)) $this->Crypt = &check_init('Crypt', 'Crypt');
         if(empty($this->Article)) $this->Article = &check_init('Article', 'Article');
-        
-        $settings = $this->GetSettings();  
+
+        $settings = $this->GetSettings();
         if ( isset($settings['rss']) AND $settings['rss']=='0' ) {
             if (file_exists(SITE_PATH."/rss/news/export.xml")) $res = unlink (SITE_PATH."/rss/news/export.xml");
             return true;
         }
-        
+
         // Массив всех новостей ID отсортированных по дате по убыванию
         $arrNewsId = $this->GetAllNewsIdRSS(72, 25);
         // Массив всех статтей ID отсортированных по дате по убыванию
         $arrArticlesId= $this->Article->GetAllArticlesIdRSS( 83, 25);
-        
+
         // Обьединенный массив всех ID категорий
        $outputArrId = $arrNewsId + $arrArticlesId;
-       
-       // Количество всех ID 
+
+       // Количество всех ID
        $outputCount  = count($outputArrId);
-       
+
        //Сортировка по убыванию всех значений
        krsort($outputArrId);
-       
+
        // Массив данных где ключом задается ID модуля, а значение - список ID элементов через заяптую.
        $data = array();
        foreach($outputArrId as $k=>$v) {
@@ -2387,68 +2376,68 @@ class News {
            else
                 $data[$v['id_module']] = $data[$v['id_module']].', '.$v['id'];
        }
-        
+
        $keys = array_keys($data);
        $dataCount  = count($data);
-       
+
        for($i=0; $i<$dataCount; $i++) {
            switch($keys[$i]) {
-               case '72': 
+               case '72':
                         //echo '<br/>News';
                         $arrNews = $this->GetNewsForRSS($data[$keys[$i]], $keys[$i]);
                         break;
-               
-               case '83': 
+
+               case '83':
                         //echo '<br/>Article';
                         $arrArticles = $this->Article->GetArticlesForRSS($data[$keys[$i]], $keys[$i]);
                         break;
-               
-               /*case '153': 
+
+               /*case '153':
                         //echo '<br/>Video';
                         $arrVideos = $this->Video->GetVideosForTags($data[$keys[$i]], $keys[$i]);
                         break;
 
-               case '156': 
+               case '156':
                         //echo '<br/>Gallery';
                         $arrGallery = $this->Gallery->GetGalleryForTags($data[$keys[$i]], $keys[$i]);
                         break;*/
           }
        }
-       
+
        // Формування змішаного масиву
        $outputArray = array();
-       
-       foreach($outputArrId as $k=>$v) { 
+
+       foreach($outputArrId as $k=>$v) {
            //echo '<br/> '.$v['id_module'];
            switch($v['id_module']) {
-              case '72': 
+              case '72':
                         //echo '<br/>News';
                         if(isset($arrNews[$v['id']]))
                             $outputArray[] = $arrNews[$v['id']];
                         break;
-               
-               case '83': 
+
+               case '83':
                         //echo '<br/>Article';
                         if(isset($arrArticles[$v['id']]))
                             $outputArray[] = $arrArticles[$v['id']];
                         break;
-               
-               /*case '153': 
+
+               /*case '153':
                         //echo '<br/>Video';
                         if(isset($arrVideos[$v['id']]))
                             $outputArray[] = $arrVideos[$v['id']];
                         break;
 
-               case '156': 
+               case '156':
                         //echo '<br/>Gallery';
                         if(isset($arrGallery[$v['id']]))
                             $outputArray[] = $arrGallery[$v['id']];
                         break;*/
           }
        }
-       
+
        $outputArrayCount  = count($outputArray);
-        
+
         $data = '<?xml version="1.0" encoding="utf-8" ?>
         <rss version="2.0">
          <channel>
@@ -2478,7 +2467,7 @@ class News {
             }
             else
                 $enclosure = NULL;
-            
+
             $sbj = strip_tags(htmlspecialchars(stripslashes($row['sbj'])));
             $link = $row['link'];
             $short = htmlspecialchars(strip_tags(stripslashes($row['short'] )));
@@ -2486,7 +2475,7 @@ class News {
             $full = trim(htmlspecialchars(strip_tags(stripslashes($row['full']))));
             $full = $this->Crypt->TruncateStr($full,1000);
             $date = date("D, d M Y H:i:s", strtotime($row['start_date']));
-            
+
             $data = $data.'
             <item>
              <title>'.$sbj.'</title>
@@ -2513,7 +2502,7 @@ class News {
     // Date :    14.09.2009
     // Parms :   $url - url of rss chanel
     // Returns : true/false
-    // Description : read rss news 
+    // Description : read rss news
     // Programmer : Ihor Trokhymchuk
     // ================================================================================================
     function ReadRss()
@@ -2532,7 +2521,7 @@ class News {
                 $descr_rss = $this->Spr->GetNameByCod( TblModNewsRssSprDescr, $row['id'], $this->lang_id );
                 //echo "<br /> row['path'] = ".$row['path'];
                 //echo "<br /> descr_rss = ".$descr_rss;
-                
+
                 $rss = fetch_rss($row['path']);
                 //print_r($rss);
                 //echo "<br />";
@@ -2560,13 +2549,13 @@ class News {
                                     if($k1=='category') {
                                         $this->category = $v1;
                                     }
-                            
+
                                     //echo "<br / > k1 = ".$k1;
                                     //echo "<br / > v1 = ".$v1;
                                     if($k1=='description') {
                                         $this->short_[$this->lang_id] = $v1;
                                     }
-                                
+
                                     if($k1=='fulltext') {
                                         $this->full_[$this->lang_id] = $v1;
                                     }
@@ -2574,13 +2563,13 @@ class News {
                                     if($k1=='link') {
                                         $this->source = $v1;
                                     }
-                                
+
                                     if($k1=='date_timestamp') {
                                         $this->date_timestamp = $v1;
                                     }
                                     $j++;
-                            
-                                    if($insert==1 and $cn==($j)){    
+
+                                    if($insert==1 and $cn==($j)){
                                         if(strlen($this->short_[$this->lang_id])>100){
                                         if($this->SaveRssData()) $ss++;
                                         $insert = 0;
@@ -2631,7 +2620,7 @@ class News {
             if( !$res ) return false;
             //$this->id_category =  $this->db->db_GetInsertID();
         }
-     
+
         //echo "<br /> id_cat = ".$this->id_category ;
 
         if (empty($this->id_category)) {
@@ -2646,9 +2635,9 @@ class News {
         }
 
         //3600*24 - 1 day
-     
+
         $start_d = date("Y-m-d H:i:s", $this->date_timestamp);
-        $end_d = date("Y-m-d H:i:s", $this->date_timestamp+(3600*24*7)); 
+        $end_d = date("Y-m-d H:i:s", $this->date_timestamp+(3600*24*7));
 
 
         $display = $this->GetMaxValueOfField(TblModNews, 'display')+1;
@@ -2680,17 +2669,17 @@ class News {
             if(strlen($tmp[0])>150) $short = $tmp[0]."</p>";
             else $short = $tmp[0]."</p><p>".$tmp[1]."</p>";
         }
-      
+
         //echo "<br /> short = ".$short;
         $full = strip_tags($full, "<p><img><br><strong><u><i><b><ul><li><table><tr><td>");
-      
+
 
         $res = $this->Spr->SaveToSpr( TblModNewsSprSbj, $id, $this->lang_id, $subject );
         if( !$res ) return false;
-       
+
         $res = $this->Spr->SaveToSpr( TblModNewsSprKeywords, $id, $this->lang_id, $keywords );
         if( !$res ) return false;
-       
+
         $res = $this->Spr->SaveToSpr( TblModNewsSprDescription, $id, $this->lang_id, $description );
         if( !$res ) return false;
 
@@ -2701,11 +2690,11 @@ class News {
         if( !$res ) return false;
 
         $l_link = $this->Link($this->id_category, $id);
-      
+
         $res = $this->SavePicture();
         // if( !$res ) return false;
-        // $res = $this->GenerateRSSNews();  
-     
+        // $res = $this->GenerateRSSNews();
+
         return true;
     } // end of function SaveRssData
 
@@ -2752,13 +2741,13 @@ class News {
     //------------------------------------------------------------------------------------------------------------
     //----------------------------------- FUNCTION FOR RSS END ---------------------------------------------------
     //------------------------------------------------------------------------------------------------------------
-    
-    
+
+
 
     // ================================================================================================
     // Function : GetMaxValueOfField
     // Date : 19.05.2006
-    // Parms :  $table  - name of the table  
+    // Parms :  $table  - name of the table
     // Returns : value
     // Description : return the biggest value
     // Programmer : Igor Trokhymchuk
@@ -2766,20 +2755,20 @@ class News {
     function GetMaxValueOfField( $table = TblModNews, $field='move' )
     {
         $tmp_db = new DB();
-        
+
         $q = "SELECT `".$field."` FROM `".$table."` WHERE 1  ORDER BY `".$field."` desc LIMIT 1";
         $res = $tmp_db->db_Query( $q );
-        //echo '<br>q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;  
+        //echo '<br>q='.$q.' res='.$res.' $tmp_db->result='.$tmp_db->result;
         if( !$res OR !$tmp_db->result ) return false;
         //$rows = $tmp_db->db_GetNumRows();
         $row = $tmp_db->db_FetchAssoc();
         return $row[$field];
-    } // end of function GetMaxValueOfField(); 
+    } // end of function GetMaxValueOfField();
 
     // ================================================================================================
     //    Function          : CheckIfNewsExist
     //    Date              : 21.03.2006
-    //    Parms             : $prod_name 
+    //    Parms             : $prod_name
     //    Returns           : Error Indicator
     //    Description       : Check If News Exist
     // ================================================================================================
@@ -2791,40 +2780,40 @@ class News {
       if($rows==0){
         $tmp = explode(" ", $prod_name);
        // print_r($tmp);
-        
-         $str = $this->GetStrForSearch($tmp, 1); 
-          //echo "<br> str = ".$str; 
-         
+
+         $str = $this->GetStrForSearch($tmp, 1);
+          //echo "<br> str = ".$str;
+
          $q = "select * from `".TblModNewsSprSbj."` where 1 and `name` LIKE '%".$str."%' and `lang_id`='3'";
          $res = $this->Right->Query($q, $this->user_id, $this->module);
          $rows = $this->Right->db_GetNumRows();
        //  echo "<br> q = ".$q." res = ".$res." rows = ".$rows;
-         if($rows!=1){ 
-            $str = $this->GetStrForSearch($tmp, 2); 
-            //  echo "<br> str = ".$str; 
-              if($str=='') return false; 
-             $q = "select * from `".TblModNewsSprSbj."` where 1 and `name` LIKE '%".$str."%' and `lang_id`='3'";
-             $res = $this->Right->Query($q, $this->user_id, $this->module);
-             $rows = $this->Right->db_GetNumRows();
-             //echo "<br> q = ".$q." res = ".$res." rows = ".$rows; 
-              if($rows!=1){ 
-              $str = $this->GetStrForSearch($tmp, 3); 
-           //   echo "<br> str = ".$str; 
-              if($str=='') return false; 
+         if($rows!=1){
+            $str = $this->GetStrForSearch($tmp, 2);
+            //  echo "<br> str = ".$str;
+              if($str=='') return false;
              $q = "select * from `".TblModNewsSprSbj."` where 1 and `name` LIKE '%".$str."%' and `lang_id`='3'";
              $res = $this->Right->Query($q, $this->user_id, $this->module);
              $rows = $this->Right->db_GetNumRows();
              //echo "<br> q = ".$q." res = ".$res." rows = ".$rows;
-             
-                if($rows!=1){ 
-                  $str = $this->GetStrForSearch($tmp, 4); 
-              //    echo "<br> str = ".$str; 
+              if($rows!=1){
+              $str = $this->GetStrForSearch($tmp, 3);
+           //   echo "<br> str = ".$str;
+              if($str=='') return false;
+             $q = "select * from `".TblModNewsSprSbj."` where 1 and `name` LIKE '%".$str."%' and `lang_id`='3'";
+             $res = $this->Right->Query($q, $this->user_id, $this->module);
+             $rows = $this->Right->db_GetNumRows();
+             //echo "<br> q = ".$q." res = ".$res." rows = ".$rows;
+
+                if($rows!=1){
+                  $str = $this->GetStrForSearch($tmp, 4);
+              //    echo "<br> str = ".$str;
                  if($str=='') return false;
                  $q = "select * from `".TblModNewsSprSbj."` where 1 and `name` LIKE '%".$str."%' and `lang_id`='3'";
                  $res = $this->Right->Query($q, $this->user_id, $this->module);
                  $rows = $this->Right->db_GetNumRows();
-                // echo "<br> q = ".$q." res = ".$res." rows = ".$rows; 
-                  } 
+                // echo "<br> q = ".$q." res = ".$res." rows = ".$rows;
+                  }
               }
          }
       }
@@ -2838,7 +2827,7 @@ class News {
 
     // ================================================================================================
     // Function : GetStrForSearch()
-    // Date : 19.02.2008 
+    // Date : 19.02.2008
     // Returns : true,false / file
     // Description : build search string
     // Programmer : Yaroslav Gyryn
@@ -2846,12 +2835,12 @@ class News {
     function GetStrForSearch($mas, $start=0)
     {
      $str = '';
-     $count = sizeof($mas);   
+     $count = sizeof($mas);
      for($i=$start;$i<$count;$i++){
            $str .= $mas[$i]." ";
          }
          $str = trim($str);
-      return $str;   
+      return $str;
     } // end of function GetStrForSearch
 
     // ================================================================================================
@@ -2888,22 +2877,22 @@ class News {
     // Parms :  $search_keywords
     // Returns : true,false / Void
     // Programmer : Yaroslav Gyryn
-    // ================================================================================================    
+    // ================================================================================================
     function QuickSearch($search_keywords)
     {
         $tmp_db = new DB();
         $search_keywords = stripslashes($search_keywords);
-   
+
         $sel_table = NULL;
         $str_like = NULL;
         $filter_cr = ' OR ';
 
         $str_like = $this->build_str_like(TblModNewsSprSbj.'.name', $search_keywords);
         $str_like .= $filter_cr.$this->build_str_like(TblModNewsSprShrt.'.name', $search_keywords);
-        $str_like .= $filter_cr.$this->build_str_like(TblModNewsSprFull.'.name', $search_keywords); 
+        $str_like .= $filter_cr.$this->build_str_like(TblModNewsSprFull.'.name', $search_keywords);
         $sel_table = "`".TblModNews."`, `".TblModNewsCat."`, `".TblModNewsSprSbj."`, `".TblModNewsSprShrt."`, `".TblModNewsSprFull."` ";
-   
-        $q ="SELECT `".TblModNews."`.id, `".TblModNews."`.id_category, `".TblModNews."`.status, `".TblModNews."`.display, `".TblModNewsSprSbj."`.`name` AS `news_name` 
+
+        $q ="SELECT `".TblModNews."`.id, `".TblModNews."`.id_category, `".TblModNews."`.status, `".TblModNews."`.display, `".TblModNewsSprSbj."`.`name` AS `news_name`
              FROM ".$sel_table."
              WHERE (".$str_like.")
              AND `".TblModNewsSprSbj."`.lang_id = '".$this->lang_id."'
@@ -2913,14 +2902,14 @@ class News {
              AND `".TblModNewsSprFull."`.lang_id = '".$this->lang_id."'
              AND `".TblModNews."`.id = `".TblModNewsSprFull."`.cod
              AND `".TblModNews."`.`id_category` = `".TblModNewsCat."`.`cod`
-             AND `".TblModNewsCat."`.lang_id = '".$this->lang_id."' 
+             AND `".TblModNewsCat."`.lang_id = '".$this->lang_id."'
              ORDER BY `".TblModNewsCat."`.`move` asc, `".TblModNews."`.`display` asc
             ";
 
         $res = $this->db->db_Query( $q );
         //echo '<br>q='.$q.' res='.$res.' $tmp_db->result='.$this->db->result;
         if ( !$res) return false;
-        if( !$this->db->result ) return false;  
+        if( !$this->db->result ) return false;
         $rows = $this->db->db_GetNumRows();
         //echo "<br> rows = ";
         //print_r($rows);
@@ -2931,11 +2920,11 @@ class News {
      // Function : GetTopNews()
      // Date : 11.09.2009
      // Returns :      true,false / Void
-     // Description :  Get Top News()  
+     // Description :  Get Top News()
      // Programmer : Yaroslav Gyryn
      // ================================================================================================
      function GetTopNews($limit = 5)   {
-        $q = "SELECT 
+        $q = "SELECT
             `".TblModNews."`.id,
             `".TblModNews."`.start_date,
             `".TblModNews."`.id_category,
@@ -2944,17 +2933,17 @@ class News {
             `".TblModNewsTop."`.short,
             `".TblModNewsTop."`.image,
             `".TblModNewsLinks."`.link
-            FROM 
+            FROM
                 `".TblModNews."`, `".TblModNewsTop."`, `".TblModNewsLinks."`
             WHERE
                 `".TblModNews."`.id = `".TblModNewsTop."`.cod   and
                 `".TblModNews."`.id = `".TblModNewsLinks."`.cod and
                 `".TblModNews."`.top = '1'  and
-                `".TblModNewsTop."`.lang_id='".$this->lang_id."' and  
+                `".TblModNewsTop."`.lang_id='".$this->lang_id."' and
                 `".TblModNews."`.status='a'
-            ORDER BY 
+            ORDER BY
                 `".TblModNews."`.top_main, `".TblModNews."`.start_date  DESC
-            LIMIT ".$limit;    
+            LIMIT ".$limit;
 
         $res = $this->db->db_Query($q);
         //echo "<br> ".$q." <br/> res = ".$res;
@@ -2969,29 +2958,29 @@ class News {
         }
         return $arrNews;
      }
-     
-     
-     
+
+
+
      // ================================================================================================
      // Function : GetNewsNameLinkForId()
      // Date : 11.09.2009
      // Returns :      true,false / Void
-     // Description :  Get News Name Link For Id()  
+     // Description :  Get News Name Link For Id()
      // Programmer : Yaroslav Gyryn
      // ================================================================================================
      function GetNewsNameLinkForId($str = null) {
-          $q = "SELECT 
+          $q = "SELECT
                 `".TblModNews."`.id,
                 `".TblModNews."`.id_category,
                 `".TblModNewsLinks."`.link,
                 `".TblModNewsSprSbj."`.name
-            FROM 
+            FROM
                 `".TblModNews."`, `".TblModNewsLinks."`, `".TblModNewsSprSbj."`
-            WHERE 
+            WHERE
                 `".TblModNewsSprSbj."`.cod = `".TblModNews."`.id
             AND
                 `".TblModNewsLinks."`.cod = `".TblModNews."`.id
-            AND 
+            AND
                 `".TblModNewsSprSbj."`.lang_id='".$this->lang_id."'
             AND
                 `".TblModNews."`.id in (".$str.")
@@ -2999,7 +2988,7 @@ class News {
             $res = $this->db->db_Query( $q );
             //echo "<br> ".$q." <br/> res = ".$res;
             $rows = $this->db->db_GetNumRows($res);
-            
+
             $arrNews = array();
             for( $i=0; $i<$rows; $i++ ) {
                 $row = $this->db->db_FetchAssoc($res);
@@ -3011,7 +3000,7 @@ class News {
             }
             return  $arrNews;
      }
-     
+
      // ================================================================================================
      // Function : GetRelatProdToNews()
      // Version : 1.0.0
@@ -3039,7 +3028,7 @@ class News {
             $arr[$i] = $tmp_row['id_prod'];
         }
         //print_r($arr);
-        return $arr; 
-     }//end of GetRelatProdToNews     
-     
+        return $arr;
+     }//end of GetRelatProdToNews
+
 } //--- end of class News
